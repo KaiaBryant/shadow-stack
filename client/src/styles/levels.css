@@ -1,0 +1,115 @@
+/* container for the whole widget */
+.levels-wrapper {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  margin: 3rem auto;
+  background: #181820;
+}
+
+/* center circle */
+.levels-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #614aeb;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* “pop out” effect when open */
+.levels-center.open {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 25px rgba(107, 75, 255, 0.9);
+}
+
+/* all level pills share this */
+.levels-option {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  opacity: 0;
+  color: rgb(243, 212, 10);
+  border-radius: 999px;
+  padding-inline: 20px;
+  background: #614aeb;
+  border: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+  z-index: 1; /* behind the center circle */
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* visible state */
+.levels-option.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* positions around the circle (tweak as you like) */
+.option-1 {
+  top: 20%;
+  left: 50%;
+}
+
+.option-7 {
+  top: 30%;
+  right: 10%;
+  left: auto;
+  transform: translate(50%, -50%) scale(0);
+}
+.option-7.show {
+  transform: translate(50%, -50%) scale(1);
+}
+
+.option-2 {
+  top: 55%;
+  right: 10%;
+  left: auto;
+  transform: translate(50%, -50%) scale(0);
+}
+.option-2.show {
+  transform: translate(50%, -50%) scale(1);
+}
+
+.option-3 {
+  top: 80%;
+  right: 30%;
+  left: auto;
+  transform: translate(50%, -50%) scale(0);
+}
+.option-3.show {
+  transform: translate(50%, -50%) scale(1);
+}
+
+.option-4 {
+  top: 80%;
+  left: 30%;
+}
+
+.option-5 {
+  top: 55%;
+  left: 15%;
+}
+
+.option-6 {
+  top: 30%;
+  left: 15%;
+}
+
+/* small stagger so options appear one after another */
+.option-1.show { transition-delay: 0.05s; }
+.option-6.show { transition-delay: 0.1s; }
+.option-5.show { transition-delay: 0.15s; }
+.option-4.show { transition-delay: 0.2s; }
+.option-3.show { transition-delay: 0.25s; }
+.option-2.show { transition-delay: 0.3s; }
+.option-7.show { transition-delay: 0.35s; }
