@@ -10,6 +10,8 @@ import CharacterSelection from "./pages/CharacterSeletion";
 import CreateUser from "./pages/CreateUsername";
 import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
+import LevelsMenu from "./components/LevelsMenu";
+// import LevelsMenu from "./pages/LevelsMenu";
 // import CharacterCard from './components/CharacterCard';
 // import ProgressTracker from './components/ProgressTracker';
 // import QuestionCard from './components/QuestionCard';
@@ -32,6 +34,7 @@ function App() {
           <Route path="/createuser" element={<CreateUser />} />
           <Route path="/gameintro" element={<GameIntro />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/levels" element={<LevelsMenu />} />
         </Routes>
       </main>
 
