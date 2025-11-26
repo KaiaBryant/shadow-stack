@@ -10,10 +10,10 @@ import CharacterSelection from "./pages/CharacterSeletion";
 import CreateUser from "./pages/CreateUsername";
 import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
-import CharacterCard from './components/CharacterCard';
-import ProgressTracker from './components/ProgressTracker';
-import QuestionCard from './components/QuestionCard';
-import ThreatMeter from './components/ThreatMeter';
+// import CharacterCard from './components/CharacterCard';
+// import ProgressTracker from './components/ProgressTracker';
+// import QuestionCard from './components/QuestionCard';
+// import ThreatMeter from './components/ThreatMeter';
 
 
 function App() {
@@ -29,7 +29,6 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/results" element={<Results />} />
           <Route path="/simulator" element={<Simulator />} />
-          <Route path="/characterselect" element={<CharacterSelect />} />
           <Route path="/createuser" element={<CreateUser />} />
           <Route path="/gameintro" element={<GameIntro />} />
           <Route path="/login" element={<Login />} />
