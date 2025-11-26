@@ -28,10 +28,10 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/results" element={<Results />} />
           <Route path="/simulator" element={<Simulator />} />
-          <Route path="/CharacterSelect" element={<CharacterSelect />} />
-          <Route path="/CreateUser" element={<CreateUser />} />
-          <Route path="/GameIntro" element={<GameIntro />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/characterselect" element={<CharacterSelect />} />
+          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/gameintro" element={<GameIntro />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
 
