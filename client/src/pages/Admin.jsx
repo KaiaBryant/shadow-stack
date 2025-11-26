@@ -1,3 +1,5 @@
+// Admin page is an account page for admin access only
+
 import React from 'react';
 import '../styles/Admin.css';
 
