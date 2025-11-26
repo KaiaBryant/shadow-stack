@@ -1,41 +1,10 @@
-.full-footer-container {
+.social-icon-wrapper {
+    width: 24px;
+    height: 24px;
+}
+
+.social-icon-wrapper img {
     width: 100%;
-    background-color: #e1e4de;
-    padding: 10px 0;
-    border-top: 2px solid #c7c9c4;
-}
-
-.footer-inner-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px 40px;
-    box-sizing: border-box;
-
-}
-
-/* Social media icons */
-.footer-socials {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.socials-container {
-    display: flex;
-    gap: 16px;
-}
-
-.socials-container a img {
-    width: 28px;
-    height: 28px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.socials-container a img:hover {
-    transform: scale(1.2);
-    opacity: 0.8;
+    height: 100%;
+    object-fit: contain;
 }

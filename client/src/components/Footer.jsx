@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/Footer.css";
 import SocialIcons from "./SocialsIcons";
 
@@ -9,27 +8,31 @@ import TikTokIcon from "../assets/tiktok.svg";
 
 function Footer() {
     return (
-        <footer className="full-footer-container">
-            <div className="footer-inner-container">
-
-                {/* Social Media Links */}
-                <div className="footer-socials">
-                    <div className="socials-container">
+        <footer className="py-4 mt-auto">
+            <div className="container">
+                <div className="d-flex justify-content-center align-items-center gap-3">
+                    <div className="social-icon-wrapper">
                         <SocialIcons
                             href="https://www.instagram.com/"
                             icon={InstagramIcon}
                             label="Instagram"
                         />
+                    </div>
+                    <div className="social-icon-wrapper">
                         <SocialIcons
                             href="https://github.com/KaiaBryant/shadow-stack"
                             icon={GitHubIcon}
                             label="GitHub"
                         />
+                    </div>
+                    <div className="social-icon-wrapper">
                         <SocialIcons
                             href="https://twitter.com/"
                             icon={LinkedInIcon}
                             label="LinkedIn"
                         />
+                    </div>
+                    <div className="social-icon-wrapper">
                         <SocialIcons
                             href="https://www.youtube.com/"
                             icon={TikTokIcon}
@@ -39,7 +42,7 @@ function Footer() {
                 </div>
             </div>
         </footer>
-
     );
 }
+
 export default Footer;

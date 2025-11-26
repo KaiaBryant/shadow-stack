@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Leaderboard from './pages/Leaderboard';
 import Results from './pages/Results';
 import Simulator from './pages/Simulator';
+import CharacterSelection from "./pages/CharacterSeletion";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/character-select" element={<CharacterSelection />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/results" element={<Results />} />
