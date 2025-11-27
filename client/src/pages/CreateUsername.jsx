@@ -7,7 +7,7 @@ function CreateUser() {
 
      const handleSubmit = (e) => {  
         e.preventDefault();      // stop page refresh
-        navigate("/levels");      // route to /levels
+        navigate("/character-select");      // route to /levels
   };
 
   return (

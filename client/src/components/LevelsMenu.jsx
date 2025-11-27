@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../styles/levels.css"; // <- create this file
 
 export default function LevelsMenu() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setOpen(o => !o);
+   const handleLevelSelect = () => {
+        navigate('/simulator');
+    };
 
   return (
     <div className="background-levels">
@@ -22,6 +27,7 @@ export default function LevelsMenu() {
         className={`levels-option option-1 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★
       </button>
@@ -30,6 +36,7 @@ export default function LevelsMenu() {
         className={`levels-option option-7 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★★★★★★
       </button>
@@ -39,6 +46,7 @@ export default function LevelsMenu() {
         className={`levels-option option-2 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★★★★★
       </button>
@@ -47,6 +55,7 @@ export default function LevelsMenu() {
         className={`levels-option option-3 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★★★★
       </button>
@@ -55,6 +64,7 @@ export default function LevelsMenu() {
         className={`levels-option option-4 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★★★
       </button>
@@ -63,6 +73,7 @@ export default function LevelsMenu() {
         className={`levels-option option-5 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★★
       </button>
@@ -71,6 +82,7 @@ export default function LevelsMenu() {
         className={`levels-option option-6 custom-btn btn-outline-light ${
           open ? "show" : ""
         }`}
+        onClick={handleLevelSelect}
       >
         ★★
       </button>
