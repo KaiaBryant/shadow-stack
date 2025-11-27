@@ -8,7 +8,7 @@ function CharacterSelection() {
     const [currentIndex, setCurrentIndex] = useState(2);
 
     const handleSelectCharacter = () => {
-        navigate('/simulator');
+        navigate('/levels');
     };
 
     // Left arrow
