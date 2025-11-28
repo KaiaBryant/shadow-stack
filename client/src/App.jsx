@@ -17,29 +17,34 @@ import LevelsMenu from "./components/LevelsMenu";
 // import QuestionCard from './components/QuestionCard';
 // import ThreatMeter from './components/ThreatMeter';
 
+import "./styles/global.css"
+
 
 function App() {
   return (
-    <Router>
-      <Header />
+    <div className="app">
+      <Router>
+        <Header />
 
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/character-select" element={<CharacterSelection />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/simulator" element={<Simulator />} />
-          <Route path="/createuser" element={<CreateUser />} />
-          <Route path="/gameintro" element={<GameIntro />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/levels" element={<LevelsMenu />} />
-        </Routes>
-      </main>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/character-select" element={<CharacterSelection />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/simulator" element={<Simulator />} />
+            <Route path="/createuser" element={<CreateUser />} />
+            <Route path="/gameintro" element={<GameIntro />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/levels" element={<LevelsMenu />} />
+          </Routes>
+        </main>
 
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </div>
+
   );
 }
 

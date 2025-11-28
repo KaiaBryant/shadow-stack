@@ -7,8 +7,8 @@ function Header() {
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">Logo</Link>
                 <div className="ms-auto d-flex gap-5">
-                    <Link to="/" className="nav-link fw-semibold fs-5">Home</Link>
-                    <Link to="/leaderboard" className="nav-link fw-semibold fs-5">Leaderboard</Link>
+                    <Link to="/" className="nav-link fw-semibold fs-5 text-white">Home</Link>
+                    <Link to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">Leaderboard</Link>
                 </div>
             </div>
         </nav>

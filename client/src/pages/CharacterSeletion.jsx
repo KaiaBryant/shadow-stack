@@ -24,10 +24,10 @@ function CharacterSelection() {
     // Click on cards
     const handleCardClick = (position) => {
         if (position === -1) {
-            // Clicked left card - go previous
+            // Clicked left card
             handlePrevious();
         } else if (position === 1) {
-            // Clicked right card - go next
+            // Clicked right card
             handleNext();
         }
         // If position === 0 (center card), do nothing (it's already selected)
@@ -51,7 +51,7 @@ function CharacterSelection() {
     const visibleCharacters = getVisibleCharacters();
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 ">
+        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
             <h1 className="display-3 fw-bold mb-5">
                 Select Your Character
             </h1>
