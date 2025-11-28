@@ -1,3 +1,10 @@
+.footer-container {
+    background-color: #614aeb;
+    width: 100%;
+    padding: 1rem 0; 
+}
+
+
 .social-icon-wrapper {
     width: 24px;
     height: 24px;
