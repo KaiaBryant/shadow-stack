@@ -1,13 +1,48 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d14; /* your app's background */
+    height: 100%;
+}
+
+/* Wrapper to center form */
+.custom-form-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form box */
+.custom-form {
+    background-color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Label */
 .custom-form-label {
     color: white;
-    
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Input */
+.custom-form-control {
+    background-color: grey;
+    color: white;
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
 }
 
 .custom-btn {
     background-color: #614aeb;
     color: white;
-}
-
-.custom-form-control {
-    background-color: grey;
+    border: none;
+    margin-top: 1rem;
 }
