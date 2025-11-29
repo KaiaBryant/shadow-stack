@@ -8,8 +8,8 @@ import TikTokIcon from "../assets/tiktok.svg";
 
 function Footer() {
     return (
-        <footer className="py-4 mt-auto">
-            <div className="container">
+        <footer className="">
+            <div className="footer-container">
                 <div className="d-flex justify-content-center align-items-center gap-3">
                     <div className="social-icon-wrapper">
                         <SocialIcons

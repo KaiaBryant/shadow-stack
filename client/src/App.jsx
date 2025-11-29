@@ -1,32 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Admin from './pages/Admin';
-import Home from './pages/Home';
-import Leaderboard from './pages/Leaderboard';
-import Results from './pages/Results';
-import Simulator from './pages/Simulator';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Admin from "./pages/Admin";
+import Home from "./pages/Home";
+import Leaderboard from "./pages/Leaderboard";
+import Results from "./pages/Results";
+import Simulator from "./pages/Simulator";
 import CharacterSelection from "./pages/CharacterSeletion";
 import CreateUser from "./pages/CreateUsername";
 import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
-// import LevelsMenu from "./pages/LevelsMenu";
-// import CharacterCard from './components/CharacterCard';
-// import ProgressTracker from './components/ProgressTracker';
-// import QuestionCard from './components/QuestionCard';
-// import ThreatMeter from './components/ThreatMeter';
-
-import "./styles/global.css"
-
 
 function App() {
   return (
-    <div className="app">
-      <Router>
+    <Router>
+      {/* Flex column layout that fills the viewport */}
+      <div className="d-flex flex-column min-vh-100">
         <Header />
 
-        <main>
+        {/* This grows to fill the leftover space */}
+        <main className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character-select" element={<CharacterSelection />} />
@@ -42,9 +36,8 @@ function App() {
         </main>
 
         <Footer />
-      </Router>
-    </div>
-
+      </div>
+    </Router>
   );
 }
 
