@@ -9,10 +9,14 @@ function CreateUser() {
   const handleSubmit = (e) => {
     e.preventDefault(); // stop page refresh
 
+    if (!username.trim()) {
+    alert("Please enter a username.");
+    return; // stop submit
+  }
     // later send `username` to backend / DB here
     // await api.createUser({ username });
 
-    navigate("/character-select", { state: { username } }); // pass username if needed
+    navigate("/character-select", { state: { username } }); // pass username when needed
   };
 
   return (
