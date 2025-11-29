@@ -1,10 +1,10 @@
-import connection from "../db.js";
+import pool from "../db.js";
 
 // GET /api/characters
 export const getCharacters = (req, res) => {
     const query = "SELECT * FROM characters";
 
-    connection.query(query, (err, results) => {
+    pool.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching characters:", err);
             return res.status(500).json({ error: "Failed loading characters" });
@@ -28,7 +28,7 @@ export const selectCharacter = (req, res) => {
         WHERE username = ?
     `;
 
-    connection.query(query, [characterId, username], (err, result) => {
+    pool.query(query, [characterId, username], (err, result) => {
         if (err) {
             console.error("Error saving character:", err);
             return res.status(500).json({ error: "Failed to save character selection" });

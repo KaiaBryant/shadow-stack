@@ -5,15 +5,97 @@ import "../styles/CreateUser.css";
 function CreateUser() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // stop page refresh
+  // Create user in DB
+  const createUser = async (username) => {
+    const response = await fetch("http://localhost:5000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
 
-    // later send `username` to backend / DB here
-    // await api.createUser({ username });
+    if (response.status === 409) {
+      const data = await response.json();
+      throw { type: "USERNAME_EXISTS", existing_user_id: data.existing_user_id };
+    }
 
-    navigate("/character-select", { state: { username } }); // pass username if needed
+    if (!response.ok) {
+      throw new Error("Failed to create user");
+    }
+
+    return response.json(); // returns { id, username }
   };
+
+  // Start session in DB
+  const startSession = async (user_id) => {
+    const response = await fetch("http://localhost:5000/api/sessions/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to start session");
+    }
+
+    return response.json(); // { session_id }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // stop page refresh
+    if (!username.trim()) {
+      alert("Please enter a username.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Attempt to create user
+      let newUser = await createUser(username);
+      let userId = newUser.id;
+
+      localStorage.setItem("username", newUser.username); // saves username
+      localStorage.setItem("user_id", newUser.id); // saves users id
+
+      // Start session
+      const session = await startSession(userId);
+      localStorage.setItem("session_id", session.session_id);
+
+      navigate("/character-select");
+    } catch (error) {
+      // Duplicate username case
+      if (error.type === "USERNAME_EXISTS") {
+        const continueAsUser = window.confirm(
+          "This username already exists. Continue as this user?"
+        );
+
+        // If user already exists
+        if (continueAsUser) {
+          const userId = error.existing_user_id;
+
+          localStorage.setItem("username", username);
+          localStorage.setItem("user_id", userId);
+
+          // Start session for return user
+          const session = await startSession(userId);
+          localStorage.setItem("session_id", session.session_id);
+
+          navigate("/character-select");
+        } else {
+          alert("Please choose a different username.");
+        }
+        setLoading(false);
+        return;
+      }
+
+      alert("Failed to create user.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="custom-form-wrapper">
@@ -28,16 +110,16 @@ function CreateUser() {
             className="custom-form-control"
             aria-describedby="usernameHelp"
             value={username}
-           onChange={(e) => {
-        const value = e.target.value;
-        const onlyLetters = value.replace(/[^A-Za-z]/g, "");
-        setUsername(onlyLetters);
-}}
+            onChange={(e) => {
+              const value = e.target.value;
+              const onlyLetters = value.replace(/[^A-Za-z]/g, "");
+              setUsername(onlyLetters);
+            }}
           />
         </div>
 
         <button type="submit" className="custom-btn btn-primary">
-          Submit
+          {loading ? "Saving..." : "Submit"}
         </button>
       </form>
     </div>

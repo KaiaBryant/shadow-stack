@@ -1,4 +1,4 @@
-import connection from "../db.js";
+import pool from "../db.js";
 
 // GET /api/leaderboard
 export const getLeaderboard = (req, res) => {
@@ -9,7 +9,7 @@ export const getLeaderboard = (req, res) => {
         LIMIT 20
     `;
 
-    connection.query(query, (err, results) => {
+    pool.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching leaderboard:", err);
             return res.status(500).json({ error: "Failed loading leaderboard" });
@@ -32,7 +32,7 @@ export const submitScore = (req, res) => {
         VALUES (?, ?, ?)
     `;
 
-    connection.query(query, [username, score, level_completed], (err, result) => {
+    pool.query(query, [username, score, level_completed], (err, result) => {
         if (err) {
             console.error("Error submitting score:", err);
             return res.status(500).json({ error: "Failed to submit score" });
