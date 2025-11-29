@@ -12,6 +12,8 @@ import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
 
+import "./styles/global.css"
+
 function App() {
   return (
     <Router>
