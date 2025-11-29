@@ -1,4 +1,4 @@
-import connection from "../db.js";
+import pool from "../db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -12,7 +12,7 @@ export const adminLogin = (req, res) => {
 
     const query = "SELECT * FROM admins WHERE username = ?";
 
-    connection.query(query, [username], async (err, results) => {
+    pool.query(query, [username], async (err, results) => {
         if (err) {
             console.error("Admin login error:", err);
             return res.status(500).json({ error: "Server error" });
