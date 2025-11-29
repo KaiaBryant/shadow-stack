@@ -39,9 +39,16 @@ function CreateUser() {
     } finally {
       setLoading(false);
     }
+    if (!username.trim()) {
+    alert("Please enter a username.");
+    return; // stop submit
+  }
+    // later send `username` to backend / DB here
+    // await api.createUser({ username });
+
+    // navigate("/character-select", { state: { username } }); // pass username when needed
   };
-  //   navigate("/character-select", { state: { username } }); // pass username if needed
-  // };
+
 
   return (
     <div className="custom-form-wrapper">
