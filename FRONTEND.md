@@ -18,6 +18,7 @@ Home.jsx
 CharacterSelection.jsx
 - Carousel bootstrap is trash
 - https://github.com/EdgardooTorress/eCommerce2/blob/main/src/components/ProductSlider.jsx (using edgardo slider handler)
+- "Welcome, *username*" on line 59 (and the other wordings) need styling and color
 
 BOOTSTRAP
 - Version 5.3
