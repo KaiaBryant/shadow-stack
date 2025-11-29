@@ -1,5 +1,5 @@
 // Fetches one random question for that level
-import connection from "../db.js";
+import pool from "../db.js";
 
 // GET /api/questions/:level
 export const getQuestionByLevel = (req, res) => {
@@ -12,7 +12,7 @@ export const getQuestionByLevel = (req, res) => {
         LIMIT 1
     `;
 
-    connection.query(query, [level], (err, results) => {
+    pool.query(query, [level], (err, results) => {
         if (err) {
             console.error("Error fetching question:", err);
             return res.status(500).json({ error: "Failed to fetch question" });

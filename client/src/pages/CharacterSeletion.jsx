@@ -9,9 +9,39 @@ function CharacterSelection() {
 
     // Retrieve username from session
     const username = localStorage.getItem("username");
+    const user_id = localStorage.getItem("user_id");
 
-    const handleSelectCharacter = () => {
-        navigate('/levels');
+    // Save character to DB
+    const saveCharacter = async (character_id) => {
+        const response = await fetch("http://localhost:5000/api/users/character", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id, character_id }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to save character");
+        }
+
+        return response.json();
+    };
+
+
+    // When user clicks "Select Character"
+    const handleSelectCharacter = async () => {
+        const selectedCharacter = characters[currentIndex];
+
+        try {
+            await saveCharacter(selectedCharacter.id);
+
+            // store on frontend too
+            localStorage.setItem("character_id", selectedCharacter.id);
+
+            navigate('/levels');
+        } catch (err) {
+            console.error("Error saving character:", err);
+            alert("Could not save character");
+        }
     };
 
     // Left arrow
