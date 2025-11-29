@@ -1,5 +1,4 @@
 // Users table retreival
-
 import pool from "../db.js";
 
 // POST /api/users
