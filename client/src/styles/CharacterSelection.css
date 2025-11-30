@@ -4,6 +4,11 @@
     height: 400px;
 }
 
+.char-selection-title {
+    color: #fff;
+    text-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
 .character-card {
     width: 250px;
     height: 350px;
