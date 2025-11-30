@@ -3,8 +3,6 @@ import '../styles/Leaderboard.css';
 import { leaderboardData } from '../data/leaderboardData';
 
 function Leaderboard() {
-    const [timeFilter, setTimeFilter] = useState('This Week');
-
     const topThree = leaderboardData.slice(0, 3);
     const restOfLeaderboard = leaderboardData.slice(3);
 

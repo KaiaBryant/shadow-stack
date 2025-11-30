@@ -1,5 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Home.css"
 
 function Home() {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ function Home() {
                 <div className="row justify-content-center">
                     {/* col-lg-10 = screen > 992px and col-xl-8 = screen > 1200 */}
                     <div className="col-lg-10 col-xl-8 text-center">
-                        <h1 className="display-3 fw-bold mb-4">
+                        <h1 className="home-title display-3 fw-bold mb-4">
                             Master Cybersecurity One Question at a Time
                         </h1>
                         <p className="lead fs-4 text-secondary mb-5">
