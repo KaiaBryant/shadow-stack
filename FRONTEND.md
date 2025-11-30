@@ -16,9 +16,16 @@ Home.jsx
 - May need to implement cookies 
 
 CharacterSelection.jsx
-- Carousel bootstrap is trash
+- Carousel bootstrap doesnt work
 - https://github.com/EdgardooTorress/eCommerce2/blob/main/src/components/ProductSlider.jsx (using edgardo slider handler)
 - "Welcome, *username*" on line 59 (and the other wordings) need styling and color
+
+Simulator.jsx
+
+
+Leaderboard.jsx
+
+
 
 BOOTSTRAP
 - Version 5.3
