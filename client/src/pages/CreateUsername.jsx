@@ -112,8 +112,8 @@ function CreateUser() {
             value={username}
             onChange={(e) => {
               const value = e.target.value;
-              const onlyLetters = value.replace(/[^A-Za-z]/g, "");
-              setUsername(onlyLetters);
+              const lettersAndNumbers = value.replace(/[^A-Za-z0-9]/g, "");
+              setUsername(lettersAndNumbers);
             }}
           />
         </div>

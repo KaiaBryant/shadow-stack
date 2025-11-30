@@ -1,5 +1,5 @@
-function Results() {
-    return <h1>Results Page</h1>;
+function Admin() {
+    return <h1>Admin Page</h1>;
 }
 
-export default Results;
+export default Admin;

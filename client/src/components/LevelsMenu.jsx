@@ -37,9 +37,8 @@ export default function LevelsMenu() {
 
         {/* level 1 */}
         <button
-          className={`levels-option option-1 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 1 ? "locked" : ""}`}
+          className={`levels-option option-1 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 1 ? "locked" : ""}`}
           disabled={maxUnlocked < 1}
           onClick={() => handleLevelSelect(1)}
         >
@@ -48,9 +47,8 @@ export default function LevelsMenu() {
 
         {/* level 7 */}
         <button
-          className={`levels-option option-7 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 7 ? "locked" : ""}`}
+          className={`levels-option option-7 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 7 ? "locked" : ""}`}
           disabled={maxUnlocked < 7}
           onClick={() => handleLevelSelect(7)}
         >
@@ -59,9 +57,8 @@ export default function LevelsMenu() {
 
         {/* level 6 */}
         <button
-          className={`levels-option option-2 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 6 ? "locked" : ""}`}
+          className={`levels-option option-2 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 6 ? "locked" : ""}`}
           disabled={maxUnlocked < 6}
           onClick={() => handleLevelSelect(6)}
         >
@@ -70,9 +67,8 @@ export default function LevelsMenu() {
 
         {/* level 5 */}
         <button
-          className={`levels-option option-3 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 5 ? "locked" : ""}`}
+          className={`levels-option option-3 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 5 ? "locked" : ""}`}
           disabled={maxUnlocked < 5}
           onClick={() => handleLevelSelect(5)}
         >
@@ -81,9 +77,8 @@ export default function LevelsMenu() {
 
         {/* level 4 */}
         <button
-          className={`levels-option option-4 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 4 ? "locked" : ""}`}
+          className={`levels-option option-4 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 4 ? "locked" : ""}`}
           disabled={maxUnlocked < 4}
           onClick={() => handleLevelSelect(4)}
         >
@@ -92,9 +87,8 @@ export default function LevelsMenu() {
 
         {/* level 3 */}
         <button
-          className={`levels-option option-5 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 3 ? "locked" : ""}`}
+          className={`levels-option option-5 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 3 ? "locked" : ""}`}
           disabled={maxUnlocked < 3}
           onClick={() => handleLevelSelect(3)}
         >
@@ -103,9 +97,8 @@ export default function LevelsMenu() {
 
         {/* level 2 */}
         <button
-          className={`levels-option option-6 custom-btn btn-outline-light ${
-            open ? "show" : ""
-          } ${maxUnlocked < 2 ? "locked" : ""}`}
+          className={`levels-option option-6 custom-btn btn-outline-light ${open ? "show" : ""
+            } ${maxUnlocked < 2 ? "locked" : ""}`}
           disabled={maxUnlocked < 2}
           onClick={() => handleLevelSelect(2)}
         >
