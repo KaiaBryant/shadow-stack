@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Admin from "./pages/Admin";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Results from "./pages/Results";
@@ -12,6 +11,7 @@ import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
 import Objective from "./pages/GameIntro";
+import Admin from "./pages/Admin";
 
 import "./styles/global.css"
 

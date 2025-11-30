@@ -1,0 +1,89 @@
+.admin-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #0d0d14;      
+  padding: 20px;
+}
+
+.admin-form {
+    background-color: #1e1e1e;
+  padding: 30px 35px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;           
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid black;
+}
+
+.admin-form-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.admin-form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  color: white;
+}
+
+.admin-form-control {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  border: 1px solid grey;
+  transition: border-color 0.2s;
+  background-color: grey;
+  color: white;
+}
+
+.admin-form-control:focus {
+  border-color: #6c63ff !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+/* Error Message */
+.admin-error {
+  background: #ffefef;
+  border-left: 4px solid #d9534f;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  color: #a94442;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.admin-form .btn-primary {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.admin-form .btn-primary:hover {
+  opacity: 0.9;
+}
+
+.admin-form .btn-primary:active {
+  opacity: 0.8;
+}
+
+
+@media (max-width: 480px) {
+  .admin-form {
+    padding: 25px 20px;
+  }
+
+  .admin-form-title {
+    font-size: 1.4rem;
+  }
+}

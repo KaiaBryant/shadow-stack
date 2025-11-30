@@ -1,11 +1,5 @@
-// Admin page is an account page for admin access only
-
-import React from 'react';
-import '../styles/Admin.css';
-
-
-function Admin() {
-    return <h1>Admin Page</h1>;
+function Results() {
+    return <h1>Results Page</h1>;
 }
 
-export default Admin;
+export default Results;
