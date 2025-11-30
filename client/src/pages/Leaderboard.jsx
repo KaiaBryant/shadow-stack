@@ -1,74 +1,90 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Leaderboard.css';
-import { leaderboardData } from '../data/leaderboardData';
+import { characters } from "../data/characters";
+
+// import { leaderboardData } from '../data/leaderboardData';
 
 function Leaderboard() {
-    const topThree = leaderboardData.slice(0, 3);
-    const restOfLeaderboard = leaderboardData.slice(3);
+    // const [timeFilter, setTimeFilter] = useState('This Week');
+    const [leaders, setLeaders] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/leaderboard")
+            .then((res) => res.json())
+            .then((data) => setLeaders(data))
+            .catch((err) => console.error("Error loading leaderboard:", err));
+    }, []);
+
+    const enriched = leaders.map((player, index) => {
+        const character = characters.find(c => c.id === player.character_id);
+
+        return {
+            ...player,
+            rank: index + 1,
+            points: player.score,
+            avatar: character?.avatar,
+            color: character?.color,
+        };
+    });
+
+    const topThree = enriched.slice(0, 3);
+    const rest = enriched.slice(3);
+
 
     return (
         <div className="leaderboard-container">
 
             {/* Top 3 Podium */}
-            <div className="container mt-5 mb-5">
-                <div className="row justify-content-center align-items-end podium-container">
-                    {/* 2nd Place */}
-                    <div className="col-md-3">
-                        <div className="podium-card">
-                            <div className="rank-badge d-flex align-items-center justify-content-center fs-3 fw-bold text-white" style={{ backgroundColor: topThree[1].color }}>
-                                ★<span className="rank-number">2</span>
-                            </div>
-                            <div className="podium-avatar">{topThree[1].avatar}</div>
-                            <p className="podium-username">{topThree[1].username}</p>
-                            <h3 className="podium-points podium-points-other" style={{ color: topThree[1].color }}>
-                                {topThree[1].points} pts
-                            </h3>
-                        </div>
-                    </div>
+            {topThree.length === 3 && (
+                <div className="container mt-5 mb-5">
+                    <div className="row justify-content-center align-items-end podium-container">
 
-                    {/* 1st Place */}
-                    <div className="col-md-3">
-                        <div className="podium-card podium-card-first">
-                            <div className="rank-badge d-flex align-items-center justify-content-center fs-3 fw-bold text-white" style={{ backgroundColor: topThree[0].color }}>
-                                ★<span className="rank-number">1</span>
+                        {/* 2nd */}
+                        <div className="col-md-3">
+                            <div className="podium-card">
+                                <div className="rank-badge" style={{ backgroundColor: topThree[1].color }}>★2</div>
+                                <div className="podium-avatar">{topThree[1].avatar}</div>
+                                <p className="podium-username">{topThree[1].username}</p>
+                                <h3 className="podium-points">{topThree[1].points} pts</h3>
                             </div>
-                            <div className="podium-avatar podium-avatar-first">{topThree[0].avatar}</div>
-                            <p className="podium-username">{topThree[0].username}</p>
-                            <h2 className="podium-points podium-points-first" style={{ color: topThree[0].color }}>
-                                {topThree[0].points} pts
-                            </h2>
                         </div>
-                    </div>
 
-                    {/* 3rd Place */}
-                    <div className="col-md-3">
-                        <div className="podium-card">
-                            <div className="rank-badge d-flex align-items-center justify-content-center fs-3 fw-bold text-white" style={{ backgroundColor: topThree[2].color }}>
-                                ★<span className="rank-number">3</span>
+                        {/* 1st */}
+                        <div className="col-md-3">
+                            <div className="podium-card podium-card-first">
+                                <div className="rank-badge" style={{ backgroundColor: topThree[0].color }}>★1</div>
+                                <div className="podium-avatar podium-avatar-first">{topThree[0].avatar}</div>
+                                <p className="podium-username">{topThree[0].username}</p>
+                                <h2 className="podium-points-first">{topThree[0].points} pts</h2>
                             </div>
-                            <div className="podium-avatar">{topThree[2].avatar}</div>
-                            <p className="podium-username">{topThree[2].username}</p>
-                            <h3 className="podium-points podium-points-other" style={{ color: topThree[2].color }}>
-                                {topThree[2].points} pts
-                            </h3>
                         </div>
+
+                        {/* 3rd */}
+                        <div className="col-md-3">
+                            <div className="podium-card">
+                                <div className="rank-badge" style={{ backgroundColor: topThree[2].color }}>★3</div>
+                                <div className="podium-avatar">{topThree[2].avatar}</div>
+                                <p className="podium-username">{topThree[2].username}</p>
+                                <h3 className="podium-points">{topThree[2].points} pts</h3>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            )}
 
-            {/* Rest of Leaderboard */}
+            {/* Remaining Players */}
             <div className="container leaderboard-list">
-                {restOfLeaderboard.map((player) => (
+                {rest.map((player) => (
                     <div key={player.id} className="leaderboard-item">
                         <div className="item-left">
                             <div className="item-rank-badge" style={{ backgroundColor: player.color }}>
-                                <span className="item-rank-number fs-3">{player.rank}</span>
+                                <span className="item-rank-number">{player.rank}</span>
                             </div>
                             <div className="item-avatar">{player.avatar}</div>
-                            <div>
-                                <p className="item-username">{player.username}</p>
-                            </div>
+                            <p className="item-username">{player.username}</p>
                         </div>
+
                         <div className="item-right">
                             <h5 className="item-points">{player.points} pts</h5>
                             <div className="progress-bar-container">
@@ -86,3 +102,7 @@ function Leaderboard() {
 }
 
 export default Leaderboard;
+
+
+
+

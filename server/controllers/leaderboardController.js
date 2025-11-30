@@ -3,19 +3,20 @@ import pool from "../db.js";
 // GET /api/leaderboard
 export const getLeaderboard = (req, res) => {
     const query = `
-        SELECT username, score, level_completed, created_at
+        SELECT id, user_id, username, character_id, score, created_at
         FROM leaderboard
-        ORDER BY score DESC, created_at ASC
+        ORDER BY score DESC
         LIMIT 20
     `;
 
-    pool.query(query, (err, results) => {
+    pool.query(query, (err, rows) => {
         if (err) {
-            console.error("Error fetching leaderboard:", err);
-            return res.status(500).json({ error: "Failed loading leaderboard" });
+            console.error("Leaderboard SQL Error:", err);
+            return res.status(500).json({ error: "Database error" });
         }
 
-        return res.json(results);
+        console.log("Leaderboard rows:", rows); // IMPORTANT DEBUG
+        res.json(rows);
     });
 };
 
