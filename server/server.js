@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 5000;
 
 
 // ----------- ROUTES ------------
+
 app.use("/api/questions", questionsRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/characters", characterRoutes);
