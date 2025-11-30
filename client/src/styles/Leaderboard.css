@@ -1,0 +1,160 @@
+/* Leaderboard Page Styles */
+
+.leaderboard-container {
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+}
+
+/* Podium Styles */
+.podium-card {
+    background-color: #151b2e;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    border: 1px solid #1e2639;
+}
+
+.podium-card-first {
+    margin-bottom: 30px;
+}
+
+.rank-badge {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+}
+
+.rank-number {
+    font-size: 14px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.podium-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #8b92a7;
+    margin: 20px auto;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.podium-avatar-first {
+    width: 120px;
+    height: 120px;
+    font-size: 60px;
+}
+
+.podium-name {
+    margin-bottom: 5px;
+}
+
+.podium-username {
+    color: #8b92a7;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.podium-points {
+    font-weight: bold;
+    margin: 0;
+}
+
+.podium-points-first {
+    font-size: 2rem;
+}
+
+.podium-points-other {
+    font-size: 1.5rem;
+}
+
+/* Leaderboard List Styles */
+.leaderboard-list {
+    max-width: 900px;
+}
+
+.leaderboard-item {
+    background-color: #151b2e;
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #1e2639;
+}
+
+.item-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.item-rank-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+}
+
+.item-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #8b92a7;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-name {
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+.item-username {
+    margin: 0;
+    color: #8b92a7;
+    font-size: 14px;
+}
+
+.item-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.item-points {
+    margin: 0;
+    color: #8b92a7;
+}
+
+.progress-bar-container {
+    width: 150px;
+    height: 8px;
+    background-color: #1e2639;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #4a5568;
+    border-radius: 4px;
+}
