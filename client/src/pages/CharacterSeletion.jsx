@@ -16,7 +16,7 @@ function CharacterSelection() {
         const response = await fetch("http://localhost:5000/api/users/character", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_id, character_id }),
+            body: JSON.stringify({ user_id: Number(user_id), character_id }),
         });
 
         if (!response.ok) {
@@ -37,7 +37,7 @@ function CharacterSelection() {
             // store on frontend too
             localStorage.setItem("character_id", selectedCharacter.id);
 
-            navigate('/levels');
+            navigate('/objective');
         } catch (err) {
             console.error("Error saving character:", err);
             alert("Could not save character");
