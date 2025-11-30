@@ -20,7 +20,7 @@ return (
                             to move on to the next level. Collect points to make it on the top of the leaderboard.
                              Good luck!
                         </p>
-                        <button className="btn custom-btn-primary btn-lg px-5 py-3 fw-semibold" onClick={() => navigate('/levels')}>
+                        <button className="btn btn-primary btn-lg px-5 py-3 fw-semibold" onClick={() => navigate('/levels')}>
                             Understood!
                         </button>
                     </div>
