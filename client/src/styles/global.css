@@ -17,3 +17,16 @@ footer {
 .custom-form .mb-3 {
     margin-bottom: 1rem; /* or 0 if you want no gap */
 }
+
+.btn-primary {
+    background-color: #614aeb !important;
+    border-color: #614aeb !important;
+
+}
+
+.btn-primary:hover {
+    opacity: 0.75 !important;
+    background-color: #614aeb !important;
+    border-color: #614aeb !important;
+
+}
