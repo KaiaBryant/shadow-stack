@@ -47,7 +47,7 @@ function Footer() {
                     </div>
                 </div>
 
-                <button className="admin-btn ms-3" onClick={() => navigate('/admin')}>Admin</button>
+                <button className="admin-btn ms-3" onClick={() => navigate('/login')}>Admin</button>
             </div>
         </footer>
     );

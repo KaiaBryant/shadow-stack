@@ -1,11 +1,10 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #0d0d14; /* your app's background */
+    background-color: #0d0d14; 
     height: 100%;
 }
 
-/* Wrapper to center form */
 .custom-form-wrapper {
     min-height: 100vh;
     display: flex;
@@ -13,39 +12,60 @@ html, body {
     align-items: center;
 }
 
-/* Form box */
 .custom-form {
     background-color: #1e1e1e;
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.6);
     width: 100%;
-    max-width: 400px;
+    max-width: 400px;  
     display: grid;
+    border: 1px solid black; 
 }
 
-/* Label */
 .custom-form-label {
     color: white;
     margin-bottom: 0.5rem;
     display: block;
+    font-weight: 600; 
 }
 
-/* Input */
 .custom-form-control {
     background-color: grey;
     color: white;
     border: 1px solid #ccc;
     width: 100%;
     padding: 0.5rem 0.75rem;
-    border-radius: 4px;
+    margin-bottom: 18px; 
+    border-radius: 6px;
 }
 
-.custom-btn {
+.custom-form-control:focus {
+    border-color: #6c63ff !important;
+    box-shadow: none !important;
+    outline: none;
+}
+
+.custom-form .custom-btn,
+.custom-form .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
     background-color: #614aeb;
     color: white;
     border: none;
-    margin-top: 1rem;
-    margin-left: auto;
-    margin-right: auto;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.custom-form .custom-btn:hover,
+.custom-form .btn-primary:hover {
+    opacity: 0.9;
+}
+
+.custom-form .custom-btn:active,
+.custom-form .btn-primary:active {
+    opacity: 0.8;
 }
