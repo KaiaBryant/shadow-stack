@@ -15,7 +15,7 @@ export const getLeaderboard = (req, res) => {
             return res.status(500).json({ error: "Database error" });
         }
 
-        console.log("Leaderboard rows:", rows); // IMPORTANT DEBUG
+        // console.log("Leaderboard rows:", rows); // IMPORTANT DEBUG
         res.json(rows);
     });
 };
