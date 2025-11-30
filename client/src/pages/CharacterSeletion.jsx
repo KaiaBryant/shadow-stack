@@ -37,7 +37,7 @@ function CharacterSelection() {
             // store on frontend too
             localStorage.setItem("character_id", selectedCharacter.id);
 
-            navigate('/levels');
+            navigate('/objective');
         } catch (err) {
             console.error("Error saving character:", err);
             alert("Could not save character");
