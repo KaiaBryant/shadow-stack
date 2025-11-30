@@ -37,7 +37,7 @@ function CharacterSelection() {
             // store on frontend too
             localStorage.setItem("character_id", selectedCharacter.id);
 
-            navigate('/levels');
+            navigate('/objective');
         } catch (err) {
             console.error("Error saving character:", err);
             alert("Could not save character");
@@ -86,9 +86,9 @@ function CharacterSelection() {
     return (
         <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 ">
 
-            <h2 className="fw-bold mb-2">Welcome, {username}!</h2>
+            <h2 className="char-selection-title display-1 fw-bold mb-2">Welcome, {username}!</h2>
 
-            <h1 className="display-3 fw-bold mb-5">
+            <h1 className="display-6 fw-bold mb-5">
                 Select Your Character
             </h1>
 
