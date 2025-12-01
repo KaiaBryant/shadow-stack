@@ -12,8 +12,15 @@ import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
 import Objective from "./pages/GameIntro";
 import Admin from "./pages/Admin";
+import AdminRegister from "./pages/AdminRegister";
 
 import "./styles/global.css"
+
+function RequireAdminAuth({ children }) {
+  const token = localStorage.getItem("admin_token");
+  if (!token) return <Navigate to="/login" replace />;
+  return children;
+}
 
 function App() {
   return (
@@ -27,7 +34,15 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character-select" element={<CharacterSelection />} />
-            <Route path="/admin" element={<Admin />} />
+            {/* <Route path="/admin" element={<Admin />} /> */}
+            <Route
+              path="/admin"
+              element={
+                <RequireAdminAuth>
+                  <Admin />
+                </RequireAdminAuth>
+              }
+            />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/results" element={<Results />} />
             <Route path="/simulator" element={<Simulator />} />
@@ -36,6 +51,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/levels" element={<LevelsMenu />} />
             <Route path="/objective" element={<Objective />} />
+            <Route path="/register" element={<AdminRegister />} />
           </Routes>
         </main>
 

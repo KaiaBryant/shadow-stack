@@ -1,19 +1,19 @@
-// Admin route for login and admin access in account
+// Admin route for login and admin access
 import express from "express";
-import { adminLogin } from "../controllers/adminController.js";
-import { verifyAdmin } from "../middleware/authAdmin.js";
+import { adminLogin, createAdmin, adminGetAllUsers, adminGetAllSessions, adminDeleteUser }
+    from "../controllers/adminController.js";
 
-// Controllers used by admin
-import { getAllUsers } from "../controllers/userController.js";
-import { getAllSessions } from "../controllers/sessionController.js";
+import { verifyAdmin } from "../middleware/authAdmin.js";
 
 const router = express.Router();
 
-// Public route (no auth)
+// Public route
 router.post("/login", adminLogin);
 
 // Protected admin routes
-router.get("/users", verifyAdmin, getAllUsers);
-router.get("/sessions", verifyAdmin, getAllSessions);
+router.get("/users", verifyAdmin, adminGetAllUsers);         // View all users
+router.get("/sessions", verifyAdmin, adminGetAllSessions);   // View all sessions
+router.delete("/users/:id", verifyAdmin, adminDeleteUser);   // Delete a user
+router.post("/create-admin", verifyAdmin, createAdmin);      // Create new admin
 
 export default router;

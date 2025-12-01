@@ -16,7 +16,7 @@ function AdminLogin() {
     const response = await fetch("http://localhost:5000/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, mfaCode }),
+      body: JSON.stringify({ username, password, pin_code: mfaCode }),
     });
 
     if (!response.ok) {
@@ -37,7 +37,7 @@ function AdminLogin() {
     }
 
     if (mfaCode.length !== 6) {
-      setError("Please enter a 6-digit MFA code.");
+      setError("Please enter 6-digit MFA code.");
       return;
     }
 
@@ -98,7 +98,7 @@ function AdminLogin() {
 
         <div className="mb-3">
           <label htmlFor="mfa" className="admin-form-label">
-            6-Digit MFA Code
+            Pin
           </label>
           <input
             type="text"
