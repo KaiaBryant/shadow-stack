@@ -1,289 +1,294 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Admin.css"; // reuse same dark theme styles
+import { useNavigate } from "react-router-dom";
+import "../styles/Admin.css";
 
 function AdminDashboard() {
-  const [users, setUsers] = useState([]);
-  const [loadingUsers, setLoadingUsers] = useState(false);
-  const [error, setError] = useState("");
+    const [users, setUsers] = useState([]);
+    const [sessions, setSessions] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(false);
+    const [loadingSessions, setLoadingSessions] = useState(false);
+    const [error, setError] = useState("");
 
-  const [showCreateAdmin, setShowCreateAdmin] = useState(false);
-  const [newAdminUsername, setNewAdminUsername] = useState("");
-  const [newAdminPassword, setNewAdminPassword] = useState("");
+    const [showCreateAdmin, setShowCreateAdmin] = useState(false);
+    const [newAdminUsername, setNewAdminUsername] = useState("");
+    const [newAdminPassword, setNewAdminPassword] = useState("");
+    const [newAdminPin, setNewAdminPin] = useState("");
 
-  const [updatingUserId, setUpdatingUserId] = useState(null);
+    const [busy, setBusy] = useState(false);
 
-  // Load all users + basic activity / level info
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoadingUsers(true);
-        setError("");
+    const navigate = useNavigate();
 
-        const res = await fetch("http://localhost:5000/api/admin/users", {
-          headers: {
-            "Content-Type": "application/json",
-            // Example if you later add tokens:
-            // Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
-          },
-        });
+    const token = localStorage.getItem("admin_token");
+    const adminUsername = localStorage.getItem("admin_username");
 
-        if (!res.ok) {
-          throw new Error("Failed to load users");
-        }
-
-        const data = await res.json();
-        // Expected shape: [{ id, username, is_admin, current_level, last_active }, ...]
-        setUsers(data);
-      } catch (err) {
-        setError(err.message || "Error loading users");
-      } finally {
-        setLoadingUsers(false);
-      }
+    // Logout clears token and redirects 
+    const handleLogout = () => {
+        localStorage.removeItem("admin_token");
+        localStorage.removeItem("admin_username");
+        navigate("/login");
     };
 
-    fetchUsers();
-  }, []);
+    // Generic fetch wrapper to auto-send token
+    const adminFetch = async (url, options = {}) => {
+        const res = await fetch(url, {
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+                ...(options.headers || {})
+            }
+        });
+        return res;
+    };
 
-  // Create a brand new admin account
-  const handleCreateAdmin = async (e) => {
-    e.preventDefault();
-    if (!newAdminUsername.trim() || !newAdminPassword.trim()) {
-      setError("Please enter a username and password for the new admin.");
-      return;
-    }
+    // Load all users
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                setLoadingUsers(true);
+                const res = await adminFetch("http://localhost:5000/api/admin/users");
 
-    try {
-      setUpdatingUserId("new-admin");
-      setError("");
+                if (!res.ok) throw new Error("Failed to load users");
+                const data = await res.json();
+                setUsers(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoadingUsers(false);
+            }
+        };
 
-      const res = await fetch("http://localhost:5000/api/admin/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: newAdminUsername.trim(),
-          password: newAdminPassword.trim(),
-        }),
-      });
+        const loadSessions = async () => {
+            try {
+                setLoadingSessions(true);
+                const res = await adminFetch("http://localhost:5000/api/admin/sessions");
 
-      if (!res.ok) {
-        throw new Error("Failed to create admin");
-      }
+                if (!res.ok) throw new Error("Failed to load sessions");
+                const data = await res.json();
+                setSessions(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoadingSessions(false);
+            }
+        };
 
-      const created = await res.json();
-      // Add new admin to the table
-      setUsers((prev) => [...prev, created]);
+        loadUsers();
+        loadSessions();
+    }, []);
 
-      setNewAdminUsername("");
-      setNewAdminPassword("");
-      setShowCreateAdmin(false);
-    } catch (err) {
-      setError(err.message || "Error creating admin.");
-    } finally {
-      setUpdatingUserId(null);
-    }
-  };
+    // Create a new admin
+    const handleCreateAdmin = async (e) => {
+        e.preventDefault();
 
-  // Promote an existing user to admin
-  const handlePromoteToAdmin = async (userId) => {
-    try {
-      setUpdatingUserId(userId);
-      setError("");
-
-      const res = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/make-admin`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+        if (!newAdminUsername.trim() || !newAdminPassword.trim() || !newAdminPin.trim()) {
+            setError("All admin fields are required.");
+            return;
         }
-      );
 
-      if (!res.ok) {
-        throw new Error("Failed to promote user to admin");
-      }
+        try {
+            setBusy(true);
+            setError("");
 
-      const updated = await res.json();
-
-      setUsers((prev) =>
-        prev.map((u) => (u.id === userId ? { ...u, ...updated } : u))
-      );
-    } catch (err) {
-      setError(err.message || "Error promoting user.");
-    } finally {
-      setUpdatingUserId(null);
-    }
-  };
-
-  // Delete a user
-  const handleDeleteUser = async (userId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this user?"
-    );
-    if (!confirmed) return;
-
-    try {
-      setUpdatingUserId(userId);
-      setError("");
-
-      const res = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}`,
-        {
-          method: "DELETE",
+            const res = await adminFetch("http://localhost:5000/api/admin/create-admin", {
+                method: "POST",
+                body: JSON.stringify({
+                    username: newAdminUsername,
+                    password: newAdminPassword,
+                    pin_code: newAdminPin
+                })
+            });
+            alert("Admin created successfully!");
+            setNewAdminUsername("");
+            setNewAdminPassword("");
+            setNewAdminPin("");
+            setShowCreateAdmin(false);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setBusy(false);
         }
-      );
+    };
 
-      if (!res.ok) {
-        throw new Error("Failed to delete user");
-      }
+    // Delete a user
+    const handleDeleteUser = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
 
-      setUsers((prev) => prev.filter((u) => u.id !== userId));
-    } catch (err) {
-      setError(err.message || "Error deleting user.");
-    } finally {
-      setUpdatingUserId(null);
-    }
-  };
+        try {
+            setBusy(true);
+            const res = await adminFetch(
+                `http://localhost:5000/api/admin/users/${id}`,
+                { method: "DELETE" }
+            );
 
-  // For “show user activity” – placeholder hook for now
-  const handleViewActivity = (user) => {
-    // Later this can navigate to /admin/user/:id or open a modal
-    alert(
-      `Activity for ${user.username} (stub).\n\n` +
-        `Current level: ${user.current_level ?? "N/A"}\n` +
-        `Last active: ${user.last_active ?? "N/A"}`
-    );
-  };
+            if (!res.ok) throw new Error("Failed to delete user");
 
-  return (
-    <div className="admin-dashboard-wrapper">
-      <div className="container">
-        <div className="admin-dashboard-card">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="admin-dashboard-title mb-0">Admin Dashboard</h2>
-            <button
-              type="button"
-              className="btn btn-sm btn-admin"
-              onClick={() => setShowCreateAdmin((prev) => !prev)}
-            >
-              {showCreateAdmin ? "Close" : "Create New Admin"}
-            </button>
-          </div>
+            setUsers((prev) => prev.filter((u) => u.id !== id));
+            alert("User deleted.");
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setBusy(false);
+        }
+    };
 
-          {error && <div className="admin-error mb-3">{error}</div>}
+    return (
+        <div className="admin-dashboard-wrapper">
+            <div className="container">
+                <div className="admin-dashboard-card">
 
-          {showCreateAdmin && (
-            <form
-              onSubmit={handleCreateAdmin}
-              className="admin-create-form mb-4"
-            >
-              <div className="row g-2">
-                <div className="col-md-4">
-                  <label className="admin-form-label" htmlFor="newAdminUser">
-                    Username
-                  </label>
-                  <input
-                    id="newAdminUser"
-                    type="text"
-                    className="admin-form-control"
-                    value={newAdminUsername}
-                    onChange={(e) => setNewAdminUsername(e.target.value)}
-                  />
+                    {/* Header */}
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+
+                        <h2 className="admin-dashboard-title"> Welcome, <strong>{adminUsername}</strong></h2>
+
+                        {/* Create new admin user button */}
+                        <button
+                            className="new-admin-btn"
+                            onClick={() => setShowCreateAdmin((prev) => !prev)}
+                        >
+                            {showCreateAdmin ? "Close" : "Create New Admin"}
+                        </button>
+
+                        {/* Logout button*/}
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-danger"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    </div>
+
+
+
+                    {error && <div className="admin-error mb-3">{error}</div>}
+
+                    {/* Create Admin Form */}
+                    {showCreateAdmin && (
+                        <form onSubmit={handleCreateAdmin} className="admin-create-form">
+                            <div className="row g-2">
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Username</label>
+                                    <input
+                                        className="admin-form-control"
+                                        value={newAdminUsername}
+                                        onChange={(e) => setNewAdminUsername(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        className="admin-form-control"
+                                        value={newAdminPassword}
+                                        onChange={(e) => setNewAdminPassword(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Pin Code</label>
+                                    <input
+                                        type="password"
+                                        className="admin-form-control"
+                                        value={newAdminPin}
+                                        onChange={(e) => setNewAdminPin(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-12 mt-2">
+                                    <button className="btn btn-admin w-100" disabled={busy}>
+                                        {busy ? "Creating..." : "Create Admin"}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* Users Table */}
+                    <h5 className="section-heading mb-3">Users</h5>
+
+                    {loadingUsers ? (
+                        <p className="text-light">Loading users...</p>
+                    ) : users.length === 0 ? (
+                        <p className="text-light">No users found.</p>
+                    ) : (
+                        <div className="table-responsive mb-4">
+                            <table className="table table-dark table-striped table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Character</th>
+                                        <th>Created</th>
+                                        <th style={{ width: "150px" }}>Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {users.map((user) => (
+                                        <tr key={user.id}>
+                                            <td>{user.username}</td>
+                                            <td>{user.character_id ?? "—"}</td>
+                                            <td>{user.created_at}</td>
+
+                                            <td>
+                                                <button
+                                                    className="btn btn-sm btn-outline-danger"
+                                                    onClick={() => handleDeleteUser(user.id)}
+                                                    disabled={busy}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    {/* Sessions List */}
+                    <h5 className="section-heading mb-3">User Sessions</h5>
+
+                    {loadingSessions ? (
+                        <p className="text-light">Loading sessions...</p>
+                    ) : sessions.length === 0 ? (
+                        <p className="text-light">No sessions found.</p>
+                    ) : (
+                        <div className="table-responsive">
+                            <table className="table table-dark table-striped table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Level</th>
+                                        <th>Lives</th>
+                                        <th>Attempts</th>
+                                        <th>Active?</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {sessions.map((s) => (
+                                        <tr key={s.id}>
+                                            <td>{s.user_id}</td>
+                                            <td>{s.current_level}</td>
+                                            <td>{s.lives_remaining}</td>
+                                            <td>{s.attempts_remaining}</td>
+                                            <td>{s.is_active ? "Yes" : "No"}</td>
+                                            <td>{s.created_at}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
                 </div>
-                <div className="col-md-4">
-                  <label className="admin-form-label" htmlFor="newAdminPass">
-                    Password
-                  </label>
-                  <input
-                    id="newAdminPass"
-                    type="password"
-                    className="admin-form-control"
-                    value={newAdminPassword}
-                    onChange={(e) => setNewAdminPassword(e.target.value)}
-                  />
-                </div>
-                <div className="col-md-4 d-flex align-items-end">
-                  <button
-                    type="submit"
-                    className="btn btn-admin w-100"
-                    disabled={updatingUserId === "new-admin"}
-                  >
-                    {updatingUserId === "new-admin"
-                      ? "Creating..."
-                      : "Create Admin"}
-                  </button>
-                </div>
-              </div>
-            </form>
-          )}
-
-          <h5 className="section-heading mb-3">Users & Activity</h5>
-
-          {loadingUsers ? (
-            <p className="text-light">Loading users...</p>
-          ) : users.length === 0 ? (
-            <p className="text-light">No users found.</p>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-dark table-striped table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Current Level</th>
-                    <th>Last Active</th>
-                    <th style={{ width: "230px" }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => {
-                    const isAdmin = user.is_admin || user.role === "admin";
-                    const isBusy = updatingUserId === user.id;
-
-                    return (
-                      <tr key={user.id}>
-                        <td>{user.username}</td>
-                        <td>{isAdmin ? "Admin" : "User"}</td>
-                        <td>{user.current_level ?? "—"}</td>
-                        <td>{user.last_active ?? "—"}</td>
-                        <td>
-                          <div className="d-flex gap-2">
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-outline-info"
-                              onClick={() => handleViewActivity(user)}
-                            >
-                              Activity
-                            </button>
-                            {!isAdmin && (
-                              <button
-                                type="button"
-                                className="btn btn-sm btn-outline-warning"
-                                onClick={() => handlePromoteToAdmin(user.id)}
-                                disabled={isBusy}
-                              >
-                                {isBusy ? "Updating..." : "Make Admin"}
-                              </button>
-                            )}
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-outline-danger"
-                              onClick={() => handleDeleteUser(user.id)}
-                              disabled={isBusy}
-                            >
-                              {isBusy ? "Deleting..." : "Delete"}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
             </div>
-          )}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default AdminDashboard;

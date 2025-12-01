@@ -7,8 +7,8 @@ import usersRoute from "./routes/users.js";
 import characterRoutes from "./routes/character.js";
 import leaderboardRoutes from "./routes/leaderboard.js";
 import sessionRoutes from "./routes/session.js";
-
-// import adminRoutes from "./routes/admin.js";
+import adminRoutes from "./routes/admin.js";
+import adminRegisterRoutes from "./routes/adminRegister.js";
 
 dotenv.config();
 
@@ -26,7 +26,8 @@ app.use("/api/users", usersRoute);
 app.use("/api/characters", characterRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/sessions", sessionRoutes);
-// app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRegisterRoutes);
 
 // --------- START SERVER ---------
 app.listen(PORT, () => {
