@@ -3,5 +3,21 @@
 }
 
 .custom-desc {
-    color: white;
+    color: #C5BAFF;
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 2px 15px #C5BAFF;
+}
+
+/* Responsive objective header & description */
+@media (max-width: 768px) {
+  .custom-header {
+    text-align: center;
+  }
+
+  .custom-desc {
+    text-align: center;
+  }
 }

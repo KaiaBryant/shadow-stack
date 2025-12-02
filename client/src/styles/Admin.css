@@ -1,3 +1,9 @@
+h2, h5{
+    color: white !important;
+}
+
+
+
 .admin-form-wrapper {
   display: flex;
   justify-content: center;
@@ -44,7 +50,6 @@
 }
 
 .admin-form-control:focus {
-  border-color: #6c63ff !important;
   box-shadow: none !important;
   outline: none;
 }
@@ -75,6 +80,17 @@
 
 .admin-form .btn-primary:active {
   opacity: 0.8;
+}
+
+/* Tablet / small laptop */
+@media (max-width: 768px) {
+  .admin-form-wrapper {
+    padding: 16px;
+  }
+
+  .admin-form {
+    max-width: 100%;
+  }
 }
 
 
