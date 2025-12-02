@@ -1,4 +1,15 @@
 .navbar {
+    background-color: #614aeb;
+}
+
+.logout-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    border: none;
+    background: #222;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
     color: white;
     background: rgba(10, 10, 10, .4);
     backdrop-filter: blur(10px);

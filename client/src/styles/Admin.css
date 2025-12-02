@@ -3,16 +3,16 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #0d0d14;      
+  background: #0d0d14;
   padding: 20px;
 }
 
 .admin-form {
-    background-color: #1e1e1e;
+  background-color: #1e1e1e;
   padding: 30px 35px;
   border-radius: 12px;
   width: 100%;
-  max-width: 420px;           
+  max-width: 420px;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.12);
   border: 1px solid black;
 }
@@ -86,4 +86,28 @@
   .admin-form-title {
     font-size: 1.4rem;
   }
+}
+
+
+.scroll-container {
+  max-height: 300px;
+  /* adjust height as needed */
+  overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: #222;
 }
