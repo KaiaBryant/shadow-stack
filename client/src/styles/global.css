@@ -1,7 +1,50 @@
-html, body {
-    background-color: #0d0d14 !important;
+html,
+body {
+    /* Original */
+    /* background-color: #0d0d14 !important; */
+
+    /* Ally Purple */
+    background: linear-gradient(135deg, #1a0d2e 0%, #2d1b4e 50%, #4a1f7a 100%);
+
+    min-height: 100vh;
     height: 100%;
+    position: relative;
+    overflow-x: hidden;
     margin: 0;
+}
+
+/* Teh personal CSS */
+/* Animated Background Blobs */
+.background-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+.blob-1 {
+    /* Ally Purple */
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 20%);
+
+
+    top: 10%;
+    left: 5%;
+    width: 300px;
+    height: 300px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.blob-2 {
+    /* Ally Purple */
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 30%);
+
+
+    bottom: 10%;
+    right: 5%;
+    width: 400px;
+    height: 400px;
+    filter: blur(80px);
+    animation: float 10s ease-in-out infinite reverse;
 }
 
 footer {
@@ -15,7 +58,8 @@ footer {
 }
 
 .custom-form .mb-3 {
-    margin-bottom: 1rem; /* or 0 if you want no gap */
+    margin-bottom: 1rem;
+    /* or 0 if you want no gap */
 }
 
 .btn-primary {

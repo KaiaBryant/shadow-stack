@@ -16,7 +16,7 @@ function Home() {
                         <p className="lead fs-4 text-secondary mb-5">
                             Built for aspiring analysts, students, and cybersecurity teams who want practical learning — not boring theory.
                         </p>
-                        <button className="btn btn-primary btn-lg px-5 py-3 fw-semibold" onClick={() => navigate('/createuser')}>
+                        <button className="home-btn btn-lg px-5 py-3 fw-semibold" onClick={() => navigate('/createuser')}>
                             Get Started
                         </button>
                     </div>

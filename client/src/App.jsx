@@ -25,6 +25,10 @@ function RequireAdminAuth({ children }) {
 function App() {
   return (
     <Router>
+      {/* Background blobs */}
+      <div className="background-blob blob-1"></div>
+      <div className="background-blob blob-2"></div>
+
       {/* Flex column layout that fills the viewport */}
       <div className="d-flex flex-column min-vh-100">
         <Header />
