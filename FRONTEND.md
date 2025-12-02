@@ -25,7 +25,12 @@ Simulator.jsx
 
 Leaderboard.jsx
 
-
+Colors
+- Buttons: background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+- Title: White
+- Subtitle: 
+- Links: #60a5fa
+- 
 
 BOOTSTRAP
 - Version 5.3

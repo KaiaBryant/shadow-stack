@@ -19,9 +19,9 @@ function CharacterSelection() {
             body: JSON.stringify({ user_id: Number(user_id), character_id }),
         });
 
-        if (!response.ok) {
-            throw new Error("Failed to save character");
-        }
+        // if (!response.ok) {
+        //     throw new Error("Failed to save character");
+        // }
 
         return response.json();
     };
@@ -86,9 +86,9 @@ function CharacterSelection() {
     return (
         <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 ">
 
-            <h2 className="char-selection-title display-1 fw-bold mb-2">Welcome, {username}!</h2>
+            <h2 className="text-white char-selection-title display-1 fw-bold mb-2">Welcome, {username}!</h2>
 
-            <h1 className="display-6 fw-bold mb-5">
+            <h1 className="text-white display-6 fw-bold mb-5">
                 Select Your Character
             </h1>
 
@@ -108,7 +108,7 @@ function CharacterSelection() {
                                 <span className="text-muted fs-5">{character.name}</span>
                             </div>
                             {character.position === 0 && (
-                                <p className="mt-3 fw-semibold text-dark">{character.name}</p>
+                                <p className="mt-3 fw-semibold text-white">{character.name}</p>
                             )}
                         </div>
                     ))}
@@ -124,7 +124,7 @@ function CharacterSelection() {
             </div>
 
             <button
-                className="btn btn-primary btn-lg px-5 py-3 fw-semibold mt-5"
+                className="charselect-btn btn-lg px-5 py-3 fw-semibold mb-5"
                 onClick={handleSelectCharacter}
             >
                 Select Character

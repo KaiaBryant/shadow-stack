@@ -6,7 +6,14 @@
 
 .footer-container {
     padding: 1rem 1.5rem;
-    background-color: #614aeb;
+    /* Original
+    background-color: #614aeb; */
+
+    color: white;
+    background: rgba(10, 10, 10, .4);
+    backdrop-filter: blur(10px);
+    /*blur behind navbar*/
+    border-top: 4px solid rgba(0, 0, 0, .9) inset;
 }
 
 .admin-btn {
