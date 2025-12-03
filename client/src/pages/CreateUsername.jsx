@@ -118,7 +118,7 @@ function CreateUser() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn custom-submit-btn btn-primary">
           {loading ? "Saving..." : "Submit"}
         </button>
       </form>

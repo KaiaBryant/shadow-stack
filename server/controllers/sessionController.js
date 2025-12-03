@@ -1,5 +1,25 @@
 import pool from "../db.js";
 
+
+// Helper: end session internally
+const markSessionInactive = (session_id) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+            UPDATE user_sessions
+            SET is_active = FALSE, updated_at = NOW()
+            WHERE id = ?
+            `,
+            [session_id],
+            (err) => {
+                if (err) reject(err);
+                else resolve();
+            }
+        );
+    });
+};
+
+
 // Start session 
 export const startSession = (req, res) => {
     const { user_id } = req.body;
@@ -27,54 +47,114 @@ export const startSession = (req, res) => {
 };
 
 // Update session 
-export const updateSession = (req, res) => {
+export const updateSession = async (req, res) => {
     const { session_id, current_level, lives_remaining, attempts_remaining } = req.body;
 
     if (!session_id) {
         return res.status(400).json({ error: "session_id is required" });
     }
 
-    const query = `
-        UPDATE user_sessions
-        SET current_level = ?, lives_remaining = ?, attempts_remaining = ?, updated_at = NOW()
-        WHERE id = ?
-    `;
-
-    pool.query(query,
-        [current_level, lives_remaining, attempts_remaining, session_id],
-        (err) => {
-            if (err) {
-                console.error("Error updating session:", err);
-                return res.status(500).json({ error: "Failed to update session" });
-            }
-            res.json({ message: "Session updated" });
+    try {
+        // Condition 1 — lose all lives
+        if (lives_remaining <= 0) {
+            await markSessionInactive(session_id);
+            return res.json({ message: "Session ended (out of lives)" });
         }
-    );
+
+        // Condition 2 — finishes the game 
+        if (current_level > 7) {
+            await markSessionInactive(session_id);
+            return res.json({ message: "Game completed — session ended" });
+        }
+
+        const query = `
+            UPDATE user_sessions
+            SET current_level = ?, lives_remaining = ?, attempts_remaining = ?, 
+                updated_at = NOW()
+            WHERE id = ?
+        `;
+
+        pool.query(
+            query,
+            [current_level, lives_remaining, attempts_remaining, session_id],
+            (err) => {
+                if (err) {
+                    console.error("Error updating session:", err);
+                    return res.status(500).json({ error: "Failed to update session" });
+                }
+                res.json({ message: "Sessions updated" });
+            }
+        );
+    } catch (err) {
+        console.error("Update session error:", err);
+        res.status(500).json({ error: "Server error updating session" });
+    }
 };
 
-// End session
-export const endSession = (req, res) => {
+
+// Manual logout -> ends session
+export const endSession = async (req, res) => {
     const { session_id } = req.body;
 
     if (!session_id) {
         return res.status(400).json({ error: "session_id is required" });
     }
 
+    try {
+        await markSessionInactive(session_id);
+        res.json({ message: "Session ended (by logout)" });
+    } catch (err) {
+        console.error("Error ending session:", err);
+        res.status(500).json({ error: "Failed to end session" });
+    }
+};
+
+
+// Auto-expire inactive sessions > 60 min
+export const expireOldSessions = (req, res) => {
     const query = `
         UPDATE user_sessions
-        SET is_active = FALSE, updated_at = NOW()
-        WHERE id = ?
+        SET is_active = FALSE
+        WHERE is_active = TRUE
+        AND updated_at < NOW() - INTERVAL 60 MINUTE
     `;
 
-    pool.query(query, [session_id], (err) => {
+    pool.query(query, (err, result) => {
         if (err) {
-            console.error("Error ending session:", err);
-            return res.status(500).json({ error: "Failed to end session" });
+            console.error("Error expiring sessions:", err);
+            return res.status(500).json({ error: "Failed to expire old sessions" });
         }
 
-        res.json({ message: "Session ended" });
+        res.json({
+            message: "Old sessions expired",
+            affected: result.affectedRows
+        });
     });
 };
+
+// // End session
+// export const endSession = (req, res) => {
+//     const { session_id } = req.body;
+
+//     if (!session_id) {
+//         return res.status(400).json({ error: "session_id is required" });
+//     }
+
+//     const query = `
+//         UPDATE user_sessions
+//         SET is_active = FALSE, updated_at = NOW()
+//         WHERE id = ?
+//     `;
+
+//     pool.query(query, [session_id], (err) => {
+//         if (err) {
+//             console.error("Error ending session:", err);
+//             return res.status(500).json({ error: "Failed to end session" });
+//         }
+
+//         res.json({ message: "Session ended" });
+//     });
+// };
 
 // Admin + get all session
 export const getAllSessions = (req, res) => {

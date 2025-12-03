@@ -1,4 +1,15 @@
 .navbar {
+    background-color: #614aeb;
+}
+
+.logout-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    border: none;
+    background: #222;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
     color: white;
     background: rgba(10, 10, 10, .4);
     backdrop-filter: blur(10px);
@@ -12,12 +23,12 @@
 }
 
 .nav-link:hover {
-    color: #60a5fa !important;
+     color: #C5BAFF !important;
 }
 
 /* Active Link State */
 .nav-link.active {
-    color: #60a5fa !important;
+    color: #C5BAFF !important;
 }
 
 .nav-link:hover::after {
@@ -27,4 +38,23 @@
 /* Active link always shows underline */
 .nav-link.active::after {
     width: 100%;
+}
+
+/* Responsive navbar tweaks */
+@media (max-width: 768px) {
+  .navbar {
+    padding-inline: 0.75rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0;
+  }
 }
