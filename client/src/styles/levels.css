@@ -161,3 +161,26 @@
     font-size: 0.8rem;
   }
 }
+
+.background-levels {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.levels-animation {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  pointer-events: none; /* so clicks go through to the buttons */
+}
+
+.levels-wrapper {
+  position: relative;
+  z-index: 1;
+}
