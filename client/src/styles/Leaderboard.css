@@ -158,3 +158,87 @@
     background-color: #4a5568;
     border-radius: 4px;
 }
+
+/* Responsive layout for leaderboard */
+@media (max-width: 992px) {
+  .leaderboard-container {
+    padding: 20px 16px;
+  }
+
+  .leaderboard-list {
+    max-width: 100%;
+  }
+
+  .leaderboard-item {
+    padding: 18px 20px;
+  }
+
+  .progress-bar-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .leaderboard-container {
+    padding: 16px 12px;
+  }
+
+  .leaderboard-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .item-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .podium-card {
+    padding: 24px 16px;
+  }
+
+  .podium-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .podium-avatar-first {
+    width: 100px;
+    height: 100px;
+  }
+
+  .podium-points-first {
+    font-size: 1.6rem;
+  }
+
+  .podium-points-other {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .leaderboard-item {
+    padding: 14px 16px;
+  }
+
+  .item-left {
+    gap: 0.75rem;
+  }
+
+  .item-rank-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .item-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .podium-card-first {
+    margin-bottom: 20px;
+  }
+}
