@@ -5,6 +5,9 @@ import { characters } from "../data/characters";
 // import { leaderboardData } from '../data/leaderboardData';
 
 function Leaderboard() {
+    // State Management for Score Tracker
+    const [score, setScore] = useState(0);
+    
     // const [timeFilter, setTimeFilter] = useState('This Week');
     const [leaders, setLeaders] = useState([]);
 
