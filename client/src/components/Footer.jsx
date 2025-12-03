@@ -10,8 +10,15 @@ import TikTokIcon from "../assets/tiktok.svg";
 
 
 function Footer() {
-
     const navigate = useNavigate();
+    const username = localStorage.getItem("username");
+    const sessionId = localStorage.getItem("session_id");
+    const adminToken = localStorage.getItem("admin_token");
+
+    // Admin button should show ONLY when NO username
+    const showAdminButton = !username && !sessionId;
+
+
     return (
         <footer>
             <div className="footer-container d-flex align-items-center">
@@ -45,7 +52,14 @@ function Footer() {
                         />
                     </div>
                 </div>
-                <button className="admin-btn ms-3" onClick={() => navigate('/login')}>Admin</button>
+               {showAdminButton && (
+                <button
+                className="admin-btn"
+                onClick={() => navigate("/login")}
+                >
+                Admin
+                </button>
+                )}
             </div>
         </footer>
     );

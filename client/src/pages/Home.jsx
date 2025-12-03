@@ -4,6 +4,19 @@ import "../styles/Home.css"
 function Home() {
     const navigate = useNavigate();
 
+    const handleGetStarted = () => {
+    const username = localStorage.getItem("username"); 
+    const maxUnlocked = localStorage.getItem("maxUnlockedLevel");
+
+    if (username && maxUnlocked) {
+      // User has already created a profile and started playing
+      navigate("/levels");
+    } else {
+      // New user — start onboarding
+      navigate("/createuser");
+    }
+  };
+
     return (
         <div className="d-flex align-items-center justify-content-center min-vh-100">
             <div className="container">
@@ -16,7 +29,7 @@ function Home() {
                         <p className="subhead fs-4 mb-5">
                             Built for aspiring analysts, students, and cybersecurity teams who want practical learning — not boring theory.
                         </p>
-                        <button className="home-btn btn-lg px-5 py-3" onClick={() => navigate('/createuser')}>
+                        <button className="home-btn btn-lg px-5 py-3" onClick={handleGetStarted}>
                             Get Started
                         </button>
                     </div>
