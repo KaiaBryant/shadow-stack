@@ -30,7 +30,9 @@ Colors
 - Title: White
 - Subtitle: 
 - Links: #60a5fa
-- 
+- background: white;
+- color: purple;
+- hover #C5BAFF
 
 BOOTSTRAP
 - Version 5.3
