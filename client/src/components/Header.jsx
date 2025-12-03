@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 
 import { useNavigate } from "react-router-dom";
@@ -39,15 +39,13 @@ function Header() {
 
     return (
         <nav className="navbar">
-
-
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">Logo</Link>
                 <div className="ms-auto d-flex gap-5">
-                    <Link to="/" className="nav-link fw-semibold fs-5 text-white">Home</Link>
-                    <Link to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">Leaderboard</Link>
+                    <NavLink to="/" className="nav-link fw-semibold fs-5 text-white">Home</NavLink>
+                    <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">Leaderboard</NavLink>
                     <div className="header-logout">
-                        {showLogout && !adminToken && (
+                        {showLogout && (
                             <button className="logout-btn me-3" onClick={handleLogout}>
                                 Logout
                             </button>

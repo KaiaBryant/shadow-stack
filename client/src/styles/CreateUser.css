@@ -74,6 +74,31 @@ body {
     opacity: 0.8;
 }
 
+.custom-error-box {
+    background: rgba(255, 70, 70, 0.15);
+    border-left: 4px solid #ff4c4c;
+    color: #ffb3b3;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.custom-success-box {
+    background: rgba(0, 255, 120, 0.15);
+    border-left: 4px solid #1eff95;
+    color: #b3ffd7;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+
 /* Responsive form layout */
 @media (max-width: 768px) {
   .custom-form-wrapper {
