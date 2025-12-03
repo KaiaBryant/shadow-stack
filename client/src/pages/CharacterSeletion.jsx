@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { characters } from '../data/characters';
-import '../styles/CharacterSelection.css'
+import '../styles/CharacterSelection.css';
 
 function CharacterSelection() {
     const navigate = useNavigate();
+    const [characters, setCharacters] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(2);
 
     // Retrieve username from session
     const username = localStorage.getItem("username");
     const user_id = localStorage.getItem("user_id");
+
+    // Fetch characters from backend
+    useEffect(() => {
+        fetch("http://localhost:5000/api/characters")
+            .then(res => res.json())
+            .then(data => {
+                setCharacters(data);
+                setCurrentIndex(0);
+            })
+            .catch(err => console.error("Error loading characters:", err));
+    }, []);
+
 
     // Save character to DB
     const saveCharacter = async (character_id) => {
@@ -18,10 +30,6 @@ function CharacterSelection() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_id: Number(user_id), character_id }),
         });
-
-        // if (!response.ok) {
-        //     throw new Error("Failed to save character");
-        // }
 
         return response.json();
     };
@@ -84,9 +92,10 @@ function CharacterSelection() {
     const visibleCharacters = getVisibleCharacters();
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 ">
-
-            <h2 className="text-white char-selection-title display-1 fw-bold mb-2">Welcome, {username}!</h2>
+        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
+            <h2 className="text-white char-selection-title display-1 fw-bold mb-2">
+                Welcome, {username}!
+            </h2>
 
             <h1 className="text-white display-6 fw-bold mb-5">
                 Select Your Character
@@ -94,6 +103,7 @@ function CharacterSelection() {
 
             <div className="character-slider-container position-relative">
                 <div className="d-flex justify-content-center align-items-center h-100 position-relative">
+
                     {visibleCharacters.map((character) => (
                         <div
                             key={character.id}
@@ -105,20 +115,29 @@ function CharacterSelection() {
                             onClick={() => handleCardClick(character.position)}
                         >
                             <div className="character-box border border-3 border-dark rounded bg-white shadow-lg d-flex align-items-center justify-content-center">
-                                <span className="text-muted fs-5">{character.name}</span>
+                                <img
+                                    src={character.url}
+                                    alt={character.character_name}
+                                    className="character-avatar-img"
+                                />
                             </div>
-                            {character.position === 0 && (
-                                <p className="mt-3 fw-semibold text-white">{character.name}</p>
-                            )}
                         </div>
                     ))}
+
                 </div>
 
                 {/* Navigation Buttons */}
-                <button className="btn btn-dark btn-lg position-absolute top-50 start-0 translate-middle-y nav-btn-left" onClick={handlePrevious}>
+                <button
+                    className="btn btn-dark btn-lg position-absolute top-50 start-0 translate-middle-y nav-btn-left"
+                    onClick={handlePrevious}
+                >
                     &#8592;
                 </button>
-                <button className="btn btn-dark btn-lg position-absolute top-50 end-0 translate-middle-y nav-btn-right" onClick={handleNext}>
+
+                <button
+                    className="btn btn-dark btn-lg position-absolute top-50 end-0 translate-middle-y nav-btn-right"
+                    onClick={handleNext}
+                >
                     &#8594;
                 </button>
             </div>
