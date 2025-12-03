@@ -27,6 +27,9 @@ function Simulator() {
     // State Management for Score Tracker
     const [score, setScore] = useState(0);
     const [sessionScore, setSessionScore] = useState(0); // Score for current session
+    
+    // Track if level was already completed (for anti-farming message)
+    const [levelAlreadyCompleted, setLevelAlreadyCompleted] = useState(false);
 
     const QUESTIONS_TO_COMPLETE = 5;
 
@@ -40,6 +43,7 @@ function Simulator() {
         if (selectedLevel) {
             fetchQuestion(selectedLevel);
             setCurrentLevelNumber(selectedLevel);
+            setLevelAlreadyCompleted(false); // Reset for new level
         }
     }, [selectedLevel]);
 
@@ -62,7 +66,7 @@ function Simulator() {
     };
 
     // Handles user's answer selection
-    const handleAnswerSelect = (answer) => {
+    const handleAnswerSelect = async (answer) => {
         setSelectedAnswer(answer);
         setShowExplanation(true);
         setQuestionsAnswered(prev => prev + 1);
@@ -70,12 +74,33 @@ function Simulator() {
         const isCorrect = answer === currentQuestion.correct_answer;
 
         if (isCorrect) {
-            setCorrectAnswers(prev => prev + 1);
+            const newCorrectAnswers = correctAnswers + 1;
+            setCorrectAnswers(newCorrectAnswers);
 
             // Add points for correct answer
             const points = getPointsForLevel(currentLevelNumber);
             setScore(prev => prev + points);
             setSessionScore(prev => prev + points);
+
+            // Check if this is the 5th correct answer (level completion)
+            if (newCorrectAnswers >= QUESTIONS_TO_COMPLETE) {
+                // Check if level was already completed
+                const userId = localStorage.getItem('user_id');
+                if (userId) {
+                    try {
+                        const response = await axios.get(
+                            `http://localhost:5000/api/leaderboard/check-completion?user_id=${userId}&level=${currentLevelNumber}`
+                        );
+                        
+                        if (response.data.completed) {
+                            console.log('ℹ️ Level already completed - setting flag');
+                            setLevelAlreadyCompleted(true);
+                        }
+                    } catch (err) {
+                        console.error('Error checking completion:', err);
+                    }
+                }
+            }
         } else {
             setThreatLevel(prev => Math.min(3, prev + 1));
         }
@@ -93,7 +118,7 @@ function Simulator() {
         return false;
     };
 
-    // Submit score to leaderboard
+    // Submit score to leaderboard - returns completion status
     const submitScoreToLeaderboard = async () => {
         // Get user info from localStorage
         const username = localStorage.getItem('username');
@@ -109,14 +134,13 @@ function Simulator() {
 
         if (!username) {
             console.error('No username found in localStorage');
-            alert('Please create a username first!');
-            return;
+            return { already_completed: false };
         }
 
         // Don't submit if score is 0
         if (sessionScore === 0) {
             console.log('No score to submit (0 points)');
-            return;
+            return { already_completed: false };
         }
 
         try {
@@ -134,14 +158,13 @@ function Simulator() {
 
             console.log('✅ Score submitted successfully:', response.data);
 
-            // Check if level was already completed
-            if (response.data.already_completed) {
-                console.log('ℹ️ Level already completed - no points awarded');
-                // Optionally show a message to the user
-                alert('You have already completed this level. No additional points awarded.');
-            }
+            // Return whether level was already completed
+            return { 
+                already_completed: response.data.already_completed || false 
+            };
         } catch (err) {
             console.error('❌ Error submitting score:', err.response?.data || err.message);
+            return { already_completed: false };
         }
     };
 
@@ -162,9 +185,22 @@ function Simulator() {
 
     // Handles level completion logic
     const handleCompleteLevel = async () => {
-        // Submit score to leaderboard
-        await submitScoreToLeaderboard();
+        // If already completed flag is set, just return to menu
+        if (levelAlreadyCompleted) {
+            navigate('/levels');
+            return;
+        }
 
+        // Submit score to leaderboard and get completion status
+        const result = await submitScoreToLeaderboard();
+        
+        // If level was already completed, don't proceed to next level
+        if (result.already_completed) {
+            console.log('ℹ️ Level already completed - not unlocking next level');
+            return; // Stay on current screen - user will see the warning message
+        }
+
+        // Level is newly completed - proceed with unlocking
         const unlocked = unlockNextLevel(currentLevelNumber);
 
         // If there's a next level, go to it; otherwise return to levels menu
@@ -178,6 +214,8 @@ function Simulator() {
             setSelectedAnswer(null);
             setShowExplanation(false);
             setCurrentLevelNumber(nextLevel);
+            setSessionScore(0); // Reset session score for new level
+            setLevelAlreadyCompleted(false); // Reset flag for new level
 
             // Fetch first question of next level
             fetchQuestion(nextLevel);
@@ -190,7 +228,7 @@ function Simulator() {
     // Navigates back to the level selection menu
     const handleBackToLevels = async () => {
         // Submit score if user completed at least one question
-        if (sessionScore > 0) {
+        if (sessionScore > 0 && !levelAlreadyCompleted) {
             await submitScoreToLeaderboard();
         }
         navigate('/levels');
@@ -355,14 +393,22 @@ function Simulator() {
                             {showExplanation && (
                                 <div className="explanation-section">
                                     {correctAnswers >= QUESTIONS_TO_COMPLETE ? (
-                                        <div className="result-banner completion-banner d-flex align-items-center">
-                                            <span className="result-text">
-                                                🎉 Congratulations! You've completed Level {currentQuestion.level}!
-                                                {currentLevelNumber < 7 ? ' Moving to next level...' : ' You completed all levels!'}
-                                            </span>
-                                        </div>
+                                        levelAlreadyCompleted ? (
+                                            <div className="result-banner completion-banner d-flex align-items-center text-white" style={{ backgroundColor: '#f59e0b' }}>
+                                                <span className="result-text">
+                                                    ⚠️ You have already completed this level. No points awarded.
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <div className="result-banner completion-banner d-flex align-items-center text-white">
+                                                <span className="result-text">
+                                                    🎉 Congratulations! You've completed Level {currentQuestion.level}!
+                                                    {currentLevelNumber < 7 ? ' Moving to next level...' : ' You completed all levels!'}
+                                                </span>
+                                            </div>
+                                        )
                                     ) : threatLevel === 3 ? (
-                                        <div className="result-banner game-over-banner d-flex align-items-center">
+                                        <div className="result-banner game-over-banner d-flex align-items-center text-white">
                                             <span className="result-text">
                                                 ⚠️ Maximum Threat Level Reached! Game Over.
                                             </span>
@@ -395,7 +441,7 @@ function Simulator() {
 
                                     <div className="action-buttons d-flex">
                                         {correctAnswers >= QUESTIONS_TO_COMPLETE ? (
-                                            currentLevelNumber < 7 ? (
+                                            currentLevelNumber < 7 && !levelAlreadyCompleted ? (
                                                 <button className="next-question-button completion-button" onClick={handleCompleteLevel}>
                                                     Continue to Next Level →
                                                 </button>
