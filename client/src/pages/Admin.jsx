@@ -214,7 +214,7 @@ function AdminDashboard() {
                     ) : users.length === 0 ? (
                         <p className="text-light">No users found.</p>
                     ) : (
-                        <div className="table-responsive mb-4">
+                        <div className="scroll-container mb-4">
                             <table className="table table-dark table-striped table-hover align-middle mb-0">
                                 <thead>
                                     <tr>
@@ -246,6 +246,7 @@ function AdminDashboard() {
                                 </tbody>
                             </table>
                         </div>
+
                     )}
 
                     {/* Sessions List */}
@@ -256,7 +257,7 @@ function AdminDashboard() {
                     ) : sessions.length === 0 ? (
                         <p className="text-light">No sessions found.</p>
                     ) : (
-                        <div className="table-responsive">
+                        <div className="table-responsive scroll-container mb-4">
                             <table className="table table-dark table-striped table-hover align-middle mb-0">
                                 <thead>
                                     <tr>

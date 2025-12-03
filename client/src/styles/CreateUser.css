@@ -1,10 +1,10 @@
-html,
+/* html,
 body {
     margin: 0;
     padding: 0;
     background-color: #0d0d14;
     height: 100%;
-}
+} */
 
 .custom-form-wrapper {
     min-height: 100vh;
@@ -42,7 +42,7 @@ body {
 }
 
 .custom-form-control:focus {
-    border-color: #6c63ff !important;
+    border-color: white !important;
     box-shadow: none !important;
     outline: none;
 }
@@ -54,19 +54,55 @@ body {
     font-size: 1rem;
     border-radius: 6px;
     font-weight: 600;
-    background-color: #614aeb;
-    color: white;
+    background-color: white !important;
+    color: purple;
     border: none;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .custom-form .custom-btn:hover,
 .custom-form .btn-primary:hover {
     opacity: 0.9;
+    color: purple;
+    background-color: #C5BAFF !important; 
 }
 
 .custom-form .custom-btn:active,
 .custom-form .btn-primary:active {
     opacity: 0.8;
+}
+
+/* Responsive form layout */
+@media (max-width: 768px) {
+  .custom-form-wrapper {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
+
+  .custom-form {
+    padding: 1.75rem 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-form {
+    padding: 1.5rem 1.25rem;
+    border-radius: 10px;
+  }
+
+  .custom-form-label {
+    font-size: 0.9rem;
+  }
+
+  .custom-form-control {
+    font-size: 0.9rem;
+  }
+
+  .custom-form .custom-btn,
+  .custom-form .btn-primary {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
 }

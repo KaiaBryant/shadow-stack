@@ -1,8 +1,19 @@
 .character-slider-container {
     width: 100%;
     max-width: 1000px;
-    height: 400px;
+
+    /* Let content define the height */
+    height: auto;
+    min-height: 330px;
+
+    /* Stack the inner content nicely */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 }
+
 
 .character-card {
     width: 250px;
@@ -33,14 +44,15 @@
 }
 
 .character-card.side .character-box:hover {
-    border-color: #0d6efd;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-color: #C5BAFF;
+    box-shadow: 0 8px 16px #C5BAFF;
 }
 
 .nav-btn-left,
 .nav-btn-right {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background-color: white !important;
     transition: all 0.3s ease;
+    color: purple !important;
 }
 
 .nav-btn-left {
@@ -54,23 +66,86 @@
 .nav-btn-left:hover,
 .nav-btn-right:hover {
     /* transform: translateY(-2px); */
-    background-color: #000;
+    background-color: rgb(219, 217, 217) !important;
+    border-color: white !important;
 }
 
 .charselect-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
+    background: white;
+    color: purple;
     min-width: 200px;
     padding: 16px 32px;
     border-radius: 12px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
+    margin-top: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .charselect-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 15px #C5BAFF;
+}
+
+/* Character selection responsiveness */
+@media (max-width: 992px) {
+ .character-slider-container {
+    height: auto;
+    max-width: 100%;
+}
+
+
+
+  .character-card {
+    width: 220px;
+    height: 320px;
+  }
+
+  .character-box {
+    height: 270px;
+  }
+}
+
+@media (max-width: 768px) {
+  .character-slider-container {
+    height: auto;
+  }
+
+  .character-card {
+    width: 200px;
+    height: 300px;
+  }
+
+  .character-box {
+    height: 250px;
+  }
+
+  .nav-btn-left,
+  .nav-btn-right {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .charselect-btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .character-card {
+    width: 170px;
+    height: 270px;
+  }
+
+  .character-box {
+    height: 220px;
+  }
+
+  .character-card.side:hover {
+    transform: none; /* avoid big jump on tiny screens */
+  }
 }
