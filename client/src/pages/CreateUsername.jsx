@@ -76,7 +76,7 @@ function CreateUser() {
     } catch (error) {
       if (error.type === "USERNAME_EXISTS") {
         setError("This username already exists.");
-        setMessage("Click below to continue as this user.");
+        setMessage("Click above to continue as this user.");
         setExistingUserId(error.existing_user_id); // store ID in state
         setLoading(false);
         return;
