@@ -43,7 +43,7 @@ function CreateUser() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // stop page refresh
+    e.preventDefault();
     if (!username.trim()) {
       alert("Please enter a username.");
       return;
@@ -56,12 +56,13 @@ function CreateUser() {
       let newUser = await createUser(username);
       let userId = newUser.id;
 
-      localStorage.setItem("username", newUser.username); // saves username
-      localStorage.setItem("user_id", newUser.id); // saves users id
+      // Convert to string explicitly
+      localStorage.setItem("username", newUser.username);
+      localStorage.setItem("user_id", String(userId));
 
       // Start session
       const session = await startSession(userId);
-      localStorage.setItem("session_id", session.session_id);
+      localStorage.setItem("session_id", String(session.session_id));
 
       navigate("/character-select");
     } catch (error) {
@@ -71,16 +72,16 @@ function CreateUser() {
           "This username already exists. Continue as this user?"
         );
 
-        // If user already exists
         if (continueAsUser) {
           const userId = error.existing_user_id;
 
+          // Convert to string explicitly
           localStorage.setItem("username", username);
-          localStorage.setItem("user_id", userId);
+          localStorage.setItem("user_id", String(userId));
 
           // Start session for return user
           const session = await startSession(userId);
-          localStorage.setItem("session_id", session.session_id);
+          localStorage.setItem("session_id", String(session.session_id));
 
           navigate("/character-select");
         } else {
@@ -95,7 +96,6 @@ function CreateUser() {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="custom-form-wrapper">

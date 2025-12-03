@@ -95,28 +95,53 @@ function Simulator() {
 
     // Submit score to leaderboard
     const submitScoreToLeaderboard = async () => {
-        // Get username from localStorage or prompt user
-        let username = localStorage.getItem('username');
+        // Get user info from localStorage
+        const username = localStorage.getItem('username');
+        const userId = localStorage.getItem('user_id');
+        const characterId = localStorage.getItem('selected_character_id') || 1;
+
+        console.log('=== SUBMITTING TO LEADERBOARD ===');
+        console.log('Username:', username);
+        console.log('User ID:', userId);
+        console.log('Character ID:', characterId);
+        console.log('Session Score:', sessionScore);
+        console.log('Current Level:', currentLevelNumber);
 
         if (!username) {
-            username = prompt('Enter your username for the leaderboard:');
-            if (username) {
-                localStorage.setItem('username', username);
-            } else {
-                return; // Do not submit score if no username provided
-            }
+            console.error('No username found in localStorage');
+            alert('Please create a username first!');
+            return;
+        }
+
+        // Don't submit if score is 0
+        if (sessionScore === 0) {
+            console.log('No score to submit (0 points)');
+            return;
         }
 
         try {
-            await axios.post('http://localhost:5000/api/leaderboard', {
+            const payload = {
+                user_id: userId ? parseInt(userId) : null,
                 username: username,
                 score: sessionScore,
                 level_completed: currentLevelNumber,
-                character_id: 1 // Default character
-            });
-            console.log('Score submitted successfully');
+                character_id: characterId ? parseInt(characterId) : 1
+            };
+
+            console.log('Payload being sent:', payload);
+
+            const response = await axios.post('http://localhost:5000/api/leaderboard', payload);
+
+            console.log('✅ Score submitted successfully:', response.data);
+
+            // Check if level was already completed
+            if (response.data.already_completed) {
+                console.log('ℹ️ Level already completed - no points awarded');
+                // Optionally show a message to the user
+                alert('You have already completed this level. No additional points awarded.');
+            }
         } catch (err) {
-            console.error('Error submitting score:', err);
+            console.error('❌ Error submitting score:', err.response?.data || err.message);
         }
     };
 
