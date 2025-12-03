@@ -12,6 +12,7 @@ function Leaderboard() {
     const [leaders, setLeaders] = useState([]);
 
     useEffect(() => {
+        // May need to change the link of deployment link later after 5000
         fetch("http://localhost:5000/api/leaderboard")
             .then((res) => res.json())
             .then((data) => setLeaders(data))
