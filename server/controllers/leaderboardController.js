@@ -19,6 +19,30 @@ export const getLeaderboard = (req, res) => {
     });
 };
 
+// GET /api/leaderboard/check-completion
+export const checkLevelCompletion = (req, res) => {
+    const { user_id, level } = req.query;
+
+    if (!user_id || !level) {
+        return res.status(400).json({ error: "user_id and level are required" });
+    }
+
+    const query = `
+        SELECT user_id, level FROM user_level_completions
+        WHERE user_id = ? AND level = ?
+        LIMIT 1
+    `;
+
+    pool.query(query, [user_id, level], (err, rows) => {
+        if (err) {
+            console.error("Error checking completion:", err);
+            return res.status(500).json({ error: "Failed to check completion" });
+        }
+
+        res.json({ completed: rows.length > 0 });
+    });
+};
+
 // POST /api/leaderboard
 export const submitScore = (req, res) => {
     const { user_id, username, score, level_completed, character_id } = req.body;
@@ -38,8 +62,9 @@ export const submitScore = (req, res) => {
     }
 
     // CRITICAL: Check if user has already completed this level
+    // Fixed: Select user_id and level instead of id
     const checkLevelQuery = `
-        SELECT id FROM user_level_completions
+        SELECT user_id, level FROM user_level_completions
         WHERE user_id = ? AND level = ?
         LIMIT 1
     `;
@@ -54,7 +79,7 @@ export const submitScore = (req, res) => {
             // User has already completed this level - DON'T AWARD POINTS
             console.log(`User ${user_id} already completed level ${level_completed}`);
             return res.json({
-                message: "Level already completed. No points awarded.",
+                message: `🎉 Congratulations! You've completed Level ${level_completed}`,
                 already_completed: true,
                 level: level_completed,
                 username
