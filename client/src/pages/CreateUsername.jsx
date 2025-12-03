@@ -70,7 +70,7 @@ function CreateUser() {
 
       // Start session
       const session = await startSession(userId);
-      localStorage.setItem("session_id", session.session_id);
+      localStorage.setItem("session_id", String(session.session_id));
 
       navigate("/character-select");
     } catch (error) {
