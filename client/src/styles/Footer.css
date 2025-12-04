@@ -1,22 +1,158 @@
-.icons-center {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+/* Footer Main Container */
+.footer {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(59, 130, 246, 0.3);
+    color: #e2e8f0;
+    margin-top: auto;
 }
 
-/* Make footer flex + responsive */
 .footer-container {
-    padding: 1rem 1.5rem;
-    color: white;
-    background: rgba(10, 10, 10, 0.4);
-    backdrop-filter: blur(10px);
-    border-top: 4px solid rgba(0, 0, 0, 0.9) inset;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
 
+/* Footer Sections */
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Left Section - Mission & Socials */
+.footer-left {
+    max-width: 400px;
+}
+
+.footer-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #60a5fa;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, purple 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mission-statement {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    margin: 0 0 1rem 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.social-icons a {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-3px);
+}
+
+.social-icons img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+/* Center Section - Quick Links */
+.footer-center {
+    padding-left: 2rem;
+}
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: purple;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    list-style: none;
+    font-family: "Oxanium", sans-serif !important;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.footer-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #60a5fa;
+    padding-left: 5px;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+/* Right Section - Copyright & Admin */
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.5rem;
+}
+
+.copyright {
+    text-align: right;
+}
+
+.copyright p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+}
+
+.copyright-subtext {
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    margin-top: 0.25rem !important;
 }
 
 .admin-btn, .holiday-btn {
@@ -30,31 +166,91 @@
     font-weight: bold;
 }
 
-/* Prevent generic footer images from blowing up */
-.footer-container img {
-    max-width: 100%;
-    height: auto;
+.admin-btn:hover {
+    transform: translateY(-2px);
 }
 
-/* Explicit size for social icons */
-.social-icon-wrapper img {
-    width: 24px;
-    height: 24px;
-}
-
-/* Stack footer content on phones */
-@media (max-width: 576px) {
+/* Tablet Responsive */
+@media (max-width: 992px) {
     .footer-container {
-        flex-direction: column;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        padding: 2.5rem 1.5rem 1.5rem;
+    }
+
+    .footer-left {
+        grid-column: 1 / -1;
+        max-width: 100%;
+    }
+
+    .footer-center {
+        padding-left: 0;
+    }
+
+    .footer-right {
         align-items: flex-start;
     }
 
-    .icons-center {
-        justify-content: flex-start;
+    .copyright {
+        text-align: left;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 1rem 1rem;
+    }
+
+    .footer-left {
+        text-align: center;
+    }
+
+    .footer-brand {
+        font-size: 1.5rem;
+    }
+
+    .mission-statement {
+        font-size: 0.9rem;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-center {
+        text-align: center;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+
+    .footer-link:hover {
+        padding-left: 0;
+    }
+
+    .footer-right {
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .copyright {
+        text-align: center;
     }
 
     .admin-btn {
         width: 100%;
-        text-align: center;
+        max-width: 250px;
+    }
+
+    .footer-bottom {
+        padding: 1rem;
+    }
+
+    .footer-bottom p {
+        font-size: 0.85rem;
     }
 }
