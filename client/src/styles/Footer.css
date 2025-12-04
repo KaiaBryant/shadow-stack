@@ -19,7 +19,7 @@
     flex-wrap: wrap;
 }
 
-.admin-btn {
+.admin-btn, .holiday-btn {
     padding: 0.4rem 0.9rem;
     border-radius: 6px;
     border: none;

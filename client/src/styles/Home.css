@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap");
+
+
 .home-title {
   font-family: "Orbitron", sans-serif;
   font-optical-sizing: auto;
@@ -13,6 +16,19 @@
 
 .home-title {
     color: #fff;
+	font-size: 6rem;
+	filter: drop-shadow(0px 0px 5px currentColor);
+	
+	&::after {
+		content: '';
+		display: inline-block;
+		width: .2em;
+		height: .7em;
+		background-color: currentColor;
+		margin-left: .1em;
+		animation: blink 1s linear infinite forwards;
+		vertical-align: baseline;
+	}
 }
 
 .home-btn {
@@ -33,6 +49,231 @@
 .home-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 15px #C5BAFF;
+}
+
+h1, h2 {
+    filter: drop-shadow(0px 0px 5px currentColor);
+}
+
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* IMPORTANT: keep transparent so the purple gradient from global.css shows through */
+  background: transparent;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#background > div {
+  --size: 5vw;
+  --symbol: "✽";
+
+  --pos_x: 0vw;
+  --duration_move: 7s;
+  --delay_move: 0s;
+
+  --duration_rotate: 1.5s;
+  --delay_rotate: 0s;
+  --duration_clip: 10s;
+  --delay_clip: 0s;
+  --hue: 0deg;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: clamp(15px, var(--size), 80px);
+  font-family: "Noto Sans Symbols 2", sans-serif;
+  transform-origin: center top;
+  animation: move var(--duration_move) var(--delay_move) linear infinite normal both;
+}
+
+#background span {
+  display: block;
+  position: relative;
+  transform-origin: center;
+  transform: rotate(0deg);
+  animation: rotate var(--duration_rotate) var(--delay_rotate) ease-in-out infinite alternate both;
+}
+
+#background span:after {
+  content: var(--symbol);
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.2);
+  text-stroke: 0.5px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+  position: relative;
+  display: block;
+  color: transparent;
+  background-clip: text;
+  filter: brightness(1.2) hue-rotate(var(--hue));
+  background-image: url(https://images.unsplash.com/photo-1580822115965-0b2532068eff?&ixlib=rb-4.0.3&q=100&w=200&dpr=2);
+  background-position: center;
+  background-size: 200px auto;
+  background-repeat: repeat;
+  transform: translateZ(0);
+  animation: bg1 var(--duration_clip) var(--delay_clip) linear infinite alternate both;
+}
+
+#background > div:nth-child(even) span:after {
+  animation-name: bg2;
+}
+
+/* Keyframes */
+@keyframes bg1 {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes bg2 {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(115deg);
+  }
+  100% {
+    transform: rotate(245deg);
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate3d(var(--pos_x), calc(0vh - var(--size)), 0);
+  }
+  100% {
+    transform: translate3d(var(--pos_x), 100vh, 0);
+  }
+}
+
+/* Symbols variations */
+#background > div:nth-child(23n + 1) { --symbol: "🟄"; }
+#background > div:nth-child(23n + 2) { --symbol: "❉"; }
+#background > div:nth-child(23n + 3) { --symbol: "🟉"; }
+#background > div:nth-child(23n + 4) { --symbol: "❈"; }
+#background > div:nth-child(23n + 5) { --symbol: "✣"; }
+#background > div:nth-child(23n + 6) { --symbol: "🞯"; }
+#background > div:nth-child(23n + 7) { --symbol: "🟎"; }
+#background > div:nth-child(23n + 8) { --symbol: "♦"; }
+#background > div:nth-child(23n + 9) { --symbol: "✢"; }
+#background > div:nth-child(23n + 10) { --symbol: "🞵"; }
+#background > div:nth-child(23n + 11) { --symbol: "✤"; }
+#background > div:nth-child(23n + 12) { --symbol: "✦"; }
+#background > div:nth-child(23n + 13) { --symbol: "❇"; }
+#background > div:nth-child(23n + 14) { --symbol: "🞻"; }
+#background > div:nth-child(23n + 15) { --symbol: "✶"; }
+#background > div:nth-child(23n + 16) { --symbol: "✳"; }
+#background > div:nth-child(23n + 17) { --symbol: "❊"; }
+#background > div:nth-child(23n + 18) { --symbol: "🟄"; }
+#background > div:nth-child(23n + 19) { --symbol: "✻"; }
+#background > div:nth-child(23n + 20) { --symbol: "❋"; }
+#background > div:nth-child(23n + 21) { --symbol: "✷"; }
+#background > div:nth-child(23n + 22) { --symbol: "✴"; }
+
+/* X positions across the screen */
+#background > div:nth-child(21n + 1)  { --pos_x: 5vw; }
+#background > div:nth-child(21n + 2)  { --pos_x: 10vw; }
+#background > div:nth-child(21n + 3)  { --pos_x: 15vw; }
+#background > div:nth-child(21n + 4)  { --pos_x: 20vw; }
+#background > div:nth-child(21n + 5)  { --pos_x: 25vw; }
+#background > div:nth-child(21n + 6)  { --pos_x: 30vw; }
+#background > div:nth-child(21n + 7)  { --pos_x: 35vw; }
+#background > div:nth-child(21n + 8)  { --pos_x: 40vw; }
+#background > div:nth-child(21n + 9)  { --pos_x: 45vw; }
+#background > div:nth-child(21n + 10) { --pos_x: 50vw; }
+#background > div:nth-child(21n + 11) { --pos_x: 55vw; }
+#background > div:nth-child(21n + 12) { --pos_x: 60vw; }
+#background > div:nth-child(21n + 13) { --pos_x: 65vw; }
+#background > div:nth-child(21n + 14) { --pos_x: 70vw; }
+#background > div:nth-child(21n + 15) { --pos_x: 75vw; }
+#background > div:nth-child(21n + 16) { --pos_x: 80vw; }
+#background > div:nth-child(21n + 17) { --pos_x: 85vw; }
+#background > div:nth-child(21n + 18) { --pos_x: 90vw; }
+#background > div:nth-child(21n + 19) { --pos_x: 95vw; }
+#background > div:nth-child(21n + 20) { --pos_x: 100vw; }
+
+/* Color hue shifts */
+#background > div:nth-child(12n + 1)  { --hue: 30deg; }
+#background > div:nth-child(12n + 2)  { --hue: 270deg; }
+#background > div:nth-child(12n + 3)  { --hue: 90deg; }
+#background > div:nth-child(12n + 4)  { --hue: 150deg; }
+#background > div:nth-child(12n + 5)  { --hue: 330deg; }
+#background > div:nth-child(12n + 6)  { --hue: 180deg; }
+#background > div:nth-child(12n + 7)  { --hue: 60deg; }
+#background > div:nth-child(12n + 8)  { --hue: 210deg; }
+#background > div:nth-child(12n + 9)  { --hue: 120deg; }
+#background > div:nth-child(12n + 10) { --hue: 240deg; }
+#background > div:nth-child(12n + 11) { --hue: 300deg; }
+
+/* Stagger move timings */
+#background > div:nth-child(8n + 1) { --delay_move: -4s; }
+#background > div:nth-child(8n + 2) { --delay_move: -5s; }
+#background > div:nth-child(8n + 3) { --delay_move: -6s; }
+#background > div:nth-child(8n + 4) { --delay_move: -1s; }
+#background > div:nth-child(8n + 5) { --delay_move: -2s; }
+#background > div:nth-child(8n + 6) { --delay_move: -3s; }
+#background > div:nth-child(8n + 7) { --delay_move: -7s; }
+
+/* Different fall speeds */
+#background > div:nth-child(9n + 1) { --duration_move: 7.5s; }
+#background > div:nth-child(9n + 2) { --duration_move: 8s; }
+#background > div:nth-child(9n + 3) { --duration_move: 8.5s; }
+#background > div:nth-child(9n + 4) { --duration_move: 9s; }
+#background > div:nth-child(9n + 5) { --duration_move: 5.5s; }
+#background > div:nth-child(9n + 6) { --duration_move: 6s; }
+#background > div:nth-child(9n + 7) { --duration_move: 6.5s; }
+#background > div:nth-child(9n + 8) { --duration_move: 7.8s; }
+
+/* Rotate timing variations */
+#background > div:nth-child(7n + 1) { --delay_rotate: 0.3s; }
+#background > div:nth-child(7n + 2) { --delay_rotate: 0.6s; }
+#background > div:nth-child(7n + 3) { --delay_rotate: 0.9s; }
+#background > div:nth-child(7n + 4) { --delay_rotate: -0.3s; }
+#background > div:nth-child(7n + 5) { --delay_rotate: -0.6s; }
+#background > div:nth-child(7n + 6) { --delay_rotate: -0.9s; }
+
+/* Spin speed variations */
+#background > div:nth-child(6n + 1) { --duration_rotate: 1s; }
+#background > div:nth-child(6n + 2) { --duration_rotate: 1.6s; }
+#background > div:nth-child(6n + 3) { --duration_rotate: 1.1s; }
+#background > div:nth-child(6n + 4) { --duration_rotate: 1.2s; }
+#background > div:nth-child(6n + 5) { --duration_rotate: 1.3s; }
+
+/* Size variations */
+#background > div:nth-child(5n + 1) { --size: 3vw; }
+#background > div:nth-child(5n + 2) { --size: 4vw; }
+#background > div:nth-child(5n + 3) { --size: 6vw; }
+#background > div:nth-child(5n + 4) { --size: 7vw; }
+
+@keyframes blink {
+	0% {
+		visibility: visible;
+	}
+	
+	50% {
+		visibility: visible;
+	}
+	
+	51% {
+		visibility: hidden;
+	}
+	
+	100% {
+		visibility: hidden;
+	}
 }
 
 /* Responsive home hero */
