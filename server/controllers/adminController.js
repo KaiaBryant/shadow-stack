@@ -111,17 +111,62 @@ export const adminGetAllUsers = async (req, res) => {
 // Get all users session
 export const adminGetAllSessions = async (req, res) => {
     try {
-        const sessions = await query(
-            `SELECT * FROM user_sessions ORDER BY created_at DESC`
-        );
+        const sessions = await query(`
+            SELECT 
+                s.id,
+                s.user_id,
+                u.username,
+                s.current_level,
+                s.lives_remaining,
+                s.attempts_remaining,
+                s.is_active,
+            FROM user_sessions s
+            LEFT JOIN users u ON s.user_id = u.id
+            ORDER BY s.created_at DESC
+        `);
 
         res.json(sessions);
-
     } catch (err) {
         console.error("Error fetching sessions:", err);
         res.status(500).json({ error: "Server error loading sessions" });
     }
 };
+
+export const adminGetUserSessionSummary = async (req, res) => {
+    try {
+        const results = await query(`
+            SELECT 
+                u.id AS user_id,
+                u.username,
+                u.character_id,
+
+                s.current_level,
+                s.lives_remaining,
+                s.attempts_remaining,
+                s.is_active,
+                s.created_at AS last_active
+
+            FROM users u
+
+            LEFT JOIN user_sessions s
+                ON s.id = (
+                    SELECT id FROM user_sessions 
+                    WHERE user_id = u.id 
+                    ORDER BY created_at DESC 
+                    LIMIT 1
+                )
+
+            ORDER BY last_active DESC;
+        `);
+
+        res.json(results);
+
+    } catch (err) {
+        console.error("Error loading summary:", err);
+        res.status(500).json({ error: "Failed to load summary" });
+    }
+};
+
 
 
 // Delete users 
