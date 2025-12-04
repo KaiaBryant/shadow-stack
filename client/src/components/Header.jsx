@@ -39,6 +39,8 @@ function Header() {
 
     return (
         <nav className="navbar">
+
+
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">Logo</Link>
                 <div className="ms-auto d-flex gap-5">
@@ -46,7 +48,7 @@ function Header() {
                     <NavLink to="/levels" className="nav-link fw-semibold fs-5 text-white">Levels</NavLink>
                     <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">Leaderboard</NavLink>
                     <div className="header-logout">
-                        {showLogout && (
+                        {showLogout && !adminToken && (
                             <button className="logout-btn me-3" onClick={handleLogout}>
                                 Logout
                             </button>
