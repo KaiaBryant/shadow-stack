@@ -7,19 +7,12 @@ import GitHubIcon from "../assets/github.svg";
 import LinkedInIcon from "../assets/linkedin.svg";
 import TikTokIcon from "../assets/tiktok.svg";
 
-<<<<<<< HEAD
-function Footer() {
-    const navigate = useNavigate();
-    const username = localStorage.getItem("username");
-    const sessionId = localStorage.getItem("session_id");
-=======
 function Footer({ holidayMode, onToggleHoliday }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const username = localStorage.getItem("username");
   const sessionId = localStorage.getItem("session_id");
->>>>>>> fb02845b30dbd52bd1a86efce54606da3f8dd0df
 
   // Only show Admin when NO username / session
   const showAdminButton = !username && !sessionId;
@@ -28,8 +21,6 @@ function Footer({ holidayMode, onToggleHoliday }) {
   const onHome = location.pathname === "/";
   const showToggle = onHome && typeof onToggleHoliday === "function";
 
-<<<<<<< HEAD
-=======
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -60,75 +51,36 @@ function Footer({ holidayMode, onToggleHoliday }) {
           </div>
           {/* Holiday Toggle Button */}
           {showToggle && (
-            <button
-              className="holiday-btn"
-              onClick={onToggleHoliday}
-            >
+            <button className="holiday-btn" onClick={onToggleHoliday}>
               {holidayMode ? "Disable Snow" : "Enable Snow"}
             </button>
           )}
         </div>
 
-<<<<<<< HEAD
->>>>>>> fb02845b30dbd52bd1a86efce54606da3f8dd0df
-    return (
-        <footer className="footer">
-                {/* Left Section - Mission & Socials */}
-                <div className="footer-section footer-left">
-                    <div className="footer-container">
-                {showToggle && (
-          <button
-            className="holiday-btn"
-            onClick={onToggleHoliday}
-          >
-            {holidayMode ? "Disable Snow" : "Enable Snow"}
-          </button>
-        )}
-                    <h3 className="footer-brand">ShadowStack</h3>
-                    <p className="mission-statement">
-                        Master cybersecurity through challenges and real-world scenarios. 
-                        Level up your skills, one hack at a time.
-                    </p>
-                    <div className="social-icons">
-                        <SocialIcons
-                            href="https://www.instagram.com/"
-                            icon={InstagramIcon}
-                            label="Instagram"
-                        />
-                        <SocialIcons
-                            href="https://github.com/KaiaBryant/shadow-stack"
-                            icon={GitHubIcon}
-                            label="GitHub"
-                        />
-                        <SocialIcons
-                            href="https://www.linkedin.com"
-                            icon={LinkedInIcon}
-                            label="LinkedIn"
-                        />
-                        <SocialIcons
-                            href="https://www.tiktok.com"
-                            icon={TikTokIcon}
-                            label="TikTok"
-                        />
-                    </div>
-                </div>
-=======
         {/* Center Section - Quick Links */}
         <div className="footer-section footer-center">
           <h4 className="footer-title">Quick Links</h4>
           <ul className="footer-links">
             <li>
-              <a onClick={() => navigate("/")} className="footer-link">Home</a>
+              <a onClick={() => navigate("/")} className="footer-link">
+                Home
+              </a>
             </li>
             <li>
-              <a onClick={() => navigate("/levels")} className="footer-link">Levels</a>
+              <a onClick={() => navigate("/levels")} className="footer-link">
+                Levels
+              </a>
             </li>
             <li>
-              <a onClick={() => navigate("/leaderboard")} className="footer-link">Leaderboard</a>
+              <a
+                onClick={() => navigate("/leaderboard")}
+                className="footer-link"
+              >
+                Leaderboard
+              </a>
             </li>
           </ul>
         </div>
->>>>>>> a7112e388c98c33a12628a8d83350dc5dfb0722e
 
         {/* Right Section - Copyright & Admin */}
         <div className="footer-section footer-right">
