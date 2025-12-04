@@ -92,10 +92,9 @@
 //         });
 // };
 
-// server/controllers/userController.js
 import pool from "../db.js";
 
-// CREATE USER (already exists)
+// CREATE USER
 export const createUser = (req, res) => {
     const { username } = req.body;
 
@@ -134,7 +133,33 @@ export const createUser = (req, res) => {
     );
 };
 
-// UPDATE USER CHARACTER (this is your function)
+// GET USER BY ID
+export const getUserById = (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({ error: "User ID is required" });
+    }
+
+    pool.query(
+        "SELECT id, username, character_id, created_at FROM users WHERE id = ?",
+        [id],
+        (err, results) => {
+            if (err) {
+                console.error("Error fetching user:", err);
+                return res.status(500).json({ error: "Failed to fetch user" });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ error: "User not found" });
+            }
+
+            return res.json(results[0]);
+        }
+    );
+};
+
+// UPDATE USER CHARACTER
 export const updateUserCharacter = (req, res) => {
     const { user_id, character_id } = req.body;
 

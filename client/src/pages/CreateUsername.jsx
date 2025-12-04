@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/CreateUser.css";
 
@@ -9,6 +9,21 @@ function CreateUser() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [existingUserId, setExistingUserId] = useState(null);
+
+  // Redirect if user already exists
+  useEffect(() => {
+    const existingUsername = localStorage.getItem("username");
+    const existingCharacterId = localStorage.getItem("character_id");
+
+    // If user has both username and character, redirect to levels
+    if (existingUsername && existingCharacterId) {
+      navigate("/levels");
+    }
+    // If user has username but no character, redirect to character select
+    else if (existingUsername && !existingCharacterId) {
+      navigate("/character-select");
+    }
+  }, [navigate]);
 
   // Create user in DB
   const createUser = async (username) => {
@@ -43,6 +58,20 @@ function CreateUser() {
     }
 
     return response.json(); // { session_id }
+  };
+
+  // Fetch user data to check if character exists
+  const getUserData = async (user_id) => {
+    const response = await fetch(`http://localhost:5000/api/users/${user_id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
+    }
+
+    return response.json(); // returns user object with character_id
   };
 
   const handleSubmit = async (e) => {
@@ -91,13 +120,33 @@ function CreateUser() {
   const handleContinueExisting = async () => {
     if (!existingUserId) return;
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("user_id", existingUserId);
+    try {
+      setLoading(true);
 
-    const session = await startSession(existingUserId);
-    localStorage.setItem("session_id", session.session_id);
+      // Store basic user info
+      localStorage.setItem("username", username);
+      localStorage.setItem("user_id", existingUserId);
 
-    navigate("/character-select");
+      // Start session
+      const session = await startSession(existingUserId);
+      localStorage.setItem("session_id", session.session_id);
+
+      // Fetch user data to check if they have a character
+      const userData = await getUserData(existingUserId);
+
+      // If user has a character, go to levels, otherwise go to character select
+      if (userData.character_id) {
+        localStorage.setItem("character_id", userData.character_id);
+        navigate("/levels");
+      } else {
+        navigate("/character-select");
+      }
+    } catch (err) {
+      console.error("Error continuing as existing user:", err);
+      setError("Failed to continue. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -136,15 +185,16 @@ function CreateUser() {
               type="button"
               className="custom-btn btn btn-secondary mt-2"
               onClick={handleContinueExisting}
+              disabled={loading}
             >
-              Continue as Existing User
+              {loading ? "Loading..." : "Continue as Existing User"}
             </button>
           )}
 
           {message && <div className="custom-success-box">{message}</div>}
         </div>
 
-        <button type="submit" className="btn custom-submit-btn btn-primary">
+        <button type="submit" className="btn custom-submit-btn btn-primary" disabled={loading}>
           {loading ? "Saving..." : "Submit"}
         </button>
 
