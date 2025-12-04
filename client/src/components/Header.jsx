@@ -43,6 +43,7 @@ function Header() {
                 <Link to="/" className="navbar-brand">Logo</Link>
                 <div className="ms-auto d-flex gap-5">
                     <NavLink to="/" className="nav-link fw-semibold fs-5 text-white">Home</NavLink>
+                    <NavLink to="/levels" className="nav-link fw-semibold fs-5 text-white">Levels</NavLink>
                     <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">Leaderboard</NavLink>
                     <div className="header-logout">
                         {showLogout && (

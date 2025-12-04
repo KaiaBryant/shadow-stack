@@ -1,19 +1,37 @@
 import "../styles/Footer.css";
 import SocialIcons from "./SocialsIcons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";   // ⬅️ add useLocation
 
 import InstagramIcon from "../assets/instagram.svg";
 import GitHubIcon from "../assets/github.svg";
 import LinkedInIcon from "../assets/linkedin.svg";
 import TikTokIcon from "../assets/tiktok.svg";
 
-function Footer() {
-    const navigate = useNavigate();
-    const username = localStorage.getItem("username");
-    const sessionId = localStorage.getItem("session_id");
+function Footer({ holidayMode, onToggleHoliday }) {
+  const navigate = useNavigate();
+  const location = useLocation();                     // ⬅️ use it here
 
-    // Admin button should show ONLY when NO username
-    const showAdminButton = !username && !sessionId;
+  const username = localStorage.getItem("username");
+  const sessionId = localStorage.getItem("session_id");
+
+  // Only show Admin when NO username / session
+  const showAdminButton = !username && !sessionId;
+
+  // Only show toggle on Home ("/")
+  const onHome = location.pathname === "/";
+  const showToggle = onHome && typeof onToggleHoliday === "function";
+
+  return (
+    <footer>
+      <div className="footer-container d-flex align-items-center">
+        {showToggle && (
+          <button
+            className="holiday-btn"
+            onClick={onToggleHoliday}
+          >
+            {holidayMode ? "Disable Snow" : "Enable Snow"}
+          </button>
+        )}
 
     return (
         <footer className="footer">
