@@ -7,10 +7,19 @@ import GitHubIcon from "../assets/github.svg";
 import LinkedInIcon from "../assets/linkedin.svg";
 import TikTokIcon from "../assets/tiktok.svg";
 
+<<<<<<< HEAD
 function Footer() {
     const navigate = useNavigate();
     const username = localStorage.getItem("username");
     const sessionId = localStorage.getItem("session_id");
+=======
+function Footer({ holidayMode, onToggleHoliday }) {
+  const navigate = useNavigate();
+  const location = useLocation();                     // ⬅️ use it here
+
+  const username = localStorage.getItem("username");
+  const sessionId = localStorage.getItem("session_id");
+>>>>>>> fb02845b30dbd52bd1a86efce54606da3f8dd0df
 
   // Only show Admin when NO username / session
   const showAdminButton = !username && !sessionId;
@@ -19,6 +28,21 @@ function Footer() {
   const onHome = location.pathname === "/";
   const showToggle = onHome && typeof onToggleHoliday === "function";
 
+<<<<<<< HEAD
+=======
+  return (
+    <footer>
+      <div className="footer-container d-flex align-items-center">
+        {showToggle && (
+          <button
+            className="holiday-btn"
+            onClick={onToggleHoliday}
+          >
+            {holidayMode ? "Disable Snow" : "Enable Snow"}
+          </button>
+        )}
+
+>>>>>>> fb02845b30dbd52bd1a86efce54606da3f8dd0df
     return (
         <footer className="footer">
                 {/* Left Section - Mission & Socials */}
