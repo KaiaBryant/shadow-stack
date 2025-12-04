@@ -59,7 +59,7 @@ function Simulator() {
 
         try {
             const response = await axios.get(
-                `http://localhost:5000/api/questions/${level}?sessionId=${sessionId}`
+                `https://shadow-stack.onrender.com/api/questions/${level}?sessionId=${sessionId}`
             );
             setCurrentQuestion(response.data);
         } catch (err) {
@@ -94,7 +94,7 @@ function Simulator() {
                 if (userId) {
                     try {
                         const response = await axios.get(
-                            `http://localhost:5000/api/leaderboard/check-completion?user_id=${userId}&level=${currentLevelNumber}`
+                            `https://shadow-stack.onrender.com/api/leaderboard/check-completion?user_id=${userId}&level=${currentLevelNumber}`
                         );
 
                         if (response.data.completed) {
@@ -165,7 +165,7 @@ function Simulator() {
             console.log('Payload being sent:', payload);
 
             const response = await axios.post(
-                'http://localhost:5000/api/leaderboard',
+                'https://shadow-stack.onrender.com/api/leaderboard',
                 payload
             );
 

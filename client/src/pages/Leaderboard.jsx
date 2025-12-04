@@ -13,7 +13,7 @@ function Leaderboard() {
 
     useEffect(() => {
         // May need to change the link of deployment link later after 5000
-        fetch("http://localhost:5000/api/leaderboard")
+        fetch("https://shadow-stack.onrender.com/api/leaderboard")
             .then((res) => res.json())
             .then((data) => setLeaders(data))
             .catch((err) => console.error("Error loading leaderboard:", err));

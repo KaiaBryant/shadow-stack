@@ -13,7 +13,7 @@ function CharacterSelection() {
 
     // Fetch characters from backend
     useEffect(() => {
-        fetch("http://localhost:5000/api/characters")
+        fetch("https://shadow-stack.onrender.com/api/characters")
             .then(res => res.json())
             .then(data => {
                 setCharacters(data);
@@ -25,7 +25,7 @@ function CharacterSelection() {
 
     // Save character to DB
     const saveCharacter = async (character_id) => {
-        const response = await fetch("http://localhost:5000/api/users/character", {
+        const response = await fetch("https://shadow-stack.onrender.com/api/users/character", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_id: Number(user_id), character_id }),
