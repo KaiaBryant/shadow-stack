@@ -1,5 +1,6 @@
-h2, h5{
-    color: white !important;
+h2,
+h5 {
+  color: white !important;
 }
 
 
@@ -80,6 +81,20 @@ h2, h5{
 
 .admin-form .btn-primary:active {
   opacity: 0.8;
+}
+
+.bottom-admin-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.logout-admin {
+  color: red;
+}
+
+.new-admin-btn {
+  color: #a94442;
 }
 
 /* Tablet / small laptop */
