@@ -1,21 +1,27 @@
 import "../styles/Footer.css";
 import SocialIcons from "./SocialsIcons";
+import { useNavigate } from "react-router-dom";
+
 
 import InstagramIcon from "../assets/instagram.svg";
 import GitHubIcon from "../assets/github.svg";
 import LinkedInIcon from "../assets/linkedin.svg";
 import TikTokIcon from "../assets/tiktok.svg";
 
-import { useNavigate } from "react-router-dom";
 
 function Footer() {
     const navigate = useNavigate();
+    const username = localStorage.getItem("username");
+    const sessionId = localStorage.getItem("session_id");
+    const adminToken = localStorage.getItem("admin_token");
+
+    // Admin button should show ONLY when NO username
+    const showAdminButton = !username && !sessionId;
+
 
     return (
-
         <footer>
             <div className="footer-container d-flex align-items-center">
-                
                 <div className="flex-grow-1 d-flex justify-content-center align-items-center gap-3">
                     <div className="social-icon-wrapper">
                         <SocialIcons
@@ -46,8 +52,14 @@ function Footer() {
                         />
                     </div>
                 </div>
-
-                <button className="admin-btn ms-3" onClick={() => navigate('/login')}>Admin</button>
+               {showAdminButton && (
+                <button
+                className="admin-btn"
+                onClick={() => navigate("/login")}
+                >
+                Admin
+                </button>
+                )}
             </div>
         </footer>
     );

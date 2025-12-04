@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&family=Share+Tech+Mono&display=swap');
+
 html,
 body {
     /* Original */
@@ -24,7 +26,7 @@ body {
 
 .blob-1 {
     /* Ally Purple */
-    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 20%);
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 50%);
 
 
     top: 10%;
@@ -36,7 +38,7 @@ body {
 
 .blob-2 {
     /* Ally Purple */
-    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 30%);
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 50%);
 
 
     bottom: 10%;
@@ -53,24 +55,83 @@ footer {
     margin-top: auto;
 }
 
-.custom-form-wrapper {
-    background-color: #0d0d14;
-}
-
 .custom-form .mb-3 {
     margin-bottom: 1rem;
-    /* or 0 if you want no gap */
 }
 
-.btn-primary {
-    background-color: #614aeb !important;
-    border-color: #614aeb !important;
-
+.btn{
+    color: purple !important;
+    background-color: white !important;
+    border-color: white !important;
 }
+
+/*.btn:hover{
+    background-color: #C5BAFF !important;
+}*/
 
 .btn-primary:hover {
     opacity: 0.75 !important;
-    background-color: #614aeb !important;
-    border-color: #614aeb !important;
+    background-color: #C5BAFF;
 
 }
+
+p {
+   font-family: "Oxanium", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5{
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+label{
+   font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+button{
+  font-family: "Orbitron", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+nav{
+  font-family: "Orbitron", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;  
+}
+
+/* Make sizing more predictable across devices */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Responsive background blobs */
+@media (max-width: 768px) {
+  .blob-1,
+  .blob-2 {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 576px) {
+  .blob-1,
+  .blob-2 {
+    width: 220px;
+    height: 220px;
+    filter: blur(70px);
+  }
+}
+
+

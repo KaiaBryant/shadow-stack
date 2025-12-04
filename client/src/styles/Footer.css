@@ -4,34 +4,57 @@
     justify-content: center;
 }
 
+/* Make footer flex + responsive */
 .footer-container {
     padding: 1rem 1.5rem;
-    /* Original
-    background-color: #614aeb; */
-
     color: white;
-    background: rgba(10, 10, 10, .4);
+    background: rgba(10, 10, 10, 0.4);
     backdrop-filter: blur(10px);
-    /*blur behind navbar*/
-    border-top: 4px solid rgba(0, 0, 0, .9) inset;
+    border-top: 4px solid rgba(0, 0, 0, 0.9) inset;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .admin-btn {
     padding: 0.4rem 0.9rem;
     border-radius: 6px;
     border: none;
-    background: #222;
-    color: white;
+    background: white;
+    color: purple;
     cursor: pointer;
     font-size: 0.9rem;
+    font-weight: bold;
 }
 
-
+/* Prevent generic footer images from blowing up */
 .footer-container img {
-    width: 100%;
+    max-width: 100%;
+    height: auto;
 }
 
+/* Explicit size for social icons */
 .social-icon-wrapper img {
     width: 24px;
     height: 24px;
+}
+
+/* Stack footer content on phones */
+@media (max-width: 576px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .icons-center {
+        justify-content: flex-start;
+    }
+
+    .admin-btn {
+        width: 100%;
+        text-align: center;
+    }
 }

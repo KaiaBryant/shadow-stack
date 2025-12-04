@@ -5,11 +5,15 @@ import { characters } from "../data/characters";
 // import { leaderboardData } from '../data/leaderboardData';
 
 function Leaderboard() {
+    // State Management for Score Tracker
+    const [score, setScore] = useState(0);
+    
     // const [timeFilter, setTimeFilter] = useState('This Week');
     const [leaders, setLeaders] = useState([]);
 
     useEffect(() => {
-        fetch("https://shadow-stack.onrender.com/api/leaderboard")
+        // May need to change the link of deployment link later after 5000
+        fetch("http://localhost:5000/api/leaderboard")
             .then((res) => res.json())
             .then((data) => setLeaders(data))
             .catch((err) => console.error("Error loading leaderboard:", err));

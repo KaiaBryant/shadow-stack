@@ -7,33 +7,6 @@
     overflow: hidden;
 }
 
-/* Animated Background Blobs */
-/* .background-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    pointer-events: none;
-}
-
-.blob-1 {
-    top: 10%;
-    left: 5%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
-    animation: float 8s ease-in-out infinite;
-}
-
-.blob-2 {
-    bottom: 10%;
-    right: 5%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(217, 70, 239, 0.3) 0%, transparent 70%);
-    filter: blur(80px);
-    animation: float 10s ease-in-out infinite reverse;
-} */
-
 /* Animations */
 @keyframes float {
 
@@ -416,12 +389,112 @@
     border-color: rgba(59, 130, 246, 0.5);
 }
 
+/* Score Tracker */
+.score-text {
+    margin-left: 20px;
+    color: #fbbf24;
+}
+
+.points-per-question {
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #94a3b8;
+}
+
 /* Responsive Design */
+/* Responsive layout for simulator */
+@media (max-width: 992px) {
+    .simulator-container {
+        padding: 32px 0;
+    }
+
+    .question-card {
+        padding: 32px;
+    }
+
+    .main-title {
+        font-size: 40px;
+    }
+}
+
 @media (max-width: 768px) {
+    .simulator-container {
+        padding: 24px 0;
+    }
+
+    .main-title {
+        font-size: 32px;
+    }
+
+    .main-subtitle {
+        font-size: 16px;
+        padding: 0 12px;
+    }
+
+    .question-card {
+        padding: 24px 18px;
+    }
+
+    .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
     .threat-meter-container {
         min-width: 180px;
     }
 
+    .progress-and-threat {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .level-progress {
+        text-align: center;
+        float: none;
+    }
+
+    .back-button {
+        float: none;
+    }
+
+    .answer-options {
+        gap: 12px;
+    }
+
+    .option-button {
+        padding: 16px 16px;
+        font-size: 15px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .next-question-button,
+    .change-level-button {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-title {
+        font-size: 28px;
+    }
+
+    .question-title {
+        font-size: 20px;
+    }
+
+    .question-text {
+        padding: 16px;
+    }
+
+    .explanation-content {
+        padding: 18px;
+    }
     .question-header {
         flex-direction: column;
         align-items: flex-start;
