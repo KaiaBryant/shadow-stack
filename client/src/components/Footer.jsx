@@ -21,10 +21,10 @@ function Footer() {
                 {/* Left Section - Mission & Socials */}
                 <div className="footer-section footer-left">
                     <h3 className="footer-brand">ShadowStack</h3>
-                    <p className="mission-statement">
+                    {/* <p className="mission-statement">
                         Master cybersecurity through challenges and real-world scenarios. 
                         Level up your skills, one hack at a time.
-                    </p>
+                    </p> */}
                     <div className="social-icons">
                         <SocialIcons
                             href="https://www.instagram.com/"

@@ -10,6 +10,7 @@
     color: white;
     cursor: pointer;
     font-size: 0.9rem;
+    color: white;
     background: rgba(10, 10, 10, .4);
     backdrop-filter: blur(10px);
     border-top: 4px solid rgba(0, 0, 0, .9) inset;
