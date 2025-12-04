@@ -14,6 +14,7 @@ function AdminDashboard() {
     const [newAdminPassword, setNewAdminPassword] = useState("");
     const [newAdminPin, setNewAdminPin] = useState("");
 
+
     const [busy, setBusy] = useState(false);
 
     const navigate = useNavigate();
@@ -61,9 +62,9 @@ function AdminDashboard() {
         const loadSessions = async () => {
             try {
                 setLoadingSessions(true);
-                const res = await adminFetch("http://localhost:5000/api/admin/sessions");
+                const res = await adminFetch("http://localhost:5000/api/admin/summary");
 
-                if (!res.ok) throw new Error("Failed to load sessions");
+                if (!res.ok) throw new Error("Failed to load summary");
                 const data = await res.json();
                 setSessions(data);
             } catch (err) {
@@ -141,70 +142,8 @@ function AdminDashboard() {
                     <div className="d-flex justify-content-between align-items-center mb-3">
 
                         <h2 className="admin-dashboard-title"> Welcome, <strong>{adminUsername}</strong></h2>
-
-                        {/* Create new admin user button */}
-                        <button
-                            className="new-admin-btn"
-                            onClick={() => setShowCreateAdmin((prev) => !prev)}
-                        >
-                            {showCreateAdmin ? "Close" : "Create New Admin"}
-                        </button>
-
-                        {/* Logout button*/}
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-danger"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
                     </div>
-
-
-
                     {error && <div className="admin-error mb-3">{error}</div>}
-
-                    {/* Create Admin Form */}
-                    {showCreateAdmin && (
-                        <form onSubmit={handleCreateAdmin} className="admin-create-form">
-                            <div className="row g-2">
-                                <div className="col-md-4">
-                                    <label className="admin-form-label">Username</label>
-                                    <input
-                                        className="admin-form-control"
-                                        value={newAdminUsername}
-                                        onChange={(e) => setNewAdminUsername(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="col-md-4">
-                                    <label className="admin-form-label">Password</label>
-                                    <input
-                                        type="password"
-                                        className="admin-form-control"
-                                        value={newAdminPassword}
-                                        onChange={(e) => setNewAdminPassword(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="col-md-4">
-                                    <label className="admin-form-label">Pin Code</label>
-                                    <input
-                                        type="password"
-                                        className="admin-form-control"
-                                        value={newAdminPin}
-                                        onChange={(e) => setNewAdminPin(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="col-12 mt-2">
-                                    <button className="btn btn-admin w-100" disabled={busy}>
-                                        {busy ? "Creating..." : "Create Admin"}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    )}
 
                     {/* Users Table */}
                     <h5 className="section-heading mb-3">Users</h5>
@@ -261,31 +200,89 @@ function AdminDashboard() {
                             <table className="table table-dark table-striped table-hover align-middle mb-0">
                                 <thead>
                                     <tr>
+                                        <th>Username</th>
                                         <th>User ID</th>
                                         <th>Level</th>
                                         <th>Lives</th>
                                         <th>Attempts</th>
                                         <th>Active?</th>
-                                        <th>Created</th>
+                                        {/* <th>Created</th> */}
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     {sessions.map((s) => (
-                                        <tr key={s.id}>
+                                        <tr key={s.user_id}>
+                                            <td>{s.username}</td>
                                             <td>{s.user_id}</td>
-                                            <td>{s.current_level}</td>
-                                            <td>{s.lives_remaining}</td>
-                                            <td>{s.attempts_remaining}</td>
+                                            <td>{s.current_level ?? "—"}</td>
+                                            <td>{s.lives_remaining ?? "—"}</td>
+                                            <td>{s.attempts_remaining ?? "—"}</td>
                                             <td>{s.is_active ? "Yes" : "No"}</td>
-                                            <td>{s.created_at}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
                     )}
+                </div>
+                <div className="bottom-admin-container">
+                    {/* Create new admin user button */}
+                    <button
+                        className="new-admin-btn"
+                        onClick={() => setShowCreateAdmin((prev) => !prev)}
+                    >
+                        {showCreateAdmin ? "Close" : "Create New Admin"}
+                    </button>
+                    {/* Create Admin Form */}
+                    {showCreateAdmin && (
+                        <form onSubmit={handleCreateAdmin} className="admin-create-form">
+                            <div className="row g-2">
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Username</label>
+                                    <input
+                                        className="admin-form-control"
+                                        value={newAdminUsername}
+                                        onChange={(e) => setNewAdminUsername(e.target.value)}
+                                    />
+                                </div>
 
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        className="admin-form-control"
+                                        value={newAdminPassword}
+                                        onChange={(e) => setNewAdminPassword(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-md-4">
+                                    <label className="admin-form-label">Pin Code</label>
+                                    <input
+                                        type="password"
+                                        className="admin-form-control"
+                                        value={newAdminPin}
+                                        onChange={(e) => setNewAdminPin(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-12 mt-2">
+                                    <button className="btn btn-admin w-100" disabled={busy}>
+                                        {busy ? "Creating..." : "Create Admin"}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    )}
+                    {/* Logout button*/}
+                    <button
+                        type="button"
+                        className="btn logout-admin btn-sm"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>

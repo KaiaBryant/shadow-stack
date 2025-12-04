@@ -1,6 +1,6 @@
 // Admin route for login and admin access
 import express from "express";
-import { adminLogin, createAdmin, adminGetAllUsers, adminGetAllSessions, adminDeleteUser }
+import { adminLogin, createAdmin, adminGetAllUsers, adminGetAllSessions, adminDeleteUser, adminGetUserSessionSummary }
     from "../controllers/adminController.js";
 
 import { verifyAdmin } from "../middleware/authAdmin.js";
@@ -15,5 +15,6 @@ router.get("/users", verifyAdmin, adminGetAllUsers);         // View all users
 router.get("/sessions", verifyAdmin, adminGetAllSessions);   // View all sessions
 router.delete("/users/:id", verifyAdmin, adminDeleteUser);   // Delete a user
 router.post("/create-admin", verifyAdmin, createAdmin);      // Create new admin
+router.get("/summary", verifyAdmin, adminGetUserSessionSummary);
 
 export default router;
