@@ -46,7 +46,7 @@ function Leaderboard() {
                         {/* 2nd */}
                         <div className="col-md-3">
                             <div className="podium-card">
-                                <div className="rank-badge" style={{ backgroundColor: topThree[1].color }}>★2</div>
+                                <div className="rank-badge fs-1" style={{ backgroundColor: topThree[1].color }}>★2</div>
                                 <div className="podium-avatar">{topThree[1].avatar}</div>
                                 <p className="podium-username">{topThree[1].username}</p>
                                 <h3 className="podium-points">{topThree[1].points} pts</h3>
@@ -56,7 +56,7 @@ function Leaderboard() {
                         {/* 1st */}
                         <div className="col-md-3">
                             <div className="podium-card podium-card-first">
-                                <div className="rank-badge" style={{ backgroundColor: topThree[0].color }}>★1</div>
+                                <div className="rank-badge fs-1">★1</div>
                                 <div className="podium-avatar podium-avatar-first">{topThree[0].avatar}</div>
                                 <p className="podium-username">{topThree[0].username}</p>
                                 <h2 className="podium-points-first">{topThree[0].points} pts</h2>
@@ -66,7 +66,7 @@ function Leaderboard() {
                         {/* 3rd */}
                         <div className="col-md-3">
                             <div className="podium-card">
-                                <div className="rank-badge" style={{ backgroundColor: topThree[2].color }}>★3</div>
+                                <div className="rank-badge fs-1">★3</div>
                                 <div className="podium-avatar">{topThree[2].avatar}</div>
                                 <p className="podium-username">{topThree[2].username}</p>
                                 <h3 className="podium-points">{topThree[2].points} pts</h3>
