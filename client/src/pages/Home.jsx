@@ -1,17 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 
-
 function Home({ holidayMode }) {   
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
     const username = localStorage.getItem("username");
-    const maxUnlocked = localStorage.getItem("maxUnlockedLevel");
+    const characterId = localStorage.getItem("character_id");
 
-    if (username && maxUnlocked) {
+    // If user has both username AND character, go to levels
+    if (username && characterId) {
       navigate("/levels");
-    } else {
+    } 
+    // If user has username but no character, go to character select
+    else if (username && !characterId) {
+      navigate("/character-select");
+    }
+    // If user has neither, go to create user
+    else {
       navigate("/createuser");
     }
   };
