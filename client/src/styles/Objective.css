@@ -54,6 +54,16 @@
 .custom-header {
   color: #ffffff;
   text-shadow: 0 0 18px rgba(197, 186, 255, 0.7);
+  &::after {
+		content: '';
+		display: inline-block;
+		width: .2em;
+		height: .7em;
+		background-color: currentColor;
+		margin-left: .1em;
+		animation: blink 1s linear infinite forwards;
+		vertical-align: baseline;
+	}
 }
 
 /* DESCRIPTION */
