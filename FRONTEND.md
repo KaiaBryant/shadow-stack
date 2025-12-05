@@ -3,17 +3,13 @@ main.jsx
 - import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 Header.jsx
-- Removed import "react" as not needed
-- changed styling using bootstrap 
+
 
 Footer.jsx
-- Removed some divs
-- Still using .css for logo size
+
 
 Home.jsx
-- Landing page
-- useNavigate to /character-select
-- May need to implement cookies 
+
 
 CharacterSelection.jsx
 - Carousel bootstrap doesnt work
@@ -24,10 +20,12 @@ Simulator.jsx
 
 
 Leaderboard.jsx
-
+- First: gold
+- Second: silver
+- Third: #A97142
 
 CreateUsername.jsx
-- localStorage.setItem("user_id", (userId)) to localStorage.setItem("user_id", String(userId)); 
+
 
 Colors
 - Buttons: background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
@@ -46,11 +44,5 @@ BOOTSTRAP
 useState Hook
 - Documentation = https://react.dev/reference/react/useState
 
-TO DO
-CREATE TABLE user_level_completions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    level INT NOT NULL,
-    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_user_level (user_id, level)
-);
+Confetti
+- https://www.youtube.com/watch?v=VbMr3cnhFhU

@@ -13,6 +13,10 @@ function Footer({ holidayMode, onToggleHoliday }) {
 
   const username = localStorage.getItem("username");
   const sessionId = localStorage.getItem("session_id");
+  const characterId = localStorage.getItem("character_id");
+
+  // Show Levels link only after username AND character are selected
+  const showLevels = username && characterId;
 
   // Only show Admin when NO username / session
   const showAdminButton = !username && !sessionId;
@@ -51,10 +55,7 @@ function Footer({ holidayMode, onToggleHoliday }) {
           </div>
           {/* Holiday Toggle Button */}
           {showToggle && (
-            <button
-              className="holiday-btn"
-              onClick={onToggleHoliday}
-            >
+            <button className="holiday-btn" onClick={onToggleHoliday}>
               {holidayMode ? "Disable Snow" : "Enable Snow"}
             </button>
           )}
@@ -67,9 +68,11 @@ function Footer({ holidayMode, onToggleHoliday }) {
             <li>
               <a onClick={() => navigate("/")} className="footer-link">Home</a>
             </li>
-            <li>
-              <a onClick={() => navigate("/levels")} className="footer-link">Levels</a>
-            </li>
+            {showLevels && (
+              <li>
+                <a onClick={() => navigate("/levels")} className="footer-link">Levels</a>
+              </li>
+            )}
             <li>
               <a onClick={() => navigate("/leaderboard")} className="footer-link">Leaderboard</a>
             </li>
