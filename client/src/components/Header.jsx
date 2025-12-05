@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     // User auth
@@ -34,6 +36,7 @@ function Header() {
             localStorage.removeItem("username");
             localStorage.removeItem("session_id");
             localStorage.removeItem("character_id");
+            setIsMenuOpen(false);
             navigate("/");
         } catch (err) {
             console.error("Logout error:", err);
@@ -41,11 +44,24 @@ function Header() {
         }
     };
 
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     return (
         <nav className="navbar">
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">Logo</Link>
-                <div className="ms-auto d-flex gap-5">
+                
+                {/* Hamburger Icon */}
+                <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}aria-label="Toggle menu">
+                    <span className={isMenuOpen ? "active" : ""}></span>
+                    <span className={isMenuOpen ? "active" : ""}></span>
+                    <span className={isMenuOpen ? "active" : ""}></span>
+                </button>
+
+                {/* Desktop Menu */}
+                <div className="nav-menu desktop-menu">
                     <NavLink to="/" className="nav-link fw-semibold fs-5 text-white">
                         Home
                     </NavLink>
@@ -60,13 +76,34 @@ function Header() {
                         Leaderboard
                     </NavLink>
                     
-                    <div className="header-logout">
-                        {showLogout && !adminToken && (
-                            <button className="logout-btn me-3" onClick={handleLogout}>
-                                Logout
-                            </button>
-                        )}
-                    </div>
+                    {showLogout && !adminToken && (
+                        <button className="logout-btn" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    )}
+                </div>
+
+                {/* Mobile Menu */}
+                <div className={`nav-menu mobile-menu ${isMenuOpen ? "open" : ""}`}>
+                    <NavLink to="/" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
+                        Home
+                    </NavLink>
+                    
+                    {showLevels && (
+                        <NavLink to="/levels" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
+                            Levels
+                        </NavLink>
+                    )}
+                    
+                    <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
+                        Leaderboard
+                    </NavLink>
+                    
+                    {showLogout && !adminToken && (
+                        <button className="logout-btn mobile-logout" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    )}
                 </div>
             </div>
         </nav>

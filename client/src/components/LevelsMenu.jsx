@@ -164,13 +164,7 @@ export default function LevelsMenu() {
                 const stars = "★".repeat(level) + "☆".repeat(TOTAL_STARS - level);
 
                 return (
-                  <button
-                    key={level}
-                    type="button"
-                    className={`level-card ${locked ? "locked" : ""}`}
-                    onClick={() => handleLevelSelect(level)}
-                    disabled={locked}
-                  >
+                  <button key={level} type="button" className={`level-card ${locked ? "locked" : ""}`} onClick={() => handleLevelSelect(level)} disabled={locked}>
                     <div className="level-card-header">
                       <span className="level-number">Level {level}</span>
                     </div>

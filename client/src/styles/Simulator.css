@@ -1,7 +1,6 @@
 /* Main Container */
 .simulator-container {
     min-height: 100vh;
-    /* background: linear-gradient(135deg, #1a0d2e 0%, #2d1b4e 50%, #4a1f7a 100%); */
     padding: 40px 0;
     position: relative;
     overflow: hidden;
@@ -9,24 +8,18 @@
 
 /* Animations */
 @keyframes float {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0px);
     }
-
     50% {
         transform: translateY(-30px);
     }
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
     }
-
     50% {
         transform: scale(1.05);
     }
@@ -37,7 +30,6 @@
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -49,7 +41,6 @@
         opacity: 0;
         max-height: 0;
     }
-
     to {
         opacity: 1;
         max-height: 2000px;
@@ -57,15 +48,30 @@
 }
 
 @keyframes threatPulse {
-
-    0%,
-    100% {
+    0%, 100% {
         box-shadow: 0 0 10px currentColor;
     }
-
     50% {
         box-shadow: 0 0 20px currentColor;
     }
+}
+
+@keyframes celebrationPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(34, 197, 94, 0.8);
+    }
+}
+
+/* Celebration Banner Animation */
+.celebration-banner {
+    animation: celebrationPulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+    border: 2px solid rgba(34, 197, 94, 0.6) !important;
 }
 
 /* Header Container Fix */
@@ -164,10 +170,6 @@
 }
 
 /* Threat Meter Styles */
-/* .progress-and-threat {
-    
-} */
-
 .level-progress {
     margin: 16px 0 0 0;
     float: right;
@@ -210,7 +212,6 @@
 .threat-status {
     text-transform: uppercase;
     letter-spacing: 1px;
-    /* transition: color 0.3s ease; */
 }
 
 .threat-meter-bar {
@@ -219,7 +220,6 @@
     border-radius: 10px;
     border: 2px solid rgba(59, 130, 246, 0.3);
     overflow: hidden;
-    /* position: relative; */
 }
 
 .threat-meter-fill {
@@ -274,6 +274,7 @@
     background: rgba(34, 197, 94, 0.2) !important;
     border-color: rgba(34, 197, 94, 0.5) !important;
     color: #86efac !important;
+    animation: pulse 0.5s ease-in-out;
 }
 
 .option-button.incorrect {
@@ -303,6 +304,7 @@
     background: rgba(34, 197, 94, 0.2);
     border: 2px solid rgba(34, 197, 94, 0.4);
     color: #86efac;
+    animation: pulse 0.5s ease-in-out;
 }
 
 .result-banner.incorrect-banner {
@@ -370,6 +372,14 @@
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
+.completion-button {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+}
+
+.completion-button:hover {
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4) !important;
+}
+
 .game-over-button {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
 }
@@ -402,7 +412,6 @@
 }
 
 /* Responsive Design */
-/* Responsive layout for simulator */
 @media (max-width: 992px) {
     .simulator-container {
         padding: 32px 0;
@@ -495,6 +504,7 @@
     .explanation-content {
         padding: 18px;
     }
+
     .question-header {
         flex-direction: column;
         align-items: flex-start;
