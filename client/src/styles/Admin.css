@@ -90,11 +90,12 @@ h5 {
 }
 
 .logout-admin {
-  color: red;
+  background-color: rgb(172, 8, 8);
 }
 
 .new-admin-btn {
-  color: #a94442;
+  color: #46043b;
+  border-radius: 8px;
 }
 
 /* Tablet / small laptop */

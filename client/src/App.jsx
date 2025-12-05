@@ -12,6 +12,7 @@ import CreateUser from "./pages/CreateUsername";
 import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
+import AdminRegister from "./pages/AdminRegister";
 import "./styles/global.css";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/objective" element={<GameIntro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/levels" element={<LevelsMenu />} />
+          <Route path="/register" element={<AdminRegister />} />
         </Routes>
       </main>
 

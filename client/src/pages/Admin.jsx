@@ -203,8 +203,8 @@ function AdminDashboard() {
                                         <th>Username</th>
                                         <th>User ID</th>
                                         <th>Level</th>
-                                        <th>Lives</th>
-                                        <th>Attempts</th>
+                                        {/* <th>Lives</th> */}
+                                        <th>Score</th>
                                         <th>Active?</th>
                                         {/* <th>Created</th> */}
                                     </tr>
@@ -216,8 +216,8 @@ function AdminDashboard() {
                                             <td>{s.username}</td>
                                             <td>{s.user_id}</td>
                                             <td>{s.current_level ?? "—"}</td>
-                                            <td>{s.lives_remaining ?? "—"}</td>
-                                            <td>{s.attempts_remaining ?? "—"}</td>
+                                            {/* <td>{s.lives_remaining ?? "—"}</td> */}
+                                            <td>{s.score ?? "—"}</td>
                                             <td>{s.is_active ? "Yes" : "No"}</td>
                                         </tr>
                                     ))}
@@ -229,6 +229,7 @@ function AdminDashboard() {
                 <div className="bottom-admin-container">
                     {/* Create new admin user button */}
                     <button
+                        // type="button"
                         className="new-admin-btn"
                         onClick={() => setShowCreateAdmin((prev) => !prev)}
                     >
@@ -278,7 +279,7 @@ function AdminDashboard() {
                     {/* Logout button*/}
                     <button
                         type="button"
-                        className="btn logout-admin btn-sm"
+                        className="logout-btn"
                         onClick={handleLogout}
                     >
                         Logout
