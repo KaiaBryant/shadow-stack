@@ -101,7 +101,8 @@ function AdminLogin() {
             Pin
           </label>
           <input
-            type="text"
+            type="password"
+            inputMode="numeric"
             id="mfa"
             className="admin-form-control"
             value={mfaCode}
