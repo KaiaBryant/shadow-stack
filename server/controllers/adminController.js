@@ -142,9 +142,9 @@ export const adminGetUserSessionSummary = async (req, res) => {
 
                 s.current_level,
                 s.lives_remaining,
-                s.attempts_remaining,
                 s.is_active,
-                s.created_at AS last_active
+                s.created_at AS last_active,
+                lb.score
 
             FROM users u
 
@@ -155,6 +155,8 @@ export const adminGetUserSessionSummary = async (req, res) => {
                     ORDER BY created_at DESC 
                     LIMIT 1
                 )
+                LEFT JOIN leaderboard lb
+                ON lb.user_id = u.id
 
             ORDER BY last_active DESC;
         `);
