@@ -150,56 +150,79 @@ function CreateUser() {
   };
 
   return (
-    <div className="custom-form-wrapper">
-      <form onSubmit={handleSubmit} className="custom-form">
+    <section className="levels-page position-relative">
+      {/* Reuse global animated blobs so it matches Levels/Simulator */}
+      <div className="background-blob blob-1" />
+      <div className="background-blob blob-2" />
 
-        {error && <div className="custom-error-box">{error}</div>}
+      <div className="custom-form-wrapper">
+        {/* Glassy card styled like levels-content-box */}
+        <div className="levels-content-box username-card">
+          <div className="levels-header text-center mb-3">
+            <h1 className="hud-value levels-main-title">
+              Choose Your Codename
+            </h1>
+            <p className="levels-description">
+              This will be your identity across all ShadowStack missions.
+              Use letters and numbers only.
+            </p>
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="username" className="custom-form-label">
-            Username
-          </label>
+          <form onSubmit={handleSubmit} className="custom-form">
+            {error && <div className="custom-error-box">{error}</div>}
 
-          <input
-            type="text"
-            id="username"
-            className="custom-form-control"
-            aria-describedby="usernameHelp"
-            value={username}
-            onChange={(e) => {
-              const value = e.target.value;
-              const lettersAndNumbers = value.replace(/[^A-Za-z0-9]/g, "");
-              setUsername(lettersAndNumbers);
+            <div className="mb-3">
+              <label htmlFor="username" className="custom-form-label">
+                Username
+              </label>
 
-              // any time the name changes, clear previous duplicate state
-              if (error || message || existingUserId) {
-                setError("");
-                setMessage("");
-                setExistingUserId(null);
-              }
-            }}
-          />
+              <input
+                type="text"
+                id="username"
+                className="custom-form-control"
+                aria-describedby="usernameHelp"
+                value={username}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const lettersAndNumbers = value.replace(/[^A-Za-z0-9]/g, "");
+                  setUsername(lettersAndNumbers);
 
-          {message && existingUserId && (
+                  // any time the name changes, clear previous duplicate state
+                  if (error || message || existingUserId) {
+                    setError("");
+                    setMessage("");
+                    setExistingUserId(null);
+                  }
+                }}
+              />
+
+              {message && existingUserId && (
+                <button
+                  type="button"
+                  className="custom-btn btn btn-secondary mt-2"
+                  onClick={handleContinueExisting}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Continue as Existing User"}
+                </button>
+              )}
+
+              {message && (
+                <div className="custom-success-box">{message}</div>
+              )}
+            </div>
+
             <button
-              type="button"
-              className="custom-btn btn btn-secondary mt-2"
-              onClick={handleContinueExisting}
+              type="submit"
+              className="btn custom-submit-btn btn-primary"
               disabled={loading}
             >
-              {loading ? "Loading..." : "Continue as Existing User"}
+              {loading ? "Saving..." : "Enter the Simulation"}
             </button>
-          )}
-
-          {message && <div className="custom-success-box">{message}</div>}
+          </form>
         </div>
-
-        <button type="submit" className="btn custom-submit-btn btn-primary" disabled={loading}>
-          {loading ? "Saving..." : "Submit"}
-        </button>
-
-      </form>
-    </div>
+      </div>
+    </section>
   );
 }
 

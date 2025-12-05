@@ -6,23 +6,41 @@ body {
     height: 100%;
 } */
 
+/* Center card inside the page shell */
 .custom-form-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
 }
 
-.custom-form {
-    background-color: #1e1e1e;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.6);
-    width: 100%;
-    max-width: 400px;
-    display: grid;
-    border: 1px solid black;
+/* Let levels-content-box handle the card background & shadow */
+.username-card {
+  max-width: 520px;
+  width: 100%;
 }
+
+/* Inside card, form should be clean and full-width */
+.custom-form {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  display: grid;
+}
+
+.levels-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+}
+
 
 .custom-form-label {
     color: white;

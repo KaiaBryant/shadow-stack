@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import '../styles/Leaderboard.css';
-import { characters } from "../data/characters";
-
-// import { leaderboardData } from '../data/leaderboardData';
 
 function Leaderboard() {
-    // State Management for Score Tracker
-    const [score, setScore] = useState(0);
-    
-    // const [timeFilter, setTimeFilter] = useState('This Week');
     const [leaders, setLeaders] = useState([]);
+    const [characters, setCharacters] = useState([]);
 
     useEffect(() => {
-        // May need to change the link of deployment link later after 5000
+        // Fetch characters from backend
+        fetch("http://localhost:5000/api/characters")
+            .then((res) => res.json())
+            .then((data) => setCharacters(data))
+            .catch((err) => console.error("Error loading characters:", err));
+
+        // Fetch leaderboard
         fetch("http://localhost:5000/api/leaderboard")
             .then((res) => res.json())
             .then((data) => setLeaders(data))
@@ -27,13 +27,13 @@ function Leaderboard() {
             rank: index + 1,
             points: player.score,
             avatar: character?.avatar,
+            profileImage: character?.url, // Add profile image URL
             color: character?.color,
         };
     });
 
     const topThree = enriched.slice(0, 3);
     const rest = enriched.slice(3);
-
 
     return (
         <div className="leaderboard-container">
@@ -45,11 +45,17 @@ function Leaderboard() {
 
                         {/* 2nd */}
                         <div className="col-md-3">
-                            <div className="podium-card">
+                            <div className="podium-card podium-card-second">
                                 <div className="rank-badge fs-1" style={{ backgroundColor: topThree[1].color }}>★2</div>
-                                <div className="podium-avatar">{topThree[1].avatar}</div>
+                                <div className="podium-avatar podium-avatar-second">
+                                    {topThree[1].profileImage ? (
+                                        <img src={topThree[1].profileImage} alt={topThree[1].username} className="podium-avatar-img"/>
+                                    ) : (
+                                        topThree[1].avatar
+                                    )}
+                                </div>
                                 <p className="podium-username">{topThree[1].username}</p>
-                                <h3 className="podium-points">{topThree[1].points} pts</h3>
+                                <h3 className="podium-points-second">{topThree[1].points} pts</h3>
                             </div>
                         </div>
 
@@ -57,7 +63,13 @@ function Leaderboard() {
                         <div className="col-md-3">
                             <div className="podium-card podium-card-first">
                                 <div className="rank-badge fs-1">★1</div>
-                                <div className="podium-avatar podium-avatar-first">{topThree[0].avatar}</div>
+                                <div className="podium-avatar podium-avatar-first">
+                                    {topThree[0].profileImage ? (
+                                        <img src={topThree[0].profileImage} alt={topThree[0].username} className="podium-avatar-img"/>
+                                    ) : (
+                                        topThree[0].avatar
+                                    )}
+                                </div>
                                 <p className="podium-username">{topThree[0].username}</p>
                                 <h2 className="podium-points-first">{topThree[0].points} pts</h2>
                             </div>
@@ -65,11 +77,17 @@ function Leaderboard() {
 
                         {/* 3rd */}
                         <div className="col-md-3">
-                            <div className="podium-card">
+                            <div className="podium-card podium-card-third">
                                 <div className="rank-badge fs-1">★3</div>
-                                <div className="podium-avatar">{topThree[2].avatar}</div>
+                                <div className="podium-avatar podium-avatar-third">
+                                    {topThree[2].profileImage ? (
+                                        <img src={topThree[2].profileImage} alt={topThree[2].username} className="podium-avatar-img"/>
+                                    ) : (
+                                        topThree[2].avatar
+                                    )}
+                                </div>
                                 <p className="podium-username">{topThree[2].username}</p>
-                                <h3 className="podium-points">{topThree[2].points} pts</h3>
+                                <h3 className="podium-points-third">{topThree[2].points} pts</h3>
                             </div>
                         </div>
 
@@ -85,7 +103,13 @@ function Leaderboard() {
                             <div className="item-rank-badge" style={{ backgroundColor: player.color }}>
                                 <span className="item-rank-number">{player.rank}</span>
                             </div>
-                            <div className="item-avatar">{player.avatar}</div>
+                            <div className="item-avatar">
+                                {player.profileImage ? (
+                                    <img src={player.profileImage} alt={player.username}className="item-avatar-img"/>
+                                ) : (
+                                    player.avatar
+                                )}
+                            </div>
                             <p className="item-username">{player.username}</p>
                         </div>
 
@@ -106,7 +130,3 @@ function Leaderboard() {
 }
 
 export default Leaderboard;
-
-
-
-
