@@ -115,6 +115,11 @@
     color: #C5BAFF !important;
 }
 
+/* #ss-logo {
+    width: 100px;
+    height: 100px;
+} */
+
 /* Responsive navbar tweaks */
 @media (max-width: 768px) {
     .navbar {

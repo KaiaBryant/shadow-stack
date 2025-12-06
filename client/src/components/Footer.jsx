@@ -66,7 +66,9 @@ function Footer({ holidayMode, onToggleHoliday }) {
           <h4 className="footer-title">Quick Links</h4>
           <ul className="footer-links">
             <li>
-              <a onClick={() => navigate("/")} className="footer-link">Home</a>
+              <a onClick={() => navigate("/")} className="footer-link">
+                Home
+              </a>
             </li>
             {showLevels && (
               <li>
@@ -74,7 +76,12 @@ function Footer({ holidayMode, onToggleHoliday }) {
               </li>
             )}
             <li>
-              <a onClick={() => navigate("/leaderboard")} className="footer-link">Leaderboard</a>
+              <a
+                onClick={() => navigate("/leaderboard")}
+                className="footer-link"
+              >
+                Leaderboard
+              </a>
             </li>
           </ul>
         </div>

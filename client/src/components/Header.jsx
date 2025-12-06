@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/logo-new.png";
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +52,7 @@ function Header() {
     return (
         <nav className="navbar">
             <div className="container-fluid">
-                <Link to="/" className="navbar-brand">Logo</Link>
+                <Link to="/" className="navbar-brand"><img src={Logo} id="ss-logo"></img></Link>
                 
                 {/* Hamburger Icon */}
                 <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}aria-label="Toggle menu">
