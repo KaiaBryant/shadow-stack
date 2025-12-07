@@ -62,7 +62,7 @@ function AdminDashboard() {
         const loadUsers = async () => {
             try {
                 setLoadingUsers(true);
-                const res = await adminFetch("http://localhost:5000/api/admin/users");
+                const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/users");
 
                 if (!res.ok) throw new Error("Failed to load users");
                 const data = await res.json();
@@ -77,7 +77,7 @@ function AdminDashboard() {
         const loadSessions = async () => {
             try {
                 setLoadingSessions(true);
-                const res = await adminFetch("http://localhost:5000/api/admin/summary");
+                const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/summary");
 
                 if (!res.ok) throw new Error("Failed to load summary");
                 const data = await res.json();
@@ -112,7 +112,7 @@ function AdminDashboard() {
             setBusy(true);
             setError("");
 
-            const res = await adminFetch("http://localhost:5000/api/admin/create-admin", {
+            const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/create-admin", {
                 method: "POST",
                 body: JSON.stringify({
                     username: newAdminUsername,
@@ -139,7 +139,7 @@ function AdminDashboard() {
         try {
             setBusy(true);
             const res = await adminFetch(
-                `http://localhost:5000/api/admin/users/${id}`,
+                `https://shadow-stack.onrender.com/api/admin/users/${id}`,
                 { method: "DELETE" }
             );
 
