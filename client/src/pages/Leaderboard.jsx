@@ -49,7 +49,7 @@ function Leaderboard() {
                                 <div className="rank-badge fs-1" style={{ backgroundColor: topThree[1].color }}>★2</div>
                                 <div className="podium-avatar podium-avatar-second">
                                     {topThree[1].profileImage ? (
-                                        <img src={topThree[1].profileImage} alt={topThree[1].username} className="podium-avatar-img" />
+                                        <img src={topThree[1].profileImage} alt={topThree[1].username} className="podium-avatar-img"/>
                                     ) : (
                                         topThree[1].avatar
                                     )}
@@ -65,7 +65,7 @@ function Leaderboard() {
                                 <div className="rank-badge fs-1">★1</div>
                                 <div className="podium-avatar podium-avatar-first">
                                     {topThree[0].profileImage ? (
-                                        <img src={topThree[0].profileImage} alt={topThree[0].username} className="podium-avatar-img" />
+                                        <img src={topThree[0].profileImage} alt={topThree[0].username} className="podium-avatar-img"/>
                                     ) : (
                                         topThree[0].avatar
                                     )}
@@ -81,7 +81,7 @@ function Leaderboard() {
                                 <div className="rank-badge fs-1">★3</div>
                                 <div className="podium-avatar podium-avatar-third">
                                     {topThree[2].profileImage ? (
-                                        <img src={topThree[2].profileImage} alt={topThree[2].username} className="podium-avatar-img" />
+                                        <img src={topThree[2].profileImage} alt={topThree[2].username} className="podium-avatar-img"/>
                                     ) : (
                                         topThree[2].avatar
                                     )}
@@ -105,7 +105,7 @@ function Leaderboard() {
                             </div>
                             <div className="item-avatar">
                                 {player.profileImage ? (
-                                    <img src={player.profileImage} alt={player.username} className="item-avatar-img" />
+                                    <img src={player.profileImage} alt={player.username}className="item-avatar-img"/>
                                 ) : (
                                     player.avatar
                                 )}

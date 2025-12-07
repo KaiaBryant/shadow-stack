@@ -56,7 +56,7 @@ function Simulator() {
             if (level) {
                 fetchQuestion(level);
                 setCurrentLevelNumber(level);
-
+                
                 // Check if level was already completed before
                 const userId = localStorage.getItem('user_id');
                 if (userId) {
@@ -74,7 +74,7 @@ function Simulator() {
                 }
             }
         };
-
+        
         checkLevelCompletion();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [level]);
@@ -110,6 +110,11 @@ function Simulator() {
             setShowCorrectAnimation(true);
             const newCorrectAnswers = correctAnswers + 1;
             setCorrectAnswers(newCorrectAnswers);
+            
+            // Only add points if level wasn't already completed
+            if (!levelAlreadyCompleted) {
+                setSessionScore((prev) => prev + pointsPerQuestion);
+            }
 
             // Only add points if level wasn't already completed
             if (!levelAlreadyCompleted) {
