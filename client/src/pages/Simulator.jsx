@@ -116,6 +116,11 @@ function Simulator() {
                 setSessionScore((prev) => prev + pointsPerQuestion);
             }
 
+            // Only add points if level wasn't already completed
+            if (!levelAlreadyCompleted) {
+                setSessionScore((prev) => prev + pointsPerQuestion);
+            }
+
             // Check if level completed (5 questions answered correctly)
             if (newCorrectAnswers >= QUESTIONS_TO_COMPLETE) {
                 // Only show confetti if this is a fresh completion
