@@ -1,6 +1,7 @@
 .navbar {
-    background-color: rgba(10, 10, 10, 0.4);
-    position: relative;
+  background-color: rgba(10, 10, 10, 0.4);
+  position: relative;
+  z-index: 1;  
 }
 
 .container-fluid {
