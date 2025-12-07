@@ -6,11 +6,11 @@ const markSessionInactive = (session_id) => {
     return new Promise((resolve, reject) => {
         pool.query(
             `
-            UPDATE user_sessions
-            SET is_active = FALSE, updated_at = NOW()
-            WHERE id = ?
-            `,
-            [session_id],
+      UPDATE user_sessions
+      SET is_active = FALSE, updated_at = NOW()
+      WHERE id = ?
+      `,
+            [Number(session_id)],
             (err) => {
                 if (err) reject(err);
                 else resolve();
@@ -18,7 +18,6 @@ const markSessionInactive = (session_id) => {
         );
     });
 };
-
 
 // Start session 
 export const startSession = (req, res) => {
@@ -28,23 +27,34 @@ export const startSession = (req, res) => {
         return res.status(400).json({ error: "user_id is required" });
     }
 
-    const query = `
+    // Deactivate ALL previous sessions for this user
+    pool.query(
+        "UPDATE user_sessions SET is_active = FALSE WHERE user_id = ?",
+        [Number(user_id)],
+        () => {
+
+            // Start new clean session
+            const query = `
         INSERT INTO user_sessions (user_id, current_level, lives_remaining, attempts_remaining, is_active)
         VALUES (?, 1, 3, 2, TRUE)
-    `;
+      `;
 
-    pool.query(query, [user_id], (err, result) => {
-        if (err) {
-            console.error("Error starting session:", err);
-            return res.status(500).json({ error: "Failed to start session" });
+            pool.query(query, [Number(user_id)], (err, result) => {
+                if (err) {
+                    console.error("Error starting session:", err);
+                    return res.status(500).json({ error: "Failed to start session" });
+                }
+
+                res.json({
+                    message: "Session started",
+                    session_id: result.insertId
+                });
+            });
+
         }
-
-        res.json({
-            message: "Session started",
-            session_id: result.insertId
-        });
-    });
+    );
 };
+
 
 // Update session 
 export const updateSession = async (req, res) => {
@@ -76,8 +86,7 @@ export const updateSession = async (req, res) => {
 
         pool.query(
             query,
-            [current_level, lives_remaining, attempts_remaining, session_id],
-            (err) => {
+            [current_level, lives_remaining, attempts_remaining, Number(session_id)], (err) => {
                 if (err) {
                     console.error("Error updating session:", err);
                     return res.status(500).json({ error: "Failed to update session" });
@@ -101,13 +110,19 @@ export const endSession = async (req, res) => {
     }
 
     try {
-        await markSessionInactive(session_id);
-        res.json({ message: "Session ended (by logout)" });
+        await pool.query(
+            "UPDATE user_sessions SET is_active = FALSE, updated_at = NOW() WHERE id = ?",
+            [Number(session_id)]
+        );
+
+        res.json({ message: "Session force-ended" });
     } catch (err) {
         console.error("Error ending session:", err);
         res.status(500).json({ error: "Failed to end session" });
     }
 };
+
+
 
 
 // Auto-expire inactive sessions > 60 min
@@ -132,33 +147,16 @@ export const expireOldSessions = (req, res) => {
     });
 };
 
-// // End session
-// export const endSession = (req, res) => {
-//     const { session_id } = req.body;
-
-//     if (!session_id) {
-//         return res.status(400).json({ error: "session_id is required" });
-//     }
-
-//     const query = `
-//         UPDATE user_sessions
-//         SET is_active = FALSE, updated_at = NOW()
-//         WHERE id = ?
-//     `;
-
-//     pool.query(query, [session_id], (err) => {
-//         if (err) {
-//             console.error("Error ending session:", err);
-//             return res.status(500).json({ error: "Failed to end session" });
-//         }
-
-//         res.json({ message: "Session ended" });
-//     });
-// };
-
-// Admin + get all session
 export const getAllSessions = (req, res) => {
-    const query = `
+    const expireQuery = `
+    UPDATE user_sessions
+    SET is_active = FALSE
+    WHERE is_active = TRUE
+    AND updated_at < NOW() - INTERVAL 60 MINUTE
+  `;
+
+    pool.query(expireQuery, () => {
+        const query = `
         SELECT 
             s.id AS session_id,
             s.user_id,
@@ -174,12 +172,13 @@ export const getAllSessions = (req, res) => {
         ORDER BY s.updated_at DESC
     `;
 
-    pool.query(query, (err, results) => {
-        if (err) {
-            console.error("Error fetching sessions:", err);
-            return res.status(500).json({ error: "Failed to load sessions" });
-        }
+        pool.query(query, (err, results) => {
+            if (err) {
+                console.error("Error fetching sessions:", err);
+                return res.status(500).json({ error: "Failed to load sessions" });
+            }
 
-        res.json(results);
+            res.json(results);
+        });
     });
 };

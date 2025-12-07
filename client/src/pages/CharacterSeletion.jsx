@@ -114,7 +114,7 @@ function CharacterSelection() {
                             }}
                             onClick={() => handleCardClick(character.position)}
                         >
-                            <div className="character-box border border-3 border-dark rounded bg-white shadow-lg d-flex align-items-center justify-content-center">
+                            <div className="character-box">
                                 <img
                                     src={character.url}
                                     alt={character.character_name}

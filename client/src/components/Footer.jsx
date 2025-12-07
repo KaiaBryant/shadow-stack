@@ -1,68 +1,106 @@
 import "../styles/Footer.css";
 import SocialIcons from "./SocialsIcons";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 import InstagramIcon from "../assets/instagram.svg";
 import GitHubIcon from "../assets/github.svg";
 import LinkedInIcon from "../assets/linkedin.svg";
 import TikTokIcon from "../assets/tiktok.svg";
 
+function Footer({ holidayMode, onToggleHoliday }) {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-function Footer() {
-    const navigate = useNavigate();
-    const username = localStorage.getItem("username");
-    const sessionId = localStorage.getItem("session_id");
-    const adminToken = localStorage.getItem("admin_token");
+  const username = localStorage.getItem("username");
+  const sessionId = localStorage.getItem("session_id");
+  const characterId = localStorage.getItem("character_id");
 
-    // Admin button should show ONLY when NO username
-    const showAdminButton = !username && !sessionId;
+  // Show Levels link only after username AND character are selected
+  const showLevels = username && characterId;
 
+  // Only show Admin when NO username / session
+  const showAdminButton = !username && !sessionId;
 
-    return (
-        <footer>
-            <div className="footer-container d-flex align-items-center">
-                <div className="flex-grow-1 d-flex justify-content-center align-items-center gap-3">
-                    <div className="social-icon-wrapper">
-                        <SocialIcons
-                            href="https://www.instagram.com/"
-                            icon={InstagramIcon}
-                            label="Instagram"
-                        />
-                    </div>
-                    <div className="social-icon-wrapper">
-                        <SocialIcons
-                            href="https://github.com/KaiaBryant/shadow-stack"
-                            icon={GitHubIcon}
-                            label="GitHub"
-                        />
-                    </div>
-                    <div className="social-icon-wrapper">
-                        <SocialIcons
-                            href="https://twitter.com/"
-                            icon={LinkedInIcon}
-                            label="LinkedIn"
-                        />
-                    </div>
-                    <div className="social-icon-wrapper">
-                        <SocialIcons
-                            href="https://www.youtube.com/"
-                            icon={TikTokIcon}
-                            label="TikTok"
-                        />
-                    </div>
-                </div>
-               {showAdminButton && (
-                <button
-                className="admin-btn"
-                onClick={() => navigate("/login")}
-                >
-                Admin
-                </button>
-                )}
-            </div>
-        </footer>
-    );
+  // Only show toggle on Home ("/")
+  const onHome = location.pathname === "/";
+  const showToggle = onHome && typeof onToggleHoliday === "function";
+
+  return (
+    <footer className="footer">
+      <div className="footer-container">
+        {/* Left Section - Mission & Socials */}
+        <div className="footer-section footer-left">
+          <h3 className="footer-brand">ShadowStack</h3>
+          <div className="social-icons">
+            <SocialIcons
+              href="https://www.instagram.com/"
+              icon={InstagramIcon}
+              label="Instagram"
+            />
+            <SocialIcons
+              href="https://github.com/KaiaBryant/shadow-stack"
+              icon={GitHubIcon}
+              label="GitHub"
+            />
+            <SocialIcons
+              href="https://www.linkedin.com"
+              icon={LinkedInIcon}
+              label="LinkedIn"
+            />
+            <SocialIcons
+              href="https://www.tiktok.com"
+              icon={TikTokIcon}
+              label="TikTok"
+            />
+          </div>
+          {/* Holiday Toggle Button */}
+          {showToggle && (
+            <button className="holiday-btn" onClick={onToggleHoliday}>
+              {holidayMode ? "Disable Snow" : "Enable Snow"}
+            </button>
+          )}
+        </div>
+
+        {/* Center Section - Quick Links */}
+        <div className="footer-section footer-center">
+          <h4 className="footer-title">Quick Links</h4>
+          <ul className="footer-links">
+            <li>
+              <a onClick={() => navigate("/")} className="footer-link">
+                Home
+              </a>
+            </li>
+            {showLevels && (
+              <li>
+                <a onClick={() => navigate("/levels")} className="footer-link">Levels</a>
+              </li>
+            )}
+            <li>
+              <a
+                onClick={() => navigate("/leaderboard")}
+                className="footer-link"
+              >
+                Leaderboard
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Right Section - Copyright & Admin */}
+        <div className="footer-section footer-right">
+          <div className="copyright">
+            <p>&copy; {new Date().getFullYear()} ShadowStack</p>
+            <p className="copyright-subtext">All rights reserved</p>
+          </div>
+          {showAdminButton && (
+            <button className="admin-btn" onClick={() => navigate("/login")}>
+              Admin Login
+            </button>
+          )}
+        </div>
+      </div>
+    </footer>
+  );
 }
 
 export default Footer;

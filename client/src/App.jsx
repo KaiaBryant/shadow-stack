@@ -1,6 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Admin from "./pages/Admin";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Results from "./pages/Results";
@@ -10,57 +12,38 @@ import CreateUser from "./pages/CreateUsername";
 import GameIntro from "./pages/GameIntro";
 import Login from "./pages/Login";
 import LevelsMenu from "./components/LevelsMenu";
-import Objective from "./pages/GameIntro";
-import Admin from "./pages/Admin";
 import AdminRegister from "./pages/AdminRegister";
-
-import "./styles/global.css"
-
-function RequireAdminAuth({ children }) {
-  const token = localStorage.getItem("admin_token");
-  if (!token) return <Navigate to="/login" replace />;
-  return children;
-}
+import "./styles/global.css";
 
 function App() {
+  const [holidayMode, setHolidayMode] = useState(false);   // ⬅️ single source of truth
+
   return (
     <Router>
-      {/* Background blobs */}
-      <div className="background-blob blob-1"></div>
-      <div className="background-blob blob-2"></div>
+      <Header />
 
-      {/* Flex column layout that fills the viewport */}
-      <div className="d-flex flex-column min-vh-100">
-        <Header />
+      <main>
+        <Routes>
+          {/* Pass holidayMode into Home so it shows snow */}
+          <Route path="/" element={<Home holidayMode={holidayMode} />} />
+          <Route path="/character-select" element={<CharacterSelection />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/simulator" element={<Simulator />} />
+          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/objective" element={<GameIntro />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/levels" element={<LevelsMenu />} />
+          <Route path="/register" element={<AdminRegister />} />
+        </Routes>
+      </main>
 
-        {/* This grows to fill the leftover space */}
-        <main className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/character-select" element={<CharacterSelection />} />
-            {/* <Route path="/admin" element={<Admin />} /> */}
-            <Route
-              path="/admin"
-              element={
-                <RequireAdminAuth>
-                  <Admin />
-                </RequireAdminAuth>
-              }
-            />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/simulator" element={<Simulator />} />
-            <Route path="/createuser" element={<CreateUser />} />
-            <Route path="/gameintro" element={<GameIntro />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/levels" element={<LevelsMenu />} />
-            <Route path="/objective" element={<Objective />} />
-            <Route path="/register" element={<AdminRegister />} />
-          </Routes>
-        </main>
-
-        <Footer />
-      </div>
+      {/* ✅ Single global footer – button only shows on Home based on location */}
+      <Footer
+        holidayMode={holidayMode}
+        onToggleHoliday={() => setHolidayMode((prev) => !prev)}
+      />
     </Router>
   );
 }

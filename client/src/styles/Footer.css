@@ -1,22 +1,159 @@
-.icons-center {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+/* Footer Main Container */
+.footer {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(59, 130, 246, 0.3);
+    color: #e2e8f0;
+    margin-top: auto;
+    position: relative;
+    z-index: 0;
 }
 
-/* Make footer flex + responsive */
-.footer-container {
-    padding: 1rem 1.5rem;
-    color: white;
-    background: rgba(10, 10, 10, 0.4);
-    backdrop-filter: blur(10px);
-    border-top: 4px solid rgba(0, 0, 0, 0.9) inset;
+/* Holiday Toggle Button */
+.holiday-btn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    border: none;
+    background: white;
+    color: purple;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: fit-content;
+}
 
+.holiday-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(96, 165, 250, 0.3);
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 1rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Footer Sections */
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Left Section - Mission & Socials */
+.footer-left {
+    max-width: 350px;
+}
+
+.footer-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #60a5fa;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, purple 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.social-icons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.social-icons a {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-3px);
+}
+
+.social-icons img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+}
+
+/* Center Section - Quick Links */
+.footer-center {
+    padding-left: 1rem;
+}
+
+.footer-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: purple;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    list-style: none;
+    font-family: "Oxanium", sans-serif !important;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.footer-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-link:hover {
+    color: #C5BAFF;
+    padding-left: 5px;
+}
+
+
+/* Right Section - Copyright & Admin */
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.copyright {
+    text-align: right;
+}
+
+.copyright p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+}
+
+.copyright-subtext {
+    font-size: 0.75rem !important;
+    color: #94a3b8 !important;
+    margin-top: 0.2rem !important;
 }
 
 .admin-btn {
@@ -26,35 +163,90 @@
     background: white;
     color: purple;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-/* Prevent generic footer images from blowing up */
-.footer-container img {
-    max-width: 100%;
-    height: auto;
+.admin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(96, 165, 250, 0.3);
 }
 
-/* Explicit size for social icons */
-.social-icon-wrapper img {
-    width: 24px;
-    height: 24px;
-}
-
-/* Stack footer content on phones */
-@media (max-width: 576px) {
+/* Tablet Responsive */
+@media (max-width: 992px) {
     .footer-container {
-        flex-direction: column;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        padding: 2rem 1.5rem 1rem;
+    }
+
+    .footer-left {
+        grid-column: 1 / -1;
+        max-width: 100%;
+    }
+
+    .footer-center {
+        padding-left: 0;
+    }
+
+    .footer-right {
         align-items: flex-start;
     }
 
-    .icons-center {
-        justify-content: flex-start;
+    .copyright {
+        text-align: left;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem 1rem 1rem;
+    }
+
+    .holiday-btn {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.85rem;
+    }
+
+    .footer-left {
+        text-align: center;
+    }
+
+    .footer-brand {
+        font-size: 1.3rem;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-center {
+        text-align: center;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+
+    .footer-link:hover {
+        padding-left: 0;
+    }
+
+    .footer-right {
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .copyright {
+        text-align: center;
     }
 
     .admin-btn {
         width: 100%;
-        text-align: center;
+        max-width: 250px;
     }
 }

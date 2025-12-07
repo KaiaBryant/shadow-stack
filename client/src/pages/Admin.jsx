@@ -14,12 +14,28 @@ function AdminDashboard() {
     const [newAdminPassword, setNewAdminPassword] = useState("");
     const [newAdminPin, setNewAdminPin] = useState("");
 
+
     const [busy, setBusy] = useState(false);
 
     const navigate = useNavigate();
 
     const token = localStorage.getItem("admin_token");
     const adminUsername = localStorage.getItem("admin_username");
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
 
     // Logout clears token and redirects 
     const handleLogout = () => {
@@ -46,7 +62,7 @@ function AdminDashboard() {
         const loadUsers = async () => {
             try {
                 setLoadingUsers(true);
-                const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/users");
+                const res = await adminFetch("http://localhost:5000/api/admin/users");
 
                 if (!res.ok) throw new Error("Failed to load users");
                 const data = await res.json();
@@ -61,9 +77,9 @@ function AdminDashboard() {
         const loadSessions = async () => {
             try {
                 setLoadingSessions(true);
-                const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/sessions");
+                const res = await adminFetch("http://localhost:5000/api/admin/summary");
 
-                if (!res.ok) throw new Error("Failed to load sessions");
+                if (!res.ok) throw new Error("Failed to load summary");
                 const data = await res.json();
                 setSessions(data);
             } catch (err) {
@@ -75,6 +91,12 @@ function AdminDashboard() {
 
         loadUsers();
         loadSessions();
+
+        // const interval = setInterval(() => {
+        //     loadSessions();
+        // }, 10000);
+
+        // return () => clearInterval(interval);
     }, []);
 
     // Create a new admin
@@ -90,7 +112,7 @@ function AdminDashboard() {
             setBusy(true);
             setError("");
 
-            const res = await adminFetch("https://shadow-stack.onrender.com/api/admin/create-admin", {
+            const res = await adminFetch("http://localhost:5000/api/admin/create-admin", {
                 method: "POST",
                 body: JSON.stringify({
                     username: newAdminUsername,
@@ -117,7 +139,7 @@ function AdminDashboard() {
         try {
             setBusy(true);
             const res = await adminFetch(
-                `https://shadow-stack.onrender.com/api/admin/users/${id}`,
+                `http://localhost:5000/api/admin/users/${id}`,
                 { method: "DELETE" }
             );
 
@@ -141,29 +163,100 @@ function AdminDashboard() {
                     <div className="d-flex justify-content-between align-items-center mb-3">
 
                         <h2 className="admin-dashboard-title"> Welcome, <strong>{adminUsername}</strong></h2>
-
-                        {/* Create new admin user button */}
-                        <button
-                            className="new-admin-btn"
-                            onClick={() => setShowCreateAdmin((prev) => !prev)}
-                        >
-                            {showCreateAdmin ? "Close" : "Create New Admin"}
-                        </button>
-
-                        {/* Logout button*/}
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-danger"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
                     </div>
-
-
-
                     {error && <div className="admin-error mb-3">{error}</div>}
 
+                    {/* Users Table */}
+                    <h5 className="section-heading mb-3">Users</h5>
+
+                    {loadingUsers ? (
+                        <p className="text-light">Loading users...</p>
+                    ) : users.length === 0 ? (
+                        <p className="text-light">No users found.</p>
+                    ) : (
+                        <div className="scroll-container mb-4">
+                            <table className="table table-dark table-striped table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Character</th>
+                                        <th>Created</th>
+                                        <th style={{ width: "150px" }}>Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {users.map((user) => (
+                                        <tr key={user.id}>
+                                            <td>{user.username}</td>
+                                            <td>{user.character_id ?? "—"}</td>
+                                            <td>{formatTimestamp(user.created_at)}</td>
+
+
+                                            <td>
+                                                <button
+                                                    className="btn btn-sm btn-outline-danger"
+                                                    onClick={() => handleDeleteUser(user.id)}
+                                                    disabled={busy}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    )}
+
+                    {/* Sessions List */}
+                    <h5 className="section-heading mb-3">User Sessions</h5>
+
+                    {loadingSessions ? (
+                        <p className="text-light">Loading sessions...</p>
+                    ) : sessions.length === 0 ? (
+                        <p className="text-light">No sessions found.</p>
+                    ) : (
+                        <div className="table-responsive scroll-container mb-4">
+                            <table className="table table-dark table-striped table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>User ID</th>
+                                        <th>Level</th>
+                                        {/* <th>Lives</th> */}
+                                        <th>Score</th>
+                                        <th>Active?</th>
+                                        {/* <th>Created</th> */}
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {sessions.map((s) => (
+                                        <tr key={s.user_id}>
+                                            <td>{s.username}</td>
+                                            <td>{s.user_id}</td>
+                                            <td>{s.current_level ?? "—"}</td>
+                                            {/* <td>{s.lives_remaining ?? "—"}</td> */}
+                                            <td>{s.score ?? "—"}</td>
+                                            <td>{s.is_active ? "Yes" : "No"}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+                <div className="bottom-admin-container">
+                    {/* Create new admin user button */}
+                    <button
+                        // type="button"
+                        className="new-admin-btn"
+                        onClick={() => setShowCreateAdmin((prev) => !prev)}
+                    >
+                        {showCreateAdmin ? "Close" : "Create New Admin"}
+                    </button>
                     {/* Create Admin Form */}
                     {showCreateAdmin && (
                         <form onSubmit={handleCreateAdmin} className="admin-create-form">
@@ -205,87 +298,14 @@ function AdminDashboard() {
                             </div>
                         </form>
                     )}
-
-                    {/* Users Table */}
-                    <h5 className="section-heading mb-3">Users</h5>
-
-                    {loadingUsers ? (
-                        <p className="text-light">Loading users...</p>
-                    ) : users.length === 0 ? (
-                        <p className="text-light">No users found.</p>
-                    ) : (
-                        <div className="scroll-container mb-4">
-                            <table className="table table-dark table-striped table-hover align-middle mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Username</th>
-                                        <th>Character</th>
-                                        <th>Created</th>
-                                        <th style={{ width: "150px" }}>Actions</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {users.map((user) => (
-                                        <tr key={user.id}>
-                                            <td>{user.username}</td>
-                                            <td>{user.character_id ?? "—"}</td>
-                                            <td>{user.created_at}</td>
-
-                                            <td>
-                                                <button
-                                                    className="btn btn-sm btn-outline-danger"
-                                                    onClick={() => handleDeleteUser(user.id)}
-                                                    disabled={busy}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                    )}
-
-                    {/* Sessions List */}
-                    <h5 className="section-heading mb-3">User Sessions</h5>
-
-                    {loadingSessions ? (
-                        <p className="text-light">Loading sessions...</p>
-                    ) : sessions.length === 0 ? (
-                        <p className="text-light">No sessions found.</p>
-                    ) : (
-                        <div className="table-responsive scroll-container mb-4">
-                            <table className="table table-dark table-striped table-hover align-middle mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>User ID</th>
-                                        <th>Level</th>
-                                        <th>Lives</th>
-                                        <th>Attempts</th>
-                                        <th>Active?</th>
-                                        <th>Created</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {sessions.map((s) => (
-                                        <tr key={s.id}>
-                                            <td>{s.user_id}</td>
-                                            <td>{s.current_level}</td>
-                                            <td>{s.lives_remaining}</td>
-                                            <td>{s.attempts_remaining}</td>
-                                            <td>{s.is_active ? "Yes" : "No"}</td>
-                                            <td>{s.created_at}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-
+                    {/* Logout button*/}
+                    <button
+                        type="button"
+                        className="logout-btn"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
