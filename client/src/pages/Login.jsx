@@ -13,7 +13,7 @@ function AdminLogin() {
 
   // Call backend to verify admin credentials + MFA
   const loginAdmin = async (username, password, mfaCode) => {
-    const response = await fetch("http://localhost:5000/api/admin/login", {
+    const response = await fetch("https://shadow-stack.onrender.com/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password, pin_code: mfaCode }),

@@ -27,7 +27,7 @@ function CreateUser() {
 
   // Create user in DB
   const createUser = async (username) => {
-    const response = await fetch("http://localhost:5000/api/users", {
+    const response = await fetch("https://shadow-stack.onrender.com/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username }),
@@ -47,7 +47,7 @@ function CreateUser() {
 
   // Start session in DB
   const startSession = async (user_id) => {
-    const response = await fetch("http://localhost:5000/api/sessions/start", {
+    const response = await fetch("https://shadow-stack.onrender.com/api/sessions/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id }),
@@ -62,7 +62,7 @@ function CreateUser() {
 
   // Fetch user data to check if character exists
   const getUserData = async (user_id) => {
-    const response = await fetch(`http://localhost:5000/api/users/${user_id}`, {
+    const response = await fetch(`https://shadow-stack.onrender.com/api/users/${user_id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

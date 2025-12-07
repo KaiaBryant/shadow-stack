@@ -23,7 +23,7 @@ export default function LevelsMenu() {
       if (!characterId) return;
 
       try {
-        const response = await axios.get("http://localhost:5000/api/characters");
+        const response = await axios.get("https://shadow-stack.onrender.com/api/characters");
         const character = response.data.find(c => c.id === parseInt(characterId));
         
         if (character && character.url) {
@@ -58,7 +58,7 @@ export default function LevelsMenu() {
 
         for (const level of levels) {
           const res = await axios.get(
-            `http://localhost:5000/api/leaderboard/check-completion`,
+            `https://shadow-stack.onrender.com/api/leaderboard/check-completion`,
             {
               params: {
                 user_id: userId,

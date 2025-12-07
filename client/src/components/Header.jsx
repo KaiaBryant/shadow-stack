@@ -32,7 +32,7 @@ function Header() {
 
             // ✅ 1. Always notify backend FIRST
             if (sessionId) {
-                await fetch("http://localhost:5000/api/session/end", {
+                await fetch("https://shadow-stack.onrender.com/api/session/end", {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ session_id: sessionId })

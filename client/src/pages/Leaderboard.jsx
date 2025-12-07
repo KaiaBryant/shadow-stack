@@ -7,13 +7,13 @@ function Leaderboard() {
 
     useEffect(() => {
         // Fetch characters from backend
-        fetch("http://localhost:5000/api/characters")
+        fetch("https://shadow-stack.onrender.com/api/characters")
             .then((res) => res.json())
             .then((data) => setCharacters(data))
             .catch((err) => console.error("Error loading characters:", err));
 
         // Fetch leaderboard
-        fetch("http://localhost:5000/api/leaderboard")
+        fetch("https://shadow-stack.onrender.com/api/leaderboard")
             .then((res) => res.json())
             .then((data) => setLeaders(data))
             .catch((err) => console.error("Error loading leaderboard:", err));

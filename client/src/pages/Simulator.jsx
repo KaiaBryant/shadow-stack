@@ -62,7 +62,7 @@ function Simulator() {
                 if (userId) {
                     try {
                         const response = await axios.get(
-                            `http://localhost:5000/api/leaderboard/check-completion?user_id=${userId}&level=${level}`
+                            `https://shadow-stack.onrender.com/api/leaderboard/check-completion?user_id=${userId}&level=${level}`
                         );
                         setLevelAlreadyCompleted(response.data.completed || false);
                     } catch (err) {
@@ -88,7 +88,7 @@ function Simulator() {
 
         try {
             const response = await axios.get(
-                `http://localhost:5000/api/questions/${level}?sessionId=${sessionId}`
+                `https://shadow-stack.onrender.com/api/questions/${level}?sessionId=${sessionId}`
             );
             setCurrentQuestion(response.data);
         } catch (err) {
@@ -165,7 +165,7 @@ function Simulator() {
             };
 
             const response = await axios.post(
-                'http://localhost:5000/api/leaderboard',
+                'https://shadow-stack.onrender.com/api/leaderboard',
                 payload
             );
 
