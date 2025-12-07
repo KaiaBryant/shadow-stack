@@ -7,6 +7,10 @@ import Logo from "../assets/logo-new.png";
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
 
     // User auth
     const username = localStorage.getItem("username");
@@ -24,7 +28,9 @@ function Header() {
 
     const handleLogout = async () => {
         try {
-            // End active gameplay session if stored
+            const sessionId = localStorage.getItem("session_id");
+
+            // ✅ 1. Always notify backend FIRST
             if (sessionId) {
                 await fetch("http://localhost:5000/api/session/end", {
                     method: "PUT",
@@ -33,29 +39,24 @@ function Header() {
                 });
             }
 
-            // Clear gameplay + user info
-            localStorage.removeItem("username");
-            localStorage.removeItem("session_id");
-            localStorage.removeItem("character_id");
-            setIsMenuOpen(false);
-            navigate("/");
         } catch (err) {
-            console.error("Logout error:", err);
-            navigate("/");
+            console.error("Logout API failed:", err);
+        } finally {
+            localStorage.clear();
+            sessionStorage.clear();
+            setIsMenuOpen(false);
+            window.location.href = "/";
         }
     };
 
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
 
     return (
         <nav className="navbar">
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand"><img src={Logo} id="ss-logo"></img></Link>
-                
+
                 {/* Hamburger Icon */}
-                <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}aria-label="Toggle menu">
+                <button className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                     <span className={isMenuOpen ? "active" : ""}></span>
                     <span className={isMenuOpen ? "active" : ""}></span>
                     <span className={isMenuOpen ? "active" : ""}></span>
@@ -66,17 +67,17 @@ function Header() {
                     <NavLink to="/" className="nav-link fw-semibold fs-5 text-white">
                         Home
                     </NavLink>
-                    
+
                     {showLevels && (
                         <NavLink to="/levels" className="nav-link fw-semibold fs-5 text-white">
                             Levels
                         </NavLink>
                     )}
-                    
+
                     <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white">
                         Leaderboard
                     </NavLink>
-                    
+
                     {showLogout && !adminToken && (
                         <button className="logout-btn" onClick={handleLogout}>
                             Logout
@@ -89,17 +90,17 @@ function Header() {
                     <NavLink to="/" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
                         Home
                     </NavLink>
-                    
+
                     {showLevels && (
                         <NavLink to="/levels" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
                             Levels
                         </NavLink>
                     )}
-                    
+
                     <NavLink to="/leaderboard" className="nav-link fw-semibold fs-5 text-white" onClick={closeMenu}>
                         Leaderboard
                     </NavLink>
-                    
+
                     {showLogout && !adminToken && (
                         <button className="logout-btn mobile-logout" onClick={handleLogout}>
                             Logout

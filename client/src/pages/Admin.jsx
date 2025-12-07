@@ -91,6 +91,12 @@ function AdminDashboard() {
 
         loadUsers();
         loadSessions();
+
+        // const interval = setInterval(() => {
+        //     loadSessions();
+        // }, 10000);
+
+        // return () => clearInterval(interval);
     }, []);
 
     // Create a new admin
