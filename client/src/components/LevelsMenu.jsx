@@ -124,7 +124,7 @@ export default function LevelsMenu() {
             </div>
 
             <div className="levels-hud-card">
-              <span className="hud-label">Difficulty</span>
+              <span className="hud-label">Title</span>
               <span className="hud-value">
                 {maxUnlocked <= 2
                   ? "Rookie"

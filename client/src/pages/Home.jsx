@@ -35,8 +35,9 @@ function Home({ holidayMode }) {
         </div>
       )}
 
-      {/* Main home content */}
-      <div className="d-flex align-items-center justify-content-center min-vh-100">
+      <div className="home-background"></div>
+
+      <div className="home-content d-flex align-items-center justify-content-center min-vh-100">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-10 col-xl-8 text-center">
