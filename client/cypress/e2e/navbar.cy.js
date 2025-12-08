@@ -1,12 +1,10 @@
 const BASE_URL = "http://localhost:5173"; 
-// 👆 Change if your app runs on a different port (3000, 4173, etc)
 
 describe("Header navbar behavior", () => {
   beforeEach(() => {
     cy.clearLocalStorage();
   });
 
-  // ------------------ BASE VISIBILITY TESTS ------------------
 
   it("always shows Home and Leaderboard links", () => {
     cy.visit(`${BASE_URL}/`);
@@ -32,7 +30,6 @@ describe("Header navbar behavior", () => {
     cy.contains("a", "Levels").should("be.visible");
   });
 
-  // ------------------ LOGOUT VISIBILITY CASES ------------------
 
   it("shows Logout when username exists and no admin_token", () => {
     cy.visit(`${BASE_URL}/`, {
@@ -65,7 +62,7 @@ describe("Header navbar behavior", () => {
     cy.contains("button", "Logout").should("not.exist");
   });
 
-  // ------------------ MOBILE NAV TEST ------------------
+
 
   it("mobile menu: hamburger opens menu and shows Logout when logged in", () => {
     cy.viewport(375, 667); // simulate iPhone size

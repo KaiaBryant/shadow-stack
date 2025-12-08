@@ -42,7 +42,10 @@ function CharacterSelection() {
         try {
             await saveCharacter(selectedCharacter.id);
 
-            // store on frontend too
+            // FIXED: Store with the correct key that Simulator.jsx expects
+            localStorage.setItem("selected_character_id", selectedCharacter.id);
+
+            // Also store the old key for backward compatibility if needed elsewhere
             localStorage.setItem("character_id", selectedCharacter.id);
 
             navigate('/objective');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "../styles/Simulator.css";
 import axios from 'axios';
@@ -11,6 +11,10 @@ function Simulator() {
     const location = useLocation();
     const navigate = useNavigate();
     const level = location.state?.level ?? 1;
+
+    // Store all preloaded questions
+    const questionQueue = useRef([]);
+    const currentQuestionIndex = useRef(0);
 
     // State management
     const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -29,7 +33,6 @@ function Simulator() {
     // Constants
     const QUESTIONS_TO_COMPLETE = 5;
     const MAX_LEVEL = 7;
-    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Calculate points per question based on level
     const pointsPerQuestion = 50 * Math.pow(2, currentLevelNumber - 1);
@@ -54,7 +57,12 @@ function Simulator() {
     useEffect(() => {
         const checkLevelCompletion = async () => {
             if (level) {
-                fetchQuestion(level);
+                // Reset question queue and index
+                questionQueue.current = [];
+                currentQuestionIndex.current = 0;
+                
+                // Preload all questions for this level
+                await preloadQuestions(level);
                 setCurrentLevelNumber(level);
                 
                 // Check if level was already completed before
@@ -79,23 +87,44 @@ function Simulator() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [level]);
 
-    // Fetches a random question from the backend for the specified level
-    const fetchQuestion = async (level) => {
+    // Preload 5 random questions at once
+    const preloadQuestions = async (level) => {
         setLoading(true);
         setError(null);
-        setSelectedAnswer(null);
-        setShowExplanation(false);
 
         try {
+            // Use the batch endpoint: /api/questions/batch/:level
             const response = await axios.get(
-                `https://shadow-stack.onrender.com/api/questions/${level}?sessionId=${sessionId}`
+                `https://shadow-stack.onrender.com/api/questions/batch/${level}?count=${QUESTIONS_TO_COMPLETE}`
             );
-            setCurrentQuestion(response.data);
+            
+            console.log('Preloaded questions:', response.data);
+            
+            questionQueue.current = response.data.questions;
+            currentQuestionIndex.current = 0;
+            
+            // Set the first question
+            if (questionQueue.current.length > 0) {
+                setCurrentQuestion(questionQueue.current[0]);
+            } else {
+                setError("No questions available for this level.");
+            }
         } catch (err) {
-            console.error("Error fetching question:", err);
-            setError("Failed to load question. Please try again.");
+            console.error("Error preloading questions:", err);
+            setError("Failed to load questions. Please try again.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Move to next preloaded question
+    const loadNextQuestion = () => {
+        currentQuestionIndex.current += 1;
+        
+        if (currentQuestionIndex.current < questionQueue.current.length) {
+            setCurrentQuestion(questionQueue.current[currentQuestionIndex.current]);
+            setSelectedAnswer(null);
+            setShowExplanation(false);
         }
     };
 
@@ -111,11 +140,6 @@ function Simulator() {
             const newCorrectAnswers = correctAnswers + 1;
             setCorrectAnswers(newCorrectAnswers);
             
-            // Only add points if level wasn't already completed
-            if (!levelAlreadyCompleted) {
-                setSessionScore((prev) => prev + pointsPerQuestion);
-            }
-
             // Only add points if level wasn't already completed
             if (!levelAlreadyCompleted) {
                 setSessionScore((prev) => prev + pointsPerQuestion);
@@ -188,7 +212,7 @@ function Simulator() {
         if (threatLevel === 3 || correctAnswers >= QUESTIONS_TO_COMPLETE) {
             return;
         }
-        fetchQuestion(currentLevelNumber);
+        loadNextQuestion();
     };
 
     // Handles level completion logic
@@ -215,7 +239,11 @@ function Simulator() {
             setCurrentLevelNumber(nextLevel);
             setSessionScore(0);
             setLevelAlreadyCompleted(false);
-            fetchQuestion(nextLevel);
+            
+            // Reset and preload questions for new level
+            questionQueue.current = [];
+            currentQuestionIndex.current = 0;
+            await preloadQuestions(nextLevel);
         } else {
             navigate('/levels');
         }

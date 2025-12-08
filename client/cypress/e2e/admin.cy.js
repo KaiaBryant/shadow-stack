@@ -1,11 +1,11 @@
-const BASE_URL = "http://localhost:5173"; // 👈 change if your app runs on 3000 / 4173 etc.
+const BASE_URL = "http://localhost:5173"; 
 const API_BASE = "https://shadow-stack.onrender.com/api/admin";
 
 describe("Admin Dashboard", () => {
   const adminUsername = "shadow-admin";
   const adminToken = "test-token-123";
 
-  // This runs before EVERY test
+  
   beforeEach(() => {
     cy.clearLocalStorage();
 
@@ -62,7 +62,7 @@ describe("Admin Dashboard", () => {
     cy.wait("@getSummary");
   });
 
-  // ---------- BASIC RENDERING ----------
+
 
   it("shows welcome message with admin username", () => {
     cy.contains("Welcome,").should("be.visible");
@@ -91,7 +91,6 @@ describe("Admin Dashboard", () => {
     });
   });
 
-  // ---------- CREATE ADMIN ----------
 
   it("allows creating a new admin user", () => {
     cy.intercept("POST", `${API_BASE}/create-admin`, (req) => {
@@ -126,8 +125,7 @@ describe("Admin Dashboard", () => {
 
     cy.wait("@createAdmin");
   });
-
-  // ---------- DELETE USER ----------
+-
 
   it("allows deleting a user from the users table", () => {
     cy.intercept("DELETE", `${API_BASE}/users/1`, {
@@ -138,7 +136,6 @@ describe("Admin Dashboard", () => {
     // Confirm dialog should return true
     cy.on("window:confirm", () => true);
 
-    // Work ONLY inside the Users table (first .scroll-container)
     cy.get(".scroll-container").first().within(() => {
       // make sure alice is there first
       cy.contains("td", "alice").should("exist");
@@ -153,14 +150,13 @@ describe("Admin Dashboard", () => {
 
     cy.wait("@deleteUser");
 
-    // Users table should no longer have alice (sessions table can still have her)
+    // Users table should no longer have alice 
     cy.get(".scroll-container").first().within(() => {
       cy.contains("td", "alice").should("not.exist");
       cy.contains("td", "bob").should("exist");
     });
   });
 
-  // ---------- LOGOUT ----------
 
   it("logs out and redirects to /login", () => {
     cy.contains("button", "Logout").click();
