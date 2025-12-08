@@ -95,7 +95,7 @@ function Simulator() {
         try {
             // Use the batch endpoint: /api/questions/batch/:level
             const response = await axios.get(
-                `https://shadow-stack.onrender.com/api/questions/batch/${level}?count=${QUESTIONS_TO_COMPLETE}`
+                `https://shadow-stack.onrender.com/api/questions/batch/${level}?count=${7}`
             );
             
             console.log('Preloaded questions:', response.data);
