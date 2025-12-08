@@ -13,7 +13,7 @@ function CreateUser() {
   // Redirect if user already exists
   useEffect(() => {
     const existingUsername = localStorage.getItem("username");
-    const existingCharacterId = localStorage.getItem("character_id");
+    const existingCharacterId = localStorage.getItem("selected_character_id") || localStorage.getItem("character_id");
 
     // If user has both username and character, redirect to levels
     if (existingUsername && existingCharacterId) {
@@ -136,7 +136,9 @@ function CreateUser() {
 
       // If user has a character, go to levels, otherwise go to character select
       if (userData.character_id) {
-        localStorage.setItem("character_id", userData.character_id);
+        // FIXED: Store with consistent key
+        localStorage.setItem("selected_character_id", userData.character_id);
+        localStorage.setItem("character_id", userData.character_id); // backward compatibility
         navigate("/levels");
       } else {
         navigate("/character-select");

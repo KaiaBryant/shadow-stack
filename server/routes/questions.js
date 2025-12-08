@@ -1,9 +1,12 @@
-//Simulation questions route
-import express from "express";
-import { getQuestionByLevel } from "../controllers/questionsController.js";
+import express from 'express';
+import { getQuestionByLevel, getQuestionsBatch } from '../controllers/questionsController.js';
 
 const router = express.Router();
 
-router.get("/:level", getQuestionByLevel);
+// Batch route with 'batch' keyword first
+router.get('/batch/:level', getQuestionsBatch);
+
+// Single question route
+router.get('/:level', getQuestionByLevel);
 
 export default router;
