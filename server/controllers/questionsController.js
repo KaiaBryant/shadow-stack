@@ -3,7 +3,7 @@ import pool from "../db.js";
 // Get multiple random questions at once (batch)
 export const getQuestionsBatch = async (req, res) => {
     const { level } = req.params;
-    const count = parseInt(req.query.count) || 5;
+    const count = parseInt(req.query.count) || 7;
 
     try {
         const query = `
