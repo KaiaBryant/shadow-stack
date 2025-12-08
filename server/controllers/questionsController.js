@@ -1,22 +1,11 @@
 import pool from "../db.js";
 
-// Store recently asked questions per session
-const recentQuestions = new Map();
-
-export const getQuestionByLevel = async (req, res) => {
+// Get multiple random questions at once (batch)
+export const getQuestionsBatch = async (req, res) => {
     const { level } = req.params;
-    const sessionId = req.query.sessionId || 'default';
+    const count = parseInt(req.query.count) || 5;
 
     try {
-        // Get list of recently asked questions for this session
-        const askedQuestions = recentQuestions.get(`${sessionId}-${level}`) || [];
-
-        // Build exclusion clause
-        let excludeClause = '';
-        if (askedQuestions.length > 0) {
-            excludeClause = `AND id NOT IN (${askedQuestions.join(',')})`;
-        }
-
         const query = `
             SELECT 
                 id,
@@ -28,7 +17,61 @@ export const getQuestionByLevel = async (req, res) => {
                 wrong_answer_3,
                 explanation
             FROM questions 
-            WHERE level = ? ${excludeClause}
+            WHERE level = ?
+            ORDER BY RAND() 
+            LIMIT ?
+        `;
+
+        pool.query(query, [level, count], (error, results) => {
+            if (error) {
+                console.error("Database error:", error);
+                return res.status(500).json({
+                    error: "Failed to fetch questions",
+                    details: error.message
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    error: "No questions found for this level"
+                });
+            }
+
+            // Format each question with shuffled answers
+            const formattedQuestions = results.map(question => formatQuestion(question));
+
+            res.json({
+                questions: formattedQuestions,
+                count: formattedQuestions.length
+            });
+        });
+
+    } catch (error) {
+        console.error("Server error:", error);
+        res.status(500).json({
+            error: "Server error",
+            details: error.message
+        });
+    }
+};
+
+// Original single question endpoint (kept for backward compatibility)
+export const getQuestionByLevel = async (req, res) => {
+    const { level } = req.params;
+
+    try {
+        const query = `
+            SELECT 
+                id,
+                level,
+                question_text,
+                correct_answer,
+                wrong_answer_1,
+                wrong_answer_2,
+                wrong_answer_3,
+                explanation
+            FROM questions 
+            WHERE level = ?
             ORDER BY RAND() 
             LIMIT 1
         `;
@@ -42,42 +85,14 @@ export const getQuestionByLevel = async (req, res) => {
                 });
             }
 
-            // If no questions found (all have been asked), reset the list
             if (results.length === 0) {
-                recentQuestions.delete(`${sessionId}-${level}`);
-
-                // Try again without exclusions
-                const retryQuery = `
-                    SELECT 
-                        id,
-                        level,
-                        question_text,
-                        correct_answer,
-                        wrong_answer_1,
-                        wrong_answer_2,
-                        wrong_answer_3,
-                        explanation
-                    FROM questions 
-                    WHERE level = ?
-                    ORDER BY RAND() 
-                    LIMIT 1
-                `;
-
-                pool.query(retryQuery, [level], (retryError, retryResults) => {
-                    if (retryError || retryResults.length === 0) {
-                        return res.status(404).json({
-                            error: "No questions found for this level"
-                        });
-                    }
-
-                    const question = retryResults[0];
-                    sendFormattedQuestion(question, sessionId, level, res);
+                return res.status(404).json({
+                    error: "No questions found for this level"
                 });
-                return;
             }
 
             const question = results[0];
-            sendFormattedQuestion(question, sessionId, level, res);
+            res.json(formatQuestion(question));
         });
 
     } catch (error) {
@@ -89,23 +104,8 @@ export const getQuestionByLevel = async (req, res) => {
     }
 };
 
-function sendFormattedQuestion(question, sessionId, level, res) {
-    // Add this question to the recent questions list IMMEDIATELY
-    const key = `${sessionId}-${level}`;
-    const askedQuestions = recentQuestions.get(key) || [];
-    
-    // Only add if not already in the list
-    if (!askedQuestions.includes(question.id)) {
-        askedQuestions.push(question.id);
-    }
-
-    // Keep only last 10 questions to avoid memory issues
-    if (askedQuestions.length > 10) {
-        askedQuestions.shift();
-    }
-
-    recentQuestions.set(key, askedQuestions);
-
+// Helper function to format a question with shuffled answers
+function formatQuestion(question) {
     // Create array of all answers
     const answers = [
         { text: question.correct_answer, isCorrect: true },
@@ -114,7 +114,7 @@ function sendFormattedQuestion(question, sessionId, level, res) {
         { text: question.wrong_answer_3, isCorrect: false }
     ];
 
-    // Shuffle answers 
+    // Shuffle answers using Fisher-Yates algorithm
     for (let i = answers.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [answers[i], answers[j]] = [answers[j], answers[i]];
@@ -130,8 +130,8 @@ function sendFormattedQuestion(question, sessionId, level, res) {
         }
     });
 
-    // Send properly formatted response
-    res.json({
+    // Return formatted question
+    return {
         id: question.id,
         level: question.level,
         question_text: question.question_text,
@@ -141,5 +141,5 @@ function sendFormattedQuestion(question, sessionId, level, res) {
         option_d: answers[3].text,
         correct_answer: correctAnswerLetter,
         explanation: question.explanation
-    });
+    };
 }
