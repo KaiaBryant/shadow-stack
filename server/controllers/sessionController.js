@@ -36,7 +36,7 @@ export const startSession = (req, res) => {
             // Start new clean session
             const query = `
         INSERT INTO user_sessions (user_id, current_level, lives_remaining, attempts_remaining, is_active)
-        VALUES (?, 1, 3, 2, TRUE)
+        VALUES (?, 1, 3, 2, 1)
       `;
 
             pool.query(query, [Number(user_id)], (err, result) => {
@@ -79,11 +79,16 @@ export const updateSession = async (req, res) => {
 
         const query = `
             UPDATE user_sessions
-            SET current_level = ?, lives_remaining = ?, attempts_remaining = ?, 
-                updated_at = NOW()
-            WHERE id = ?
-        `;
+  SET 
+    current_level = ?, 
+    lives_remaining = ?, 
+    attempts_remaining = ?, 
+    updated_at = NOW()
+  WHERE id = ?
+  AND is_active = 1
+`;
 
+        // safety kill if update fails. prevents zombie sessions and inactive players appearing active. 
         pool.query(
             query,
             [current_level, lives_remaining, attempts_remaining, Number(session_id)], (err) => {
@@ -112,7 +117,8 @@ export const endSession = async (req, res) => {
     try {
         await pool.query(
             "UPDATE user_sessions SET is_active = FALSE, updated_at = NOW() WHERE id = ?",
-            [Number(session_id)]
+            // [Number(session_id)]
+            [user_id]
         );
 
         res.json({ message: "Session force-ended" });

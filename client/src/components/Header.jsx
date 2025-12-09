@@ -30,7 +30,7 @@ function Header() {
         try {
             const sessionId = localStorage.getItem("session_id");
 
-            // ✅ 1. Always notify backend FIRST
+            // 1. Always notify backend FIRST
             if (sessionId) {
                 await fetch("https://shadow-stack.onrender.com/api/session/end", {
                     method: "PUT",
