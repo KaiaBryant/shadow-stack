@@ -154,23 +154,29 @@ export const adminGetAllSessions = async (req, res) => {
 export const adminGetUserSessionSummary = async (req, res) => {
     try {
         const results = await query(`
-      SELECT 
+     SELECT 
         u.id AS user_id,
         u.username,
-        u.character_id,
 
-        -- ✅ REAL CURRENT LEVEL FROM user_sessions
-        us.current_level AS level,
+        -- ✅ HIGHEST COMPLETED LEVEL FROM COMPLETIONS TABLE
+        COALESCE(ulc.max_level, 0) AS level,
 
         lb.score,
 
-        us.is_active,
-
-        us.updated_at AS last_active
+        -- ✅ MOST RECENT SESSION ACTIVE FLAG
+        us.is_active
 
       FROM users u
 
-      -- ✅ GET THE MOST RECENT SESSION PER USER (CRITICAL FIX)
+      -- ✅ HIGHEST COMPLETED LEVEL PER USER
+      LEFT JOIN (
+        SELECT user_id, MAX(level) AS max_level
+        FROM user_level_completions
+        GROUP BY user_id
+      ) ulc 
+        ON ulc.user_id = u.id
+
+      -- ✅ MOST RECENT SESSION PER USER (FOR ACTIVE FLAG)
       LEFT JOIN user_sessions us
         ON us.id = (
           SELECT id
@@ -180,10 +186,11 @@ export const adminGetUserSessionSummary = async (req, res) => {
           LIMIT 1
         )
 
+      -- ✅ SCORE
       LEFT JOIN leaderboard lb
         ON lb.user_id = u.id
 
-      ORDER BY u.id ASC;
+      ORDER BY level DESC, u.id ASC;
     `);
 
         res.json(results);
