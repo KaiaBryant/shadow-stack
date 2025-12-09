@@ -244,7 +244,7 @@ function AdminDashboard() {
 
                                             <td>{s.username}</td>
                                             <td>{s.user_id}</td>
-                                            <td>{s.current_level ?? "—"}</td>
+                                            <td>{s.level ?? "—"}</td>
                                             {/* <td>{s.lives_remaining ?? "—"}</td> */}
                                             <td>{s.score ?? "—"}</td>
                                             <td>{Number(s.is_active) === 1 ? "Yes" : "No"}</td>

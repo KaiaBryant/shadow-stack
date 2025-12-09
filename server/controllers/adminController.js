@@ -159,18 +159,19 @@ export const adminGetUserSessionSummary = async (req, res) => {
         u.username,
         u.character_id,
 
-        -- ✅ REAL CURRENT LEVEL FROM user_sessions
+        -- ✅ DIRECTLY FROM user_sessions
         us.current_level AS level,
 
-        lb.score,
-
+        us.lives_remaining,
+        us.attempts_remaining,
         us.is_active,
+        us.updated_at AS last_active,
 
-        us.updated_at AS last_active
+        lb.score
 
       FROM users u
 
-      -- ✅ GET THE MOST RECENT SESSION PER USER (CRITICAL FIX)
+      -- ✅ MOST RECENT SESSION PER USER (CRITICAL)
       LEFT JOIN user_sessions us
         ON us.id = (
           SELECT id
@@ -183,7 +184,7 @@ export const adminGetUserSessionSummary = async (req, res) => {
       LEFT JOIN leaderboard lb
         ON lb.user_id = u.id
 
-      ORDER BY u.id ASC;
+      ORDER BY us.updated_at DESC;
     `);
 
         res.json(results);
