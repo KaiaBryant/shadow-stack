@@ -109,21 +109,38 @@ export const adminGetAllUsers = async (req, res) => {
 
 
 // Get all users session
+// Get all users + their LATEST session level
 export const adminGetAllSessions = async (req, res) => {
     try {
         const sessions = await query(`
-            SELECT 
-                s.id,
-                s.user_id,
-                u.username,
-                s.current_level,
-                s.lives_remaining,
-                s.attempts_remaining,
-                s.is_active,
-            FROM user_sessions s
-            LEFT JOIN users u ON s.user_id = u.id
-            ORDER BY s.created_at DESC
-        `);
+      SELECT 
+        u.username,
+        u.id AS user_id,
+
+        -- ✅ The REAL source of truth now
+        us.current_level AS level,
+
+        lb.score,
+
+        us.is_active
+
+      FROM users u
+
+      -- ✅ Grab ONLY the most recent session per user
+      LEFT JOIN user_sessions us
+        ON us.id = (
+          SELECT id
+          FROM user_sessions
+          WHERE user_id = u.id
+          ORDER BY updated_at DESC
+          LIMIT 1
+        )
+
+      LEFT JOIN leaderboard lb
+        ON lb.user_id = u.id
+
+      ORDER BY u.id ASC;
+    `);
 
         res.json(sessions);
     } catch (err) {
@@ -132,42 +149,52 @@ export const adminGetAllSessions = async (req, res) => {
     }
 };
 
+
+
 export const adminGetUserSessionSummary = async (req, res) => {
     try {
         const results = await query(`
-            SELECT 
-                u.id AS user_id,
-                u.username,
-                u.character_id,
+      SELECT 
+        u.id AS user_id,
+        u.username,
+        u.character_id,
 
-                s.current_level,
-                s.lives_remaining,
-                s.is_active,
-                s.created_at AS last_active,
-                lb.score
+        -- ✅ REAL CURRENT LEVEL FROM user_sessions
+        us.current_level AS level,
 
-            FROM users u
+        lb.score,
 
-            LEFT JOIN user_sessions s
-                ON s.id = (
-                    SELECT id FROM user_sessions 
-                    WHERE user_id = u.id 
-                    ORDER BY created_at DESC 
-                    LIMIT 1
-                )
-                LEFT JOIN leaderboard lb
-                ON lb.user_id = u.id
+        us.is_active,
 
-            ORDER BY last_active DESC;
-        `);
+        us.updated_at AS last_active
+
+      FROM users u
+
+      -- ✅ GET THE MOST RECENT SESSION PER USER (CRITICAL FIX)
+      LEFT JOIN user_sessions us
+        ON us.id = (
+          SELECT id
+          FROM user_sessions
+          WHERE user_id = u.id
+          ORDER BY updated_at DESC
+          LIMIT 1
+        )
+
+      LEFT JOIN leaderboard lb
+        ON lb.user_id = u.id
+
+      ORDER BY u.id ASC;
+    `);
 
         res.json(results);
-
     } catch (err) {
         console.error("Error loading summary:", err);
         res.status(500).json({ error: "Failed to load summary" });
     }
 };
+
+
+
 
 
 
@@ -186,3 +213,5 @@ export const adminDeleteUser = async (req, res) => {
         res.status(500).json({ error: "Server error deleting user" });
     }
 };
+
+

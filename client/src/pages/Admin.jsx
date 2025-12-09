@@ -20,6 +20,11 @@ function AdminDashboard() {
     const navigate = useNavigate();
 
     const token = localStorage.getItem("admin_token");
+    useEffect(() => {
+        if (!token) {
+            navigate("/login");
+        }
+    }, [token]);
     const adminUsername = localStorage.getItem("admin_username");
 
     function formatTimestamp(timestamp) {
@@ -88,15 +93,16 @@ function AdminDashboard() {
                 setLoadingSessions(false);
             }
         };
-
         loadUsers();
         loadSessions();
 
+        // Auto-refresh sessions every 10s
         // const interval = setInterval(() => {
         //     loadSessions();
         // }, 10000);
 
         // return () => clearInterval(interval);
+
     }, []);
 
     // Create a new admin
@@ -235,12 +241,14 @@ function AdminDashboard() {
                                 <tbody>
                                     {sessions.map((s) => (
                                         <tr key={s.user_id}>
+
                                             <td>{s.username}</td>
                                             <td>{s.user_id}</td>
                                             <td>{s.current_level ?? "—"}</td>
                                             {/* <td>{s.lives_remaining ?? "—"}</td> */}
                                             <td>{s.score ?? "—"}</td>
-                                            <td>{s.is_active ? "Yes" : "No"}</td>
+                                            <td>{Number(s.is_active) === 1 ? "Yes" : "No"}</td>
+
                                         </tr>
                                     ))}
                                 </tbody>

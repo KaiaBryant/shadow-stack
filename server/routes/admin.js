@@ -17,4 +17,5 @@ router.delete("/users/:id", verifyAdmin, adminDeleteUser);   // Delete a user
 router.post("/create-admin", verifyAdmin, createAdmin);      // Create new admin
 router.get("/summary", verifyAdmin, adminGetUserSessionSummary);
 
+
 export default router;
