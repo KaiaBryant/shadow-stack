@@ -98,7 +98,7 @@ function Simulator() {
                 `https://shadow-stack.onrender.com/api/questions/batch/${level}?count=${7}`
             );
             
-            console.log('Preloaded questions:', response.data);
+            // console.log('Preloaded questions:', response.data);
             
             questionQueue.current = response.data.questions;
             currentQuestionIndex.current = 0;

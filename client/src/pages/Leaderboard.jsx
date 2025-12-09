@@ -26,8 +26,8 @@ function Leaderboard() {
             const charactersData = await charactersRes.json();
             const leaderboardData = await leaderboardRes.json();
 
-            console.log('Fetched leaderboard data:', leaderboardData);
-            console.log('Fetched characters data:', charactersData);
+            // console.log('Fetched leaderboard data:', leaderboardData);
+            // console.log('Fetched characters data:', charactersData);
 
             setCharacters(charactersData);
             setLeaders(leaderboardData);
